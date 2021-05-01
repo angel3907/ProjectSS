@@ -2,8 +2,8 @@
 
 UDPSocketPtr SocketUtil::CreateUDPSocket(SocketAddressFamily inFamily)
 {
-	//������ ��ȿ�� ���� �����ϵ��� ��.
-	//->UDPSocket�� �����Ѵٸ�, mSocket�� �ݵ�� �������.
+	//소켓이 유효할 때만 생성하도록 함.
+	//->UDPSocket이 존재한다면, mSocket은 반드시 살아있음.
 	SOCKET s = socket(static_cast<int>(inFamily), SOCK_DGRAM, IPPROTO_UDP);
 	if (s != INVALID_SOCKET)
 	{
@@ -17,8 +17,8 @@ UDPSocketPtr SocketUtil::CreateUDPSocket(SocketAddressFamily inFamily)
 
 TCPSocketPtr SocketUtil::CreateTCPSocket(SocketAddressFamily inFamily)
 {
-	//������ ��ȿ�� ���� �����ϵ��� ��.
-	//->TCPSocket�� �����Ѵٸ�, mSocket�� �ݵ�� �������.
+	//소켓이 유효할 때만 생성하도록 함.
+	//->TCPSocket이 존재한다면, mSocket은 반드시 살아있음.
 	SOCKET s = socket(static_cast<int>(inFamily), SOCK_STREAM, IPPROTO_TCP);
 	if (s != INVALID_SOCKET)
 	{
@@ -34,7 +34,7 @@ void SocketUtil::ReportError(const char* inOperationDesc)
 	LPVOID lpMsgBuf;
 	DWORD errorNum = GetLastError();
 
-	//DWORD�� �Ѿ�� ������ȣ�� ���ڿ��� �ٲ���.
+	//DWORD로 넘어온 에러번호를 문자열로 바꿔줌.
 	FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM |
