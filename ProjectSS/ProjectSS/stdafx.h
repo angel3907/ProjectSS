@@ -1,16 +1,18 @@
 #pragma once
-#pragma comment(lib, "ws2_32") //WinSock2.h¿¡ ¼±¾ðÇÑ ±â´ÉÀ» »ç¿ëÇÏ±â À§ÇØ ¸µÅ©ÇØÁØ ¶óÀÌºê·¯¸®
-#define WIN32_LEAN_AND_MEAN //Winsock.h¿Í Winsock2ÀÇ ÀÌ¸§ °ãÄ§À» ¸·À½
+#pragma comment(lib, "ws2_32") //WinSock2.hï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½
+#define WIN32_LEAN_AND_MEAN //Winsock.hï¿½ï¿½ Winsock2ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½Ä§ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 #include <stdio.h>
-#include <WinSock2.h> //Socket ¶óÀÌºê·¯¸®
+#include <WinSock2.h> //Socket ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½
 #include <Windows.h>
 #include <WS2tcpip.h>
 #include <string>
 
 
-//°ÔÀÓ °ü·Ã ¶óÀÌºê·¯¸®
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½
 #include "SocketAddress.h"
 #include "SocketAddressFactory.h"
 #include "SocketUtil.h"
 #include "UDPSocket.h"
+#include "TCPSocket.h"
+#include "StringUtils.h"

@@ -9,6 +9,7 @@ public:
 	int Bind(const SocketAddress& InBindAddress);
 	int SendTo(const void* InData, int InLen, const SocketAddress& InToAddress);
 	int ReceiveFrom(void* InBuffer, int InMaxLength, SocketAddress& outFromAddress);
+	int SetNonBlockingMode(bool InShouldBeNonBlocking);
 
 private:
 	friend class SocketUtil;

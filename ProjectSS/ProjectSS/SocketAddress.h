@@ -3,32 +3,40 @@
 #include <memory> //for using shared_ptr
 using namespace std; //for using ""
 
-//ÀÚ·áÇü ¾ÈÀü¼ºÀÌ È®º¸µÈ »óÅÂ·Î ¼ÒÄÏ ±âº» ÀÚ·áÇü ±¸Çö
+//ï¿½Ú·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½Ú·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 class SocketAddress
 {
 public:
-	SocketAddress(uint32_t InAddress, uint16_t InPort) //IPÁÖ¼Ò, Port·Î °´Ã¼ »ý¼º
+	SocketAddress(uint32_t InAddress, uint16_t InPort) //IPï¿½Ö¼ï¿½, Portï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	{
 		GetAsSockAddrIn()->sin_family = AF_INET;
 		GetAsSockAddrIn()->sin_addr.S_un.S_addr = htonl(InAddress);
 		GetAsSockAddrIn()->sin_port = htons(InPort);
 	}
 
-	SocketAddress(const sockaddr& inSockAddr) //sockaddr ±¸Á¶Ã¼·Î °´Ã¼ »ý¼º
+	SocketAddress(const sockaddr& inSockAddr) //sockaddr ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	{
 		memcpy(&mSockAddr, &inSockAddr, sizeof(sockaddr));
 	}
 
-	size_t GetSize() const { return sizeof(sockaddr);} //°´Ã¼ÀÇ Å©±â
+	SocketAddress() //ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	{
+		GetAsSockAddrIn()->sin_family = AF_INET;
+		GetAsSockAddrIn()->sin_addr.S_un.S_addr = INADDR_ANY;
+		GetAsSockAddrIn()->sin_port = 0;
+	}
+
+	size_t GetSize() const { return sizeof(sockaddr);} //ï¿½ï¿½Ã¼ï¿½ï¿½ Å©ï¿½ï¿½
 
 private:
 	friend class UDPSocket;
+	friend class TCPSocket;
 
 	sockaddr mSockAddr;
-	sockaddr_in* GetAsSockAddrIn() // IPV4 Àü¿ë ¼ÒÄÏÁÖ¼Ò ±¸Á¶Ã¼ ¹ÝÈ¯
+	sockaddr_in* GetAsSockAddrIn() // IPV4 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½È¯
 	{
 		return reinterpret_cast<sockaddr_in*>(&mSockAddr);
 	}
 };
 
-using SocketAddressPtr = shared_ptr<SocketAddress>; //¼±¾ðÇØµÎ¸é ¼ÒÄÏ ÁÖ¼Ò¸¦ ¿©·¯°÷¿¡¼­ °øÀ¯ÇØ¼­ ¾µ ¶§ ¸Þ¸ð¸® Á¤¸®¸¦ ½Å°æ¾È½áµµ µÊ.
+using SocketAddressPtr = shared_ptr<SocketAddress>; //ï¿½ï¿½ï¿½ï¿½ï¿½ØµÎ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½È½áµµ ï¿½ï¿½.

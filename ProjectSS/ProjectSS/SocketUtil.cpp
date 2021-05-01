@@ -2,8 +2,8 @@
 
 UDPSocketPtr SocketUtil::CreateUDPSocket(SocketAddressFamily inFamily)
 {
-	//¼ÒÄÏÀÌ À¯È¿ÇÒ ¶§¸¸ »ý¼ºÇÏµµ·Ï ÇÔ.
-	//->UDPSocketÀÌ Á¸ÀçÇÑ´Ù¸é, mSocketÀº ¹Ýµå½Ã »ì¾ÆÀÖÀ½.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½.
+	//->UDPSocketï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½, mSocketï¿½ï¿½ ï¿½Ýµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	SOCKET s = socket(static_cast<int>(inFamily), SOCK_DGRAM, IPPROTO_UDP);
 	if (s != INVALID_SOCKET)
 	{
@@ -14,12 +14,27 @@ UDPSocketPtr SocketUtil::CreateUDPSocket(SocketAddressFamily inFamily)
 	return nullptr;
 }
 
+
+TCPSocketPtr SocketUtil::CreateTCPSocket(SocketAddressFamily inFamily)
+{
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½.
+	//->TCPSocketï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½, mSocketï¿½ï¿½ ï¿½Ýµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	SOCKET s = socket(static_cast<int>(inFamily), SOCK_STREAM, IPPROTO_TCP);
+	if (s != INVALID_SOCKET)
+	{
+		return TCPSocketPtr(new TCPSocket(s));
+	}
+
+	ReportError("SocketUtil::CreateTCPSocket");
+	return nullptr;
+}
+
 void SocketUtil::ReportError(const char* inOperationDesc)
 {
 	LPVOID lpMsgBuf;
 	DWORD errorNum = GetLastError();
 
-	//DWORD·Î ³Ñ¾î¿Â ¿¡·¯¹øÈ£¸¦ ¹®ÀÚ¿­·Î ¹Ù²ãÁÜ.
+	//DWORDï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½.
 	FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM |
@@ -30,8 +45,7 @@ void SocketUtil::ReportError(const char* inOperationDesc)
 		(LPTSTR)&lpMsgBuf,
 		0, NULL);
 
-
-	printf("Error %s: %d- %s", inOperationDesc, errorNum, static_cast<const char*>(lpMsgBuf));
+	LOG("Error %s: %d- %s", inOperationDesc, errorNum, lpMsgBuf);
 }
 
 int SocketUtil::GetLastError()
