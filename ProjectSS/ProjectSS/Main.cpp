@@ -11,21 +11,21 @@ void DoGameLoop()
 {
 	UDPSocketPtr MySock = SocketUtil::CreateUDPSocket(INET);
 	MySock->SetNonBlockingMode(true);
-	MySock->Bind(SocketAddress()); //���⸦ �ּ�ó���ϸ� ���� �߻�
+	MySock->Bind(SocketAddress()); //이후에 추가.. 이런 실수를..
 
 	while (bGameRunning)
 	{
 		char data[1500];
 		SocketAddress socketAddress;
 
-		//������ŷ ���� ������ �����ϸ� ���ŵ� �����Ͱ� ��� �ٷ� ���ϵȴ�.
+		//논블로킹 모드로 소켓을 설정하면 수신된 데이터가 없어도 바로 리턴된다.
 		int ByteReceived = MySock->ReceiveFrom(data, sizeof(data), socketAddress);
 		if (ByteReceived > 0)
 		{
-			//�� �����Ӹ��� ���� ������ �ִ��� üũ�� ó��.
-			//���� �ѹ��� ���� �����ͱ׷��� ó���ϰ� ������ �������� �ϳ� �� �߰���
-			//�ִ밪���� ������ ���� or ��ü�� ó���� ������ ������ ���� �о���̸� ��.
-			//�� �����Ӵ� ó���� �����ͱ׷� ������ �ݵ�� ������ �� �� (�Ǽ�Ŭ�� �����ͱ׷��� ��ƺ����� �ùķ��̼� ���ϰ� �� ����)
+			//매 프레임마다 받은 데이터 있는지 체크해 처리.
+			//만일 한번에 여러 데이터그램을 처리하고 싶으면 루프문을 하나 더 추가해
+			//최대값으로 지정한 숫자 or 전체를 처리할 때까지 루프를 돌려 읽어들이면 됨.
+			//단 프레임당 처리할 데이터그램 개수엔 반드시 제약을 둘 것 (악성클라가 데이터그램을 쏟아부으면 시뮬레이션 못하게 될 수도)
 			//ProcessReceivedData(data, ByteReceived, socketAddress);
 		}
 
@@ -35,83 +35,23 @@ void DoGameLoop()
 
 int main()
 {
-	//1. ���� ���̺귯�� Ȱ��ȭ (���������� �ʱ�ȭ&����������� �ϸ�, ���̺귯�� ������ �����ؾ� ��)
+	//1. 소켓 라이브러리 활성화 (명시적으로 초기화&마무리해줘야 하며, 라이브러리 버전도 설정해야 함)
 	WSADATA WsaData;
-	WSAStartup(MAKEWORD(2, 2), &WsaData); //�ֹ�����ȣ & �ι�����ȣ, WSAStartup()�Լ��� Ȱ��ȭ�� ���̺귯���� ���� ������ ���� ä����.
-										  //������ 0 ����, ���н� �����ڵ� ����
+	WSAStartup(MAKEWORD(2, 2), &WsaData); //주버전번호 & 부버전번호, WSAStartup()함수가 활성화된 라이브러리에 대한 정보로 값을 채워줌.
+										  //성공시 0 리턴, 실패시 에러코드 리턴
 
 	DoGameLoop();
 
-	//2. ���� ���̺귯�� ��� ����
-	int ErrorCode = WSACleanup(); //���ϰ� : �����ڵ�
-								  //���� ���� ��������, ���ҽ� ��� �Ҹ�.
-								  //���� ȣ�� �� ��� ������ ������ ����� �������� Ȯ���� �ؾ���
-								  //WSAStartup�� ȣ���� Ƚ����ŭ Cleanup�� ȣ������� �� (���۷��� ī��Ʈ �ǹǷ�)
+	//2. 소켓 라이브러리 사용 종료
+	int ErrorCode = WSACleanup(); //리턴값 : 에러코드
+								  //소켓 동작 강제종료, 리소스 모두 소멸.
+								  //따라서 호출 전 모든 소켓이 닫혔고 사용이 끝나는지 확실히 해야함
+								  //WSAStartup을 호출한 횟수만큼 Cleanup도 호출해줘야 함 (레퍼런스 카운트 되므로)
 
 	if (ErrorCode == SOCKET_ERROR) //-1
 	{
 		printf("socket error!");
-		int ErrorCodeDetail = WSAGetLastError(); //���� ���̺귯�� ����� ���������� �߻��� ������ ������.
-												 //���� ���̺귯�� �Լ� ����� -1�� �޾Ҵٸ� �ٷ� �ҷ��� ���� ������ �� �� ����
+		int ErrorCodeDetail = WSAGetLastError(); //소켓 라이브러리 사용중 마지막으로 발생한 에러를 가져옴.
+												 //소켓 라이브러리 함수 결과로 -1을 받았다면 바로 불러야 에러 이유를 알 수 있음
 	}
-/*
-	SOCKET UdpSocket = socket(AF_INET, SOCK_DGRAM, 0); //IPV4, �����ͱ׷� ����(for UDP), ���� ������ ���� �������� �ڵ� ����(0)
-	SOCKET TcpSocket = socket(AF_INET, SOCK_STREAM, 0); //IPV4, ���׸�Ʈ ����(for TCP), ���� ������ ���� �������� �ڵ� ����(0) 
-
-	//IPV4 ��Ŷ�� �ּ� ����ü - ���� 1
-	sockaddr_in SockAddr{};
-	SockAddr.sin_family = AF_INET; //�ּ� ������ ��Ÿ���� �����. ���Ͽ� ���� �Ͱ� ���ƾ� ��
-	
-	//���� �ּ� ����ü���� ���� ����Ʈ�� �� ���ڸ� ȣ��Ʈ ������ �ƴ϶� ��Ʈ��ũ ���� ü��� ��ȯ�ؾ� �Ѵ�.
-	//��ȯ�ϴ� �Լ��� htons() htonl() (host to network short(16��Ʈ), host to network long(32��Ʈ))
-	SockAddr.sin_port = htons(7000); //��Ʈ��, 2����Ʈ (����� ��Ʈ ������ ���ǰ����� �־�����)
-	SockAddr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);//4����Ʈ ipv4 �ּ�. ���Ͽ����� ���ε� ����ü. (iNADDR_ANY : ���� ��ǻ���� �ּ�)
-	//���������� sin_zero ����� �ִµ� �̴� �е���. 0���� ä�� ��
-
-	//���� ��Ŷ�� �����ϴ� ��� ���� ���̺귯���� sockaddr_in ����ü ������ ä���ִ� ���쵵 ����.
-	//�̶� sockaddr_in�� �� �ʵ�� ��Ʈ��ũ ����Ʈ ������ ä���� ������ �̸� �ùٸ� ������ ����Ϸ���
-	//ntohs(), ntohl() (network to host short(16��Ʈ), network to host long(32��Ʈ))�� ȣ���� ��Ʈ��ũ -> ȣ��Ʈ ����Ʈ ������ ��ȯ.
-
-	//���� 2
-	sockaddr_in SockAddr2{};
-	SockAddr2.sin_family = AF_INET; //�ּ� ������ ��Ÿ���� �����. ���Ͽ� ���� �Ͱ� ���ƾ� ��
-	SockAddr.sin_port = htons(80); //��Ʈ��, 2����Ʈ
-	SockAddr.sin_addr.S_un.S_un_b.s_b1 = 65; //4����Ʈ ipv4 �ּ�, ����Ʈ ������ ������ ��ȯ���� �ʿ䰡 ����.
-	SockAddr.sin_addr.S_un.S_un_b.s_b2 = 254;
-	SockAddr.sin_addr.S_un.S_un_b.s_b3 = 248;
-	SockAddr.sin_addr.S_un.S_un_b.s_b4 = 180;
-
-
-	//���� ���ε�
-	//-> � ������ Ư�� �ּҿ� ��Ʈ��ȣ�� ���ڴٰ� �ü������ �˷��ִ� ����.
-	//���ε��� �ǹ� 2����
-	//1) os�� �� �ּ�,��Ʈ�� �������� �߽ŵ� ��Ŷ ���Ž� os�� �� ���Ͽ��� �Ѱ���
-	//2) bind���� ������ �ּ�,��Ʈ�� �� ������ �߽��ϴ� ��Ŷ�� ��Ʈ��ũ/���� ���� ��� �߽� �ּ�, ��Ʈ�� ��.
-
-	//�Ϲ������� �ϳ��� �ּ�, ��Ʈ �� �� ���ϸ� ���ε� ����. �̹� ���ε�� �ּҷδ� ���ε忡����.
-	//���н� �̻�� ��Ʈ ã�� ������ ���ε� �õ��ؾ� �ϴµ�, �̶� ��Ʈ��ȣ 0���� ���ָ� ���̺귯���� �ڵ����� �̻������ ��Ʈ�ϳ��� ��� ���ε���
-	//������ �ۼ����� ���ؼ� �ݵ�� ���ε��� �ʿ�. ���� ���ε� �� �� �������� �����͸� ������ �ϸ� ���̺귯���� �ڵ����� ���� ��Ʈ�� ������ ���ε���.
-	//�׷��� Ŭ��� ���ֵ� �Ǵµ�, �������� ��ǥ�� �ּҿ� ��Ʈ�� ��Ŷ�� �޾ƾ� �Ѵٸ� ���ε��� �ʿ�
-
-	sockaddr_in SockAddr3{};
-	SockAddr3.sin_family = AF_INET;
-	SockAddr3.sin_port = htons(0);
-	//ȣ��Ʈ���� �������� NIC�� ���� �� �ְ� ���� IP�� �ٸ�. INADDR_ANY�� ���ָ� ��� NIC�� IP�ּ��� �ش� ��Ʈ�� ���� ���ε��ϰ� ��
-	SockAddr3.sin_addr.S_un.S_addr = htonl(INADDR_ANY); 
- 
-	//bind() �Լ��� ���ڴ� ���ε��� ���� / ���� �ּ� ����ü / ���� �ּ� ����ü ������
-	int BindErrorCode = bind(TcpSocket, reinterpret_cast<sockaddr*>(&SockAddr3), sizeof(sockaddr));
-
-	if (BindErrorCode != 0) //���ϰ��� 0�̸� ���� -1�̸� ����.
-	{
-		printf("Bind Fail!");
-	}
-
-	shutdown(TcpSocket, SD_SEND); //�۽� �ߴ�
-	shutdown(TcpSocket, SD_RECEIVE); //���� �ߴ�
-	shutdown(TcpSocket, SD_BOTH); //�ۼ��� �ߴ� ->�ۼ������� ��� �����͸� �ۼ��� �Ϸ��� FIN ��Ŷ�� ������ ������ �����ϰ� �ݵ��� ��.
-
-	closesocket(UdpSocket); //���� �ݱ� (����� ��ġ�� �ݵ�� �ݴ´�.)
-	closesocket(TcpSocket); //������ ������ ���� ���ҽ��� �ü���� �ݳ�
-*/
 }
