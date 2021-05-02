@@ -11,6 +11,9 @@ enum SocketAddressFamily
 class SocketUtil
 {
 public:
+	static void StartUsingSocket();
+	static void EndUsingSocket();
+
 	static UDPSocketPtr CreateUDPSocket(SocketAddressFamily inFamily);
 	static TCPSocketPtr CreateTCPSocket(SocketAddressFamily inFamily);
 

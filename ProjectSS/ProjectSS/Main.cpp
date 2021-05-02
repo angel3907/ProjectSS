@@ -90,6 +90,15 @@ void DoGameLoop()
 	}
 }
 
+void DoUDPNavelySendReceive()
+{
+	UDPSocketPtr MySock = SocketUtil::CreateUDPSocket(INET);
+	MySock->SetNonBlockingMode(true);
+	MySock->Bind(SocketAddress()); //이후에 추가.. 이런 실수를..
+
+}
+
+
 int main()
 {
 	//1. 소켓 라이브러리 활성화 (명시적으로 초기화&마무리해줘야 하며, 라이브러리 버전도 설정해야 함)
@@ -97,8 +106,8 @@ int main()
 	WSAStartup(MAKEWORD(2, 2), &WsaData); //주버전번호 & 부버전번호, WSAStartup()함수가 활성화된 라이브러리에 대한 정보로 값을 채워줌.
 										  //성공시 0 리턴, 실패시 에러코드 리턴
 
-	//DoGameLoop();
-	DoTCPLoop();
+	DoGameLoop();
+	//DoTCPLoop();
 
 	//2. 소켓 라이브러리 사용 종료
 	int ErrorCode = WSACleanup(); //리턴값 : 에러코드

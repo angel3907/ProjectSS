@@ -1,18 +1,19 @@
 #pragma once
-#pragma comment(lib, "ws2_32") //WinSock2.h�� ������ ����� ����ϱ� ���� ��ũ���� ���̺귯��
-#define WIN32_LEAN_AND_MEAN //Winsock.h�� Winsock2�� �̸� ��ħ�� ����
+#pragma comment(lib, "ws2_32")
+#define WIN32_LEAN_AND_MEAN
 
 #include <stdio.h>
-#include <WinSock2.h> //Socket ���̺귯��
+#include <WinSock2.h>
 #include <Windows.h>
 #include <WS2tcpip.h>
 #include <string>
 
-
-//���� ���� ���̺귯��
 #include "SocketAddress.h"
 #include "SocketAddressFactory.h"
 #include "SocketUtil.h"
+#include "StringUtils.h"
+
 #include "UDPSocket.h"
 #include "TCPSocket.h"
-#include "StringUtils.h"
+
+#include "Player.h"

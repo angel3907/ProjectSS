@@ -1,5 +1,32 @@
 #include "stdafx.h"
 
+void SocketUtil::StartUsingSocket()
+{
+	//1. 소켓 라이브러리 활성화 (명시적으로 초기화&마무리해줘야 하며, 라이브러리 버전도 설정해야 함)
+	WSADATA WsaData;
+	int ErrorCode = WSAStartup(MAKEWORD(2, 2), &WsaData); //주버전번호 & 부버전번호, WSAStartup()함수가 활성화된 라이브러리에 대한 정보로 값을 채워줌.
+														  //성공시 0 리턴, 실패시 에러코드 리턴
+	
+	if (ErrorCode != 0)
+	{
+		ReportError("SocketUtil::StartUsingSocket");
+	}
+}
+
+void SocketUtil::EndUsingSocket()
+{
+	//2. 소켓 라이브러리 사용 종료
+	int ErrorCode = WSACleanup(); //리턴값 : 에러코드
+								  //소켓 동작 강제종료, 리소스 모두 소멸.
+								  //따라서 호출 전 모든 소켓이 닫혔고 사용이 끝나는지 확실히 해야함
+								  //WSAStartup을 호출한 횟수만큼 Cleanup도 호출해줘야 함 (레퍼런스 카운트 되므로)
+
+	if (ErrorCode != 0)
+	{
+		ReportError("SocketUtil::EndUsingSocket");
+	}
+}
+
 UDPSocketPtr SocketUtil::CreateUDPSocket(SocketAddressFamily inFamily)
 {
 	//소켓이 유효할 때만 생성하도록 함.

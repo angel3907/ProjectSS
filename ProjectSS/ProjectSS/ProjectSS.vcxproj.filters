@@ -1,36 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
+    <Filter Include="PCH">
+      <UniqueIdentifier>{8ca3a7e7-8517-4054-a42d-706e87fb80a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
+    <Filter Include="Inc">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="PCH">
-      <UniqueIdentifier>{8ca3a7e7-8517-4054-a42d-706e87fb80a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="UDPSocket.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="SocketUtil.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="TCPSocket.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="StringUtils.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketAddressFactory.cpp">
+      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,22 +44,28 @@
       <Filter>PCH</Filter>
     </ClInclude>
     <ClInclude Include="SocketAddress.h">
-      <Filter>Header Files</Filter>
+      <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="SocketAddressFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="UDPSocket.h">
-      <Filter>Header Files</Filter>
+      <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="SocketUtil.h">
-      <Filter>Header Files</Filter>
+      <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="TCPSocket.h">
-      <Filter>Header Files</Filter>
+      <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="StringUtils.h">
-      <Filter>Header Files</Filter>
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
