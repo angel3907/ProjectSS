@@ -37,6 +37,25 @@ public:
 		ReadBits(&OutData, InBitCount);
 	}
 
+	template<class T>
+	void Read(std::vector<T>& OutVector)
+	{
+		//벡터 길이부터 읽어와서 적절한 길이 재할당
+		size_t ElementCount = 0;
+		Read(ElementCount);
+		OutVector.resize(ElementCount);
+
+		//벡터의 각 원소를 하나씩 복원
+		for (const T& Element : OutVector)
+		{
+			Read(Element);
+		}
+	}
+
+	void Read(string& OutString);
+
+	void Read(GameObject* OutGameObject);
+
 private:
 	char* mBuffer;
 	uint32_t mBitHead;

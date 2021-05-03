@@ -8,6 +8,7 @@
 #include <WS2tcpip.h>
 #include <string>
 #include <algorithm>
+#include <vector>
 
 #include "SocketAddress.h"
 #include "SocketAddressFactory.h"
@@ -24,3 +25,5 @@
 #include "InputMemoryStream.h"
 #include "OutputMemoryBitStream.h"
 #include "InputMemoryBitStream.h"
+
+#include "LinkingContext.h"

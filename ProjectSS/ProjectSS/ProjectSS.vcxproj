@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="InputMemoryBitStream.cpp" />
     <ClCompile Include="InputMemoryStream.cpp" />
+    <ClCompile Include="LinkingContext.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OutputMemoryBitStream.cpp" />
     <ClCompile Include="OutputMemoryStream.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputMemoryBitStream.h" />
     <ClInclude Include="InputMemoryStream.h" />
+    <ClInclude Include="LinkingContext.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
     <ClInclude Include="Player.h" />

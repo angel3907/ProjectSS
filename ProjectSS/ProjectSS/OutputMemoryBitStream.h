@@ -1,5 +1,7 @@
 #pragma once
 #include <stdint.h>
+#include <vector>
+
 class OutputMemoryBitStream
 {
 public:
@@ -35,6 +37,24 @@ public:
 
 		WriteBits(&InData, InBitCount);
 	}
+
+	template<class T>
+	void Write(const std::vector<T>& InVector)
+	{
+		//유의 : 벡터의 길이부터 기록함. 이를 통해 받는 쪽에서 그만큼 크기의 벡터를 할당하고 받을 수 있음.
+		size_t ElementCount = InVector.size();
+		Write(ElementCount);
+
+		//벡터의 각 원소를 하나씩 직렬화
+		for (const T& Element : InVector)
+		{
+			Write(Element);
+		}
+	}
+
+	void Write(const string& InString);
+
+	void Write(const GameObject* InGameObject);
 
 private:
 	void ReallocBuffer(uint32_t InNewBitCapacity);

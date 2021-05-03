@@ -20,7 +20,8 @@ int main()
 	uint32_t RecvByteCnt = SocketUtil::ReceivePlayerWithBitStream(UDPServerSocket, &ServerPlayer);
 	if (RecvByteCnt > 0)
 	{ 
-		printf("Recv Star Count is %d, TestValue is %d\n", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue());
+		printf("I Recv %d Bytes, Recv Star Count is %d, TestValue is %d, Name is %s\n", RecvByteCnt, ServerPlayer.GetStarCount(), 
+			ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
 	}
 
 	SocketUtil::EndUsingSocket();

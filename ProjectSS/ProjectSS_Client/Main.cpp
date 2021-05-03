@@ -12,7 +12,7 @@ int main()
 	SocketAddressPtr MyAddressPtr = SocketAddressFactory::CreateIPv4FromIPString("127.0.0.1:8000");
 	UDPClientSocket->Bind(*MyAddressPtr);
 
-	Player ServerPlayer(10);
+	Player ServerPlayer(10, true, "Icon");
 	SocketAddressPtr ToAddressPtr = SocketAddressFactory::CreateIPv4FromIPString("127.0.0.1:7000");
 	if (ToAddressPtr == nullptr)
 	{ 
@@ -24,7 +24,7 @@ int main()
 	if (SentByteCnt > 0)
 	{
 		printf("I Sent ByteCnt %d\n", SentByteCnt);
-		printf("StarCnt : %d, TestValue : %d", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue());
+		printf("StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
 	}
 
 	SocketUtil::EndUsingSocket();

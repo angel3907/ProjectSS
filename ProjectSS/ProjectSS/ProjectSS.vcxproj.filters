@@ -50,6 +50,9 @@
     <ClCompile Include="InputMemoryBitStream.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="LinkingContext.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -92,6 +95,9 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="InputMemoryBitStream.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkingContext.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

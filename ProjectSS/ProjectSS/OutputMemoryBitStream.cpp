@@ -54,6 +54,24 @@ void OutputMemoryBitStream::WriteBits(const void* InData, size_t InBitCount)
 	}
 }
 
+void OutputMemoryBitStream::Write(const GameObject* InGameObject)
+{
+	//TODO. 뒤에 이어서
+	//uint32_t NetworkId = mLinkingContext->GetNetworkId(InGameObject);
+	//Write(NetworkId);
+}
+
+void OutputMemoryBitStream::Write(const string& InString)
+{
+	size_t ElementCount = InString.size();
+	Write(ElementCount);
+
+	for (const auto& Element : InString)
+	{
+		Write(Element);
+	}
+}
+
 void OutputMemoryBitStream::ReallocBuffer(uint32_t InNewBitCapacity)
 {
 	mBuffer = static_cast<char*>(std::realloc(mBuffer, InNewBitCapacity));

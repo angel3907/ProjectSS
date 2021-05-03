@@ -40,3 +40,23 @@ void InputMemoryBitStream::ReadBits(void* OutData, uint32_t InBitCount)
 		ReadBits(*DestByte, InBitCount);
 	}
 }
+
+void InputMemoryBitStream::Read(GameObject* OutGameObject)
+{
+	uint32_t NetworkId;
+	Read(NetworkId);
+	//TODO. 뒤에 이어서
+	//OutGameObject = mLinkingContext->GetGameObject(NetworkId);
+}
+
+void InputMemoryBitStream::Read(string& OutString)
+{
+	size_t ElementCount = 0;
+	Read(ElementCount);
+	OutString.resize(ElementCount);
+
+	for (auto& Element : OutString)
+	{
+		Read(Element);
+	}
+}

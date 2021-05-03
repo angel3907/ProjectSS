@@ -26,10 +26,24 @@ void Player::Write(OutputMemoryBitStream& InStream) const
 {
  	InStream.Write(TestValue);
  	InStream.Write(StarCount);
+	InStream.Write(Name);
+	
+	//희소 배열 압축
+	//NickName이 널 종료 문자열일 때.
+// 	uint8_t NameLength = static_cast<uint8_t>(strlen(Nickname));
+// 	InStream.Write(NameLength);
+// 	InStream.WriteBytes(Nickname, NameLength);
 }
 
 void Player::Read(InputMemoryBitStream& InStream)
 {
  	InStream.Read(TestValue);
  	InStream.Read(StarCount);
+	InStream.Read(Name);
+
+	//NickName이 널 종료 문자열일 때.
+	//uint8_t NameLength;
+	//InStream.Read(NameLength);
+	//InStream.ReadBytes(Nickname, NameLength);
+
 }

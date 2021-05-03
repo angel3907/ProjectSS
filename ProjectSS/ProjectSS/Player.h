@@ -8,11 +8,7 @@
 class Player : public GameObject
 {
 public:
-	Player() : StarCount(0){}
-	
-	Player(int32_t InitialStarCount) : StarCount(InitialStarCount){}
-
-	Player(int32_t InitialStarCount, bool TestValue) : StarCount(InitialStarCount), TestValue(TestValue){}
+	Player(int32_t InitialStarCount = 0, bool TestValue = 0, string Name = "") : StarCount(InitialStarCount), TestValue(TestValue), Name(Name){}
 
 	void NaivelySendPlayer(int InSocket, const Player* InPlayer);
 	void NaivelyReceivePlayer(int InSocket, Player* OutPlayer);
@@ -23,10 +19,12 @@ public:
 	void Write(OutputMemoryBitStream& InStream) const;
 	void Read(InputMemoryBitStream& InStream);
 
-	int32_t GetStarCount() {return StarCount;}
-	bool GetTestValue() {return TestValue;}
+	int32_t GetStarCount() const {return StarCount;}
+	bool GetTestValue() const {return TestValue;}
+	string GetName() const {return Name;}
 
 private:
 	int32_t StarCount;
 	bool TestValue = false;
+	string Name = "";
 };
