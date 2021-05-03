@@ -1,0 +1,45 @@
+#pragma once
+#include <stdint.h>
+class OutputMemoryBitStream
+{
+public:
+	OutputMemoryBitStream() { ReallocBuffer(256); } //32바이트
+	~OutputMemoryBitStream() { delete mBuffer; }
+	
+	void WriteBits(uint8_t InData, size_t InBitCount);
+	void WriteBits(const void* InData, size_t InBitCount);
+
+	const char* GetBufferPtr() const { return mBuffer; }
+	uint32_t GetBitLength() const { return mBitHead; }
+	uint32_t GetByteLength() const { return (mBitHead + 7) >> 3;} //>>3은 나누기 8, Head가 1비트라도 있으면 1바이트 있는 취급.
+
+	void WriteBytes(const void* InData, size_t InByteCount)
+	{
+		WriteBits(InData, InByteCount << 3); //*3 해서 비트수로 바꿔서 보내줌.
+	}
+
+	template<class T>
+	void Write(T InData, size_t InBitCount = sizeof(T) * 8)
+	{
+		//원시 자료형인지 여부를 컴파일 타임에 검사
+		static_assert(
+			std::is_arithmetic<T>::value ||
+			std::is_enum<T>::value,
+			"Generic Write only supports primitive data types");
+		
+		//bool의 경우 1비트이므로 1로 설정해줌.
+		if (typeid(T) == typeid(bool))
+		{
+			InBitCount = 1;
+		}
+
+		WriteBits(&InData, InBitCount);
+	}
+
+private:
+	void ReallocBuffer(uint32_t InNewBitCapacity);
+
+	char* mBuffer;
+	uint32_t mBitHead;
+	uint32_t mBitCapacity;
+};

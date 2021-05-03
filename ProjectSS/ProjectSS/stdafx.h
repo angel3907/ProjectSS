@@ -7,13 +7,20 @@
 #include <Windows.h>
 #include <WS2tcpip.h>
 #include <string>
+#include <algorithm>
 
 #include "SocketAddress.h"
 #include "SocketAddressFactory.h"
 #include "SocketUtil.h"
 #include "StringUtils.h"
+#include "ByteSwapper.h"
 
 #include "UDPSocket.h"
 #include "TCPSocket.h"
-
+#include "GameObject.h"
 #include "Player.h"
+
+#include "OutputMemoryStream.h"
+#include "InputMemoryStream.h"
+#include "OutputMemoryBitStream.h"
+#include "InputMemoryBitStream.h"

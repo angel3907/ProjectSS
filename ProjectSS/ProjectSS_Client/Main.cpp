@@ -19,11 +19,12 @@ int main()
 		return -1;
 	}
 
-	int SentByteCnt = UDPClientSocket->SendTo(&ServerPlayer, sizeof(ServerPlayer), *ToAddressPtr);
+	uint32_t SentByteCnt = SocketUtil::SendPlayerWithBitStream(UDPClientSocket, *ToAddressPtr, &ServerPlayer);
 
 	if (SentByteCnt > 0)
 	{
 		printf("I Sent ByteCnt %d\n", SentByteCnt);
+		printf("StarCnt : %d, TestValue : %d", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue());
 	}
 
 	SocketUtil::EndUsingSocket();

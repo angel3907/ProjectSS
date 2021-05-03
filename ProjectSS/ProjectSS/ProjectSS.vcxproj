@@ -92,6 +92,8 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +145,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="InputMemoryBitStream.cpp" />
+    <ClCompile Include="InputMemoryStream.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OutputMemoryBitStream.cpp" />
+    <ClCompile Include="OutputMemoryStream.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SocketAddressFactory.cpp" />
     <ClCompile Include="SocketUtil.cpp" />
@@ -155,7 +161,12 @@
     <ClCompile Include="UDPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ByteSwapper.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputMemoryBitStream.h" />
+    <ClInclude Include="InputMemoryStream.h" />
+    <ClInclude Include="OutputMemoryBitStream.h" />
+    <ClInclude Include="OutputMemoryStream.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="SocketAddressFactory.h" />

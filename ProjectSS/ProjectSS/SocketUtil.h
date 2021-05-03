@@ -1,6 +1,7 @@
 #pragma once
 #include "UDPSocket.h"
 #include "TCPSocket.h"
+#include "Player.h"
 #include <vector>
 enum SocketAddressFamily 
 {
@@ -26,4 +27,11 @@ public:
 
 	static void	ReportError(const char* inOperationDesc);
 	static int GetLastError();
+
+	static void SendPlayer(UDPSocketPtr Socket, SocketAddress* ToAddress, const Player* InPlayer);
+	static void SendPlayer(TCPSocketPtr Socket, const Player* InPlayer);
+	static void ReceivePlayer(UDPSocketPtr Socket, Player* OutPlayer);
+
+	static uint32_t SendPlayerWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const Player* InPlayer);
+	static uint32_t ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* OutPlayer);
 };

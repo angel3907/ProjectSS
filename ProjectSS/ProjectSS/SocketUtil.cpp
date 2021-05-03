@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+const uint32_t kMaxPakcetSize = 1470;
+
 void SocketUtil::StartUsingSocket()
 {
 	//1. 소켓 라이브러리 활성화 (명시적으로 초기화&마무리해줘야 하며, 라이브러리 버전도 설정해야 함)
@@ -150,4 +152,75 @@ void SocketUtil::ReportError(const char* inOperationDesc)
 int SocketUtil::GetLastError()
 {
 	return WSAGetLastError();
+}
+
+void SocketUtil::SendPlayer(UDPSocketPtr Socket, SocketAddress* ToAddress, const Player* InPlayer)
+{
+	OutputMemoryStream Stream;
+	InPlayer->Write(Stream);
+	Socket->SendTo(Stream.GetBufferPtr(), Stream.GetLength(), *ToAddress);
+}
+
+void SocketUtil::SendPlayer(TCPSocketPtr Socket, const Player* InPlayer)
+{
+	OutputMemoryStream Stream;
+	InPlayer->Write(Stream);
+	Socket->Send(Stream.GetBufferPtr(), Stream.GetLength());
+}
+
+void SocketUtil::ReceivePlayer(UDPSocketPtr Socket, Player* OutPlayer)
+{
+	//임시버퍼로 데이터를 받고
+	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
+	SocketAddress FromAddress;
+	size_t RecvByteCount = Socket->ReceiveFrom(TempBuffer, kMaxPakcetSize, FromAddress);
+
+	if (RecvByteCount > 0)
+	{
+		//버퍼 소유권을 입력 메모리 스트림에 넘김
+		//이제 데이터원소를 하나씩 쓰여진 순서대로 읽을 수 있음.
+		InputMemoryStream Stream(TempBuffer, static_cast<uint32_t>(RecvByteCount));
+		OutPlayer->Read(Stream);
+	}
+	else
+	{
+		delete[] TempBuffer;
+	}
+
+	//단, 스트림용 메모리는 최대 가능한 용량으로 미리 할당해두어야 함.
+	//패킷이 도착할때마다 메모리 할당을 하면 메모리 할당 작업이 느릴 수도 있음.
+	//패킷이 도달하면 미리 준비된 스트림 버퍼에 부어넣고, 패킷 데이터를 다 읽은 후에는 mHead를 0으로 초기화해서
+	//같은 버퍼를 재사용해서 읽어들이도록 해야함 /*TODO 나중에..*/
+
+	//MemoryInputStream이 메모리를 직접 관리하게 하는 기능을 추가하는 것도 좋음.
+}
+
+uint32_t SocketUtil::SendPlayerWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const Player* InPlayer)
+{
+	OutputMemoryBitStream Stream;
+	InPlayer->Write(Stream);
+	size_t SentByteCount = Socket->SendTo(Stream.GetBufferPtr(), Stream.GetByteLength(), ToAddress);
+	return SentByteCount;
+}
+
+uint32_t SocketUtil::ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* OutPlayer)
+{
+	//임시버퍼로 데이터를 받고
+	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
+	SocketAddress FromAddress;
+	size_t RecvByteCount = Socket->ReceiveFrom(TempBuffer, kMaxPakcetSize, FromAddress);
+
+	if (RecvByteCount > 0)
+	{
+		//버퍼 소유권을 입력 메모리 스트림에 넘김
+		//이제 데이터원소를 하나씩 쓰여진 순서대로 읽을 수 있음.
+		InputMemoryBitStream Stream(TempBuffer, static_cast<uint32_t>(RecvByteCount) << 3);
+		OutPlayer->Read(Stream);
+	}
+	else
+	{
+		delete[] TempBuffer;
+	}
+
+	return RecvByteCount;
 }

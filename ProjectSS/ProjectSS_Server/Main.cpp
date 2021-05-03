@@ -16,11 +16,11 @@ int main()
 	SocketAddress FromSocketAddress;
 
 	printf("Waiting for receiving..\n");
-	int RecvByteCnt = UDPServerSocket->ReceiveFrom(&ServerPlayer, sizeof(ServerPlayer), FromSocketAddress);
 
+	uint32_t RecvByteCnt = SocketUtil::ReceivePlayerWithBitStream(UDPServerSocket, &ServerPlayer);
 	if (RecvByteCnt > 0)
-	{
-		printf("Recv Star Count is %d\n", ServerPlayer.GetStarCount());
+	{ 
+		printf("Recv Star Count is %d, TestValue is %d\n", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue());
 	}
 
 	SocketUtil::EndUsingSocket();
