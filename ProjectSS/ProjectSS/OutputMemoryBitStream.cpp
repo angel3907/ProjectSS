@@ -72,6 +72,12 @@ void OutputMemoryBitStream::Write(const string& InString)
 	}
 }
 
+void OutputMemoryBitStream::WritePosF(const Vector2& InVector)
+{
+	Write(ConvertToFixed(InVector.PosX, -WORLD_HALF_WIDTH, PRECISION_POS), REQUIRED_BITNUM_POS);
+	Write(ConvertToFixed(InVector.PosY, -WORLD_HALF_HEIGHT, PRECISION_POS), REQUIRED_BITNUM_POS);
+}
+
 void OutputMemoryBitStream::ReallocBuffer(uint32_t InNewBitCapacity)
 {
 	mBuffer = static_cast<char*>(std::realloc(mBuffer, InNewBitCapacity));

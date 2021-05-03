@@ -60,3 +60,13 @@ void InputMemoryBitStream::Read(string& OutString)
 		Read(Element);
 	}
 }
+
+void InputMemoryBitStream::ReadPosF(Vector2& OutVector)
+{
+	uint32_t PosX = 0, PosY = 0;
+	Read(PosX, REQUIRED_BITNUM_POS);
+	Read(PosY, REQUIRED_BITNUM_POS);
+
+	OutVector.PosX = ConvertFromFixed(PosX, -WORLD_HALF_WIDTH, PRECISION_POS);
+	OutVector.PosY = ConvertFromFixed(PosY, -WORLD_HALF_HEIGHT, PRECISION_POS);
+}

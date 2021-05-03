@@ -53,6 +53,7 @@ public:
 	}
 
 	void Read(string& OutString);
+	void ReadPosF(Vector2& OutVector);
 
 	void Read(GameObject* OutGameObject);
 

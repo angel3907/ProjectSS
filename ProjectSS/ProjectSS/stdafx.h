@@ -27,3 +27,5 @@
 #include "InputMemoryBitStream.h"
 
 #include "LinkingContext.h"
+#include "GameInfo.h"
+#include "MathUtils.h"

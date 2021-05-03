@@ -22,6 +22,7 @@ int main()
 	{ 
 		printf("I Recv %d Bytes, Recv Star Count is %d, TestValue is %d, Name is %s\n", RecvByteCnt, ServerPlayer.GetStarCount(), 
 			ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
+		printf("Pos : %f, %f", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
 	}
 
 	SocketUtil::EndUsingSocket();

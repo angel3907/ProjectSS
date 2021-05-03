@@ -1,11 +1,12 @@
 #pragma once
+#include "MathUtils.h"
 
 class GameObject
 {
-private:
-	float PosX, PosY;
+protected:
+	Vector2 Pos;
 
 public:
-	float GetPosX() { return PosX; }
-	float GetPosY() { return PosY; }
+	Vector2 GetPos() {return Pos;}
+	void SetPos(Vector2 NewPos){Pos = NewPos;}
 };

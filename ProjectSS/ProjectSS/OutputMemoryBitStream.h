@@ -1,6 +1,17 @@
 #pragma once
 #include <stdint.h>
 #include <vector>
+#include "MathUtils.h"
+
+inline uint32_t ConvertToFixed(float InNumber, float InMin, float InPrecision)
+{
+	return static_cast<uint32_t>(InNumber - InMin) / InPrecision; //해당 부동소수점에 매핑된 고정소수점 값을 얻어옴.
+}
+
+inline float ConvertFromFixed(uint32_t InNumber, float InMin, float InPrecision)
+{
+	return static_cast<float>(InNumber) * InPrecision + InMin; //해당 고정소수점에 매핑된 부동소수점 값을 얻어옴.
+}
 
 class OutputMemoryBitStream
 {
@@ -53,8 +64,9 @@ public:
 	}
 
 	void Write(const string& InString);
-
 	void Write(const GameObject* InGameObject);
+
+	void WritePosF(const Vector2& InVector);
 
 private:
 	void ReallocBuffer(uint32_t InNewBitCapacity);

@@ -100,5 +100,11 @@
     <ClInclude Include="LinkingContext.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInfo.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
