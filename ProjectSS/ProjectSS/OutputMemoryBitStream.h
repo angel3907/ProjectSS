@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <vector>
 #include "MathUtils.h"
+#include "MemoryBitStream.h"
 
 inline uint32_t ConvertToFixed(float InNumber, float InMin, float InPrecision)
 {
@@ -13,12 +14,19 @@ inline float ConvertFromFixed(uint32_t InNumber, float InMin, float InPrecision)
 	return static_cast<float>(InNumber) * InPrecision + InMin; //해당 고정소수점에 매핑된 부동소수점 값을 얻어옴.
 }
 
-class OutputMemoryBitStream
+class OutputMemoryBitStream : public MemoryBitStream
 {
 public:
 	OutputMemoryBitStream() { ReallocBuffer(256); } //32바이트
 	~OutputMemoryBitStream() { delete mBuffer; }
 	
+	virtual void Serialize(void* IoData, uint32_t InBitCount)
+	{
+		WriteBits(IoData, InBitCount);
+	}
+
+	virtual bool IsInput() const { return false; } //쓰기
+
 	void WriteBits(uint8_t InData, size_t InBitCount);
 	void WriteBits(const void* InData, size_t InBitCount);
 
@@ -65,6 +73,8 @@ public:
 
 	void Write(const string& InString);
 	void Write(const GameObject* InGameObject);
+
+	void Write(const Quaternion& InQuat);
 
 	void WritePosF(const Vector2& InVector);
 

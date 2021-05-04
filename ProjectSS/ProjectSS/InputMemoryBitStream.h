@@ -1,7 +1,8 @@
 #pragma once
 #include "stdafx.h"
+#include "MemoryBitStream.h"
 
-class InputMemoryBitStream
+class InputMemoryBitStream : public MemoryBitStream
 {
 public:
 	InputMemoryBitStream(char* InBuffer, uint32_t InBitCount) 
@@ -11,6 +12,13 @@ public:
 
 	const char* GetBufferPtr() const { return mBuffer; }
 	uint32_t GetRemainingBitCount() const { return mBitCapacity - mBitHead; }
+
+	virtual void Serialize(void* IoData, uint32_t InBitCount )
+	{
+		ReadBits(IoData, InBitCount);
+	}
+
+	virtual bool IsInput() const { return true; } //ÀÐ±â
 
 	void ReadBits(uint8_t& OutData, uint32_t InBitCount);
 	void ReadBits(void* OutData, uint32_t InBitCount);
@@ -56,6 +64,8 @@ public:
 	void ReadPosF(Vector2& OutVector);
 
 	void Read(GameObject* OutGameObject);
+
+	void Read(Quaternion& OutQuat);
 
 private:
 	char* mBuffer;

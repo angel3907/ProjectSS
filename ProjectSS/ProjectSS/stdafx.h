@@ -21,6 +21,8 @@
 #include "GameObject.h"
 #include "Player.h"
 
+#include "MemoryBitStream.h"
+
 #include "OutputMemoryStream.h"
 #include "InputMemoryStream.h"
 #include "OutputMemoryBitStream.h"

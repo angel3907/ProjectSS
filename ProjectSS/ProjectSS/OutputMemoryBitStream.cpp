@@ -72,6 +72,15 @@ void OutputMemoryBitStream::Write(const string& InString)
 	}
 }
 
+void OutputMemoryBitStream::Write(const Quaternion& InQuat)
+{
+	float Precision = (2.f / 65535.f); //-1~1 값, 정밀도 16비트
+	Write(ConvertToFixed(InQuat.X, -1.f, Precision), 16);
+	Write(ConvertToFixed(InQuat.Y, -1.f, Precision), 16);
+	Write(ConvertToFixed(InQuat.Z, -1.f, Precision), 16);
+	Write(InQuat.W < 0); //마지막 원소는 부호만 기록.
+}
+
 void OutputMemoryBitStream::WritePosF(const Vector2& InVector)
 {
 	Write(ConvertToFixed(InVector.PosX, -WORLD_HALF_WIDTH, PRECISION_POS), REQUIRED_BITNUM_POS);

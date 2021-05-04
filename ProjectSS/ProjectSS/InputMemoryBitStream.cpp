@@ -61,6 +61,31 @@ void InputMemoryBitStream::Read(string& OutString)
 	}
 }
 
+void InputMemoryBitStream::Read(Quaternion& OutQuat)
+{
+	float Precision = (2.f / 65535.f);
+
+	uint32_t f = 0;
+
+	Read(f, 16);
+	OutQuat.X = ConvertFromFixed(f, -1.f, Precision);
+	Read(f, 16);
+	OutQuat.Y = ConvertFromFixed(f, -1.f, Precision);
+	Read(f, 16);
+	OutQuat.Z = ConvertFromFixed(f, -1.f, Precision);
+
+	OutQuat.W = sqrtf(1.f - 
+					 (OutQuat.X * OutQuat.X + 
+					  OutQuat.Y * OutQuat.Y + 
+					  OutQuat.Z * OutQuat.Z )); //float을 반환하는 제곱근 구하기
+
+	bool IsNegative = false;
+	Read(IsNegative);
+
+	if (IsNegative)
+		OutQuat.W *= -1;
+}
+
 void InputMemoryBitStream::ReadPosF(Vector2& OutVector)
 {
 	uint32_t PosX = 0, PosY = 0;

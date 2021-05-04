@@ -169,6 +169,7 @@
     <ClInclude Include="InputMemoryBitStream.h" />
     <ClInclude Include="InputMemoryStream.h" />
     <ClInclude Include="LinkingContext.h" />
+    <ClInclude Include="MemoryBitStream.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
     <ClInclude Include="Player.h" />

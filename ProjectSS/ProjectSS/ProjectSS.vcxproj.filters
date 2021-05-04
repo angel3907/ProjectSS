@@ -106,5 +106,8 @@
     <ClInclude Include="GameInfo.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryBitStream.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
