@@ -4,8 +4,9 @@
 
 class MemoryBitStream
 {
-	template<class T>
-	void Serialize(T& IoData)
+public:
+
+	template<class T> void Serialize(T& IoData)
 	{
 		//원시 자료형인지 여부를 컴파일 타임에 검사
 		static_assert(
