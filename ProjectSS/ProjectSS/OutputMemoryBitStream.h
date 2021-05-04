@@ -6,7 +6,7 @@
 
 inline uint32_t ConvertToFixed(float InNumber, float InMin, float InPrecision)
 {
-	return static_cast<uint32_t>(InNumber - InMin) / InPrecision; //해당 부동소수점에 매핑된 고정소수점 값을 얻어옴.
+	return static_cast<uint32_t>((InNumber - InMin) / InPrecision); //해당 부동소수점에 매핑된 고정소수점 값을 얻어옴.
 }
 
 inline float ConvertFromFixed(uint32_t InNumber, float InMin, float InPrecision)

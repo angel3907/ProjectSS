@@ -154,6 +154,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SocketAddressFactory.cpp" />
     <ClCompile Include="SocketUtil.cpp" />
+    <ClCompile Include="Star.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -169,6 +170,7 @@
     <ClInclude Include="InputMemoryBitStream.h" />
     <ClInclude Include="InputMemoryStream.h" />
     <ClInclude Include="LinkingContext.h" />
+    <ClInclude Include="MemberVariable.h" />
     <ClInclude Include="MemoryBitStream.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="SocketAddressFactory.h" />
     <ClInclude Include="SocketUtil.h" />
+    <ClInclude Include="Star.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="TCPSocket.h" />

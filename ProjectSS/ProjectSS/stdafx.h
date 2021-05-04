@@ -16,10 +16,13 @@
 #include "StringUtils.h"
 #include "ByteSwapper.h"
 
+
+#include "MemberVariable.h"
 #include "UDPSocket.h"
 #include "TCPSocket.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "Star.h"
 
 #include "MemoryBitStream.h"
 

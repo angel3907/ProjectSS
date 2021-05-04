@@ -224,3 +224,76 @@ uint32_t SocketUtil::ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* Out
 
 	return RecvByteCount;
 }
+
+uint32_t SocketUtil::SendPODWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const DataType* InDataType, uint8_t* InData)
+{
+	OutputMemoryBitStream Stream;
+	Write(&Stream, InDataType, InData);
+	size_t SentByteCount = Socket->SendTo(Stream.GetBufferPtr(), Stream.GetByteLength(), ToAddress);
+	return SentByteCount;
+}
+
+uint32_t SocketUtil::ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType* InDataType, uint8_t* OutData)
+{
+	//임시버퍼로 데이터를 받고
+	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
+	SocketAddress FromAddress;
+	size_t RecvByteCount = Socket->ReceiveFrom(TempBuffer, kMaxPakcetSize, FromAddress);
+
+	if (RecvByteCount > 0)
+	{
+		//버퍼 소유권을 입력 메모리 스트림에 넘김
+		//이제 데이터원소를 하나씩 쓰여진 순서대로 읽을 수 있음.
+		InputMemoryBitStream Stream(TempBuffer, static_cast<uint32_t>(RecvByteCount) << 3);
+		Read(&Stream, InDataType, OutData);
+	}
+	else
+	{
+		delete[] TempBuffer;
+	}
+
+	return RecvByteCount;
+}
+
+void SocketUtil::Write(OutputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* InData)
+{
+	for (const MemberVariable& Mv : InDataType->GetMemberVariables())
+	{
+		void* MvData = InData + Mv.GetOffset();
+		switch (Mv.GetPrimitiveType())
+		{
+		//필요하면 기본 타입을 추가할 것
+		case EPrimitiveType::EPT_BOOL:
+			InMemoryBitStream->Write(*(int*)MvData);
+			break;
+		case EPrimitiveType::EPT_String:
+			InMemoryBitStream->Write(*(string*)MvData);
+			break;
+		case EPrimitiveType::EPT_Uint8:
+			InMemoryBitStream->Write(*(float*)MvData);
+			break;
+
+		}
+	}
+}
+
+void SocketUtil::Read(InputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* OutData)
+{
+	for (const MemberVariable& Mv : InDataType->GetMemberVariables())
+	{
+		void* MvData = OutData + Mv.GetOffset();
+		switch (Mv.GetPrimitiveType())
+		{
+		//필요하면 기본 타입을 추가할 것
+		case EPrimitiveType::EPT_BOOL:
+			InMemoryBitStream->Read(*(int*)MvData);
+			break;
+		case EPrimitiveType::EPT_String:
+			InMemoryBitStream->Read(*(string*)MvData);
+			break;
+		case EPrimitiveType::EPT_Uint8:
+			InMemoryBitStream->Read(*(float*)MvData);
+			break;
+		}
+	}
+}

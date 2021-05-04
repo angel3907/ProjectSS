@@ -3,6 +3,8 @@
 #include "TCPSocket.h"
 #include "Player.h"
 #include <vector>
+#include "MemoryBitStream.h"
+#include "MemberVariable.h"
 enum SocketAddressFamily 
 {
 	INET = AF_INET,
@@ -34,4 +36,10 @@ public:
 
 	static uint32_t SendPlayerWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const Player* InPlayer);
 	static uint32_t ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* OutPlayer);
+
+	static uint32_t SendPODWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const DataType* InDataType, uint8_t* InData);
+	static uint32_t ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType* InDataType, uint8_t* OutData);
+
+	static void Write(OutputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* InData);
+	static void Read(InputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* OutData);
 };

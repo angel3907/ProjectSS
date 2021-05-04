@@ -53,6 +53,9 @@
     <ClCompile Include="LinkingContext.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -107,6 +110,12 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="MemoryBitStream.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MemberVariable.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

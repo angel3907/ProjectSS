@@ -24,14 +24,26 @@ int main()
 		return -1;
 	}
 
-	uint32_t SentByteCnt = SocketUtil::SendPlayerWithBitStream(UDPClientSocket, *ToAddressPtr, &ServerPlayer);
+// 	uint32_t SentByteCnt = SocketUtil::SendPlayerWithBitStream(UDPClientSocket, *ToAddressPtr, &ServerPlayer);
+// 
+// 	if (SentByteCnt > 0)
+// 	{
+// 		printf("I Sent ByteCnt %d\n", SentByteCnt);
+// 		printf("StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
+// 		printf("Pos : %f, %f", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
+// 	}
 
-	if (SentByteCnt > 0)
-	{
-		printf("I Sent ByteCnt %d\n", SentByteCnt);
-		printf("StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
-		printf("Pos : %f, %f", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
-	}
+	//클라에서 정보를 보낼 별 객체를 하나 만듦.
+	Star StarTest(StarStatus(3, true));
+	StarTest.GetStarStatus().InitDataType(); //적절한 타이밍에 데이터 타입 초기화
+
+	uint32_t SentByteCnt = SocketUtil::SendPODWithBitStream(UDPClientSocket, *ToAddressPtr, StarStatus::sDataType, (uint8_t*)(&StarTest.GetStarStatus()));
+
+ 	if (SentByteCnt > 0)
+ 	{
+ 		printf("I Sent ByteCnt %d\n", SentByteCnt);
+ 		printf("StarValue : %d, IsHidden : %d", StarTest.GetStarStatus().Value, StarTest.GetStarStatus().bHidden);
+ 	}
 
 	SocketUtil::EndUsingSocket();
 }
