@@ -118,5 +118,11 @@
     <ClInclude Include="Star.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectCreationRegistry.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectSubClasses.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

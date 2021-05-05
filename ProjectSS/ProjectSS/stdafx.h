@@ -20,12 +20,10 @@
 #include "MemberVariable.h"
 #include "UDPSocket.h"
 #include "TCPSocket.h"
-#include "GameObject.h"
-#include "Player.h"
-#include "Star.h"
+
+#include "GameObjectSubClasses.h"
 
 #include "MemoryBitStream.h"
-
 #include "OutputMemoryStream.h"
 #include "InputMemoryStream.h"
 #include "OutputMemoryBitStream.h"

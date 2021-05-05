@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="ByteSwapper.h" />
     <ClInclude Include="GameInfo.h" />
+    <ClInclude Include="GameObjectSubClasses.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputMemoryBitStream.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="LinkingContext.h" />
     <ClInclude Include="MemberVariable.h" />
     <ClInclude Include="MemoryBitStream.h" />
+    <ClInclude Include="ObjectCreationRegistry.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
     <ClInclude Include="Player.h" />
