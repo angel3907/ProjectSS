@@ -1,5 +1,6 @@
 #pragma once
 #include "ByteSwapper.h"
+#include "GameInfo.h"
 
 class OutputMemoryStream
 {

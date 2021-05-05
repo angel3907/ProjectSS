@@ -1,7 +1,7 @@
 #pragma once
-
 #include "GameObjectSubClasses.h"
 #include <unordered_map>
+#include <assert.h>
 
 using GameObjectCreationFunc = GameObject* (*)(); //Gameobject*을 리턴하는 함수 포인터 형식
 

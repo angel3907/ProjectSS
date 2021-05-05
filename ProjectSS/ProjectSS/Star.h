@@ -37,6 +37,9 @@ public:
 	const StarStatus& GetStarStatus() const { return mStarStatus; }
 	CLASS_IDENTIFICATION('STAR', Star);
 
+	virtual void Write(OutputMemoryBitStream& InStream) const override;
+	virtual void Read(InputMemoryBitStream& InStream) override;
+
 private:
 	StarStatus mStarStatus;
 };

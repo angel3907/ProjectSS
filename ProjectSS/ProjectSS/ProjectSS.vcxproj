@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputMemoryBitStream.cpp" />
     <ClCompile Include="InputMemoryStream.cpp" />
     <ClCompile Include="LinkingContext.cpp" />

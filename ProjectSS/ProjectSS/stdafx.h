@@ -32,3 +32,4 @@
 #include "LinkingContext.h"
 #include "GameInfo.h"
 #include "MathUtils.h"
+#include "ObjectCreationRegistry.h"
