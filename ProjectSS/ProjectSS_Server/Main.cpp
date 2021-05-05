@@ -32,12 +32,12 @@ int main()
 	Player* PlayerObj2 = nullptr;
 	Star* StarObj2 = nullptr;
 	
-	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+	//printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
 
-	/*
-	if (SentByteCnt > 0)
+	
+	if (RecvByteCnt > 0)
 	{
-		printf("I Sent ByteCnt %d\n", SentByteCnt);
+		printf("I Sent ByteCnt %d\n", RecvByteCnt);
 
 		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
 		if (PlayerObj != nullptr)
@@ -50,7 +50,7 @@ int main()
 		if (StarObj != nullptr)
 		{ 
 			printf("Star Value : %d, IsHidden : %d", StarObj->GetStarStatus().Value, StarObj->GetStarStatus().bHidden);
-			printf(" Pos : %f, %f", StarObj->GetPos().PosX, StarObj->GetPos().PosY);
+			printf(" Pos : %f, %f\n", StarObj->GetPos().PosX, StarObj->GetPos().PosY);
 		}
 
 		PlayerObj2 = static_cast<Player*>(LinkingContext::Get().GetGameObject(3));
@@ -64,10 +64,10 @@ int main()
 		if (StarObj2 != nullptr)
 		{
 			printf("Star Value : %d, IsHidden : %d", StarObj2->GetStarStatus().Value, StarObj2->GetStarStatus().bHidden);
-			printf(" Pos : %f, %f", StarObj2->GetPos().PosX, StarObj2->GetPos().PosY);
+			printf(" Pos : %f, %f\n", StarObj2->GetPos().PosX, StarObj2->GetPos().PosY);
 		}
 	}
-	*/
+	
 
 	GamePlayUtils::EndGame();;
 }

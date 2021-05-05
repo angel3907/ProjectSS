@@ -7,9 +7,21 @@ void ReplicationManager::ReplicateWorldState(OutputMemoryBitStream& InStream, co
 	InStream.WriteBits(static_cast<uint8_t>(PacketType::PT_ReplicationData), GetRequiredBits(static_cast<int32_t>(PacketType::PT_MAX)));
 	
 	//각 객체를 하나씩 기록
-	for(GameObject* Go : InAllObjects)
-	{
+	
+	for (int i = 0; i < InAllObjects.size(); i++)
+	{ 
+		GameObject* Go = InAllObjects[i];
 		ReplicateIntoStream(InStream, Go);
+
+		//+ 게임오브젝트 하나를 썼다면, 한 비트를 더 써줌 (패킷의 마지막인지를 나타냄)
+		bool bEndOfPacket = false;
+		
+		if (i == InAllObjects.size() - 1)
+		{
+			bEndOfPacket = true;
+		}
+
+		InStream.Write(bEndOfPacket);
 	}
 	
 	printf("Real Send Cnt %d\n", InStream.GetBitLength());
@@ -23,9 +35,17 @@ void ReplicationManager::ReceiveWorld(InputMemoryBitStream& InStream)
 	//스트림의 모든 데이터를 다 읽을 때까지
 	while (InStream.GetRemainingBitCount() > 0)
 	{
-		uint32_t RemainedBitCount = InStream.GetRemainingBitCount();
 		GameObject* ReceivedGameObject = ReceiveReplicatedObject(InStream);
 		ReceivedObjects.insert(ReceivedGameObject);
+
+		//+ 게임오브젝트 하나를 읽어왔다면 한 비트를 더 읽어옴 (패킷의 마지막인지를 나타냄)
+		bool bEndOfPacket;
+		InStream.Read(bEndOfPacket);
+
+		if (bEndOfPacket)
+		{
+			break;
+		}
 	}
 
 	//이제 mObjectsReplicatedToMe 집합을 순회하며

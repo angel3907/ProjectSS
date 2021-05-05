@@ -18,23 +18,23 @@ int main()
 		return -1;
 	}
 
-// 	Player ServerPlayer(10, true, "Icon");
-//  	ServerPlayer.SetPos(Vector2(-223.7f, 491.2f));
+	Player ServerPlayer(10, true, "Icon");
+ 	ServerPlayer.SetPos(Vector2(-223.7f, 491.2f));
 
 	Star StarTest(StarStatus(3, true));
 	StarTest.SetPos(Vector2(0, 30));
 
-// 	Player ServerPlayer2(40, false, "This Is Me");
-// 	ServerPlayer2.SetPos(Vector2(-300.f, 100.8f));
+	Player ServerPlayer2(40, false, "This Is Me");
+	ServerPlayer2.SetPos(Vector2(-300.f, 100.8f));
 
-// 	Star StarTest2(StarStatus(1, false));
-// 	StarTest2.SetPos(Vector2(-100.3f, -35.6f));
+	Star StarTest2(StarStatus(1, false));
+	StarTest2.SetPos(Vector2(-100.3f, -35.6f));
 
-	vector<GameObject*> GameObjects = {&StarTest};//&ServerPlayer, &StarTest, &ServerPlayer2};//, &StarTest2 };
+	vector<GameObject*> GameObjects = {&ServerPlayer, &StarTest, &ServerPlayer2, &StarTest2 };
 	uint32_t SentByteCnt = SocketUtil::SendPacket(UDPClientSocket, *ToAddressPtr, GameObjects);
 
-	printf("I Sent BitCnt %d\n", SentByteCnt*8);
-	/*
+	//printf("I Sent BitCnt %d\n", SentByteCnt*8);
+	
 	if (SentByteCnt > 0)
 	{
 	 	printf("I Sent ByteCnt %d\n", SentByteCnt);
@@ -51,7 +51,7 @@ int main()
 		printf("Star Value : %d, IsHidden : %d", StarTest2.GetStarStatus().Value, StarTest2.GetStarStatus().bHidden);
 		printf(" Pos : %f, %f\n", StarTest2.GetPos().PosX, StarTest2.GetPos().PosY);
 	}
-	*/
+	
 
 	GamePlayUtils::EndGame();
 }
