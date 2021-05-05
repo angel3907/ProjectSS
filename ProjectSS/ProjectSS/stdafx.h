@@ -33,3 +33,5 @@
 #include "GameInfo.h"
 #include "MathUtils.h"
 #include "ObjectCreationRegistry.h"
+
+#include "ReplicationManager.h"
