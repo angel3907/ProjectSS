@@ -19,8 +19,8 @@ public:
 	void Write(OutputMemoryStream& InStream) const;
 	void Read(InputMemoryStream& InStream);
 
-	void Write(OutputMemoryBitStream& InStream) const;
-	void Read(InputMemoryBitStream& InStream);
+	virtual void Write(OutputMemoryBitStream& InStream) const override;
+	virtual void Read(InputMemoryBitStream& InStream) override;
 
 	int32_t GetStarCount() const {return StarCount;}
 	bool GetTestValue() const {return TestValue;}

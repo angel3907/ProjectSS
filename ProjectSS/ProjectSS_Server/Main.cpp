@@ -4,7 +4,7 @@ int main()
 {
 	printf("this is server\n");
 
-	SocketUtil::StartUsingSocket();
+	GamePlayUtils::StartGame();;
 
 	UDPSocketPtr UDPServerSocket = SocketUtil::CreateUDPSocket(INET);
 	//UDPServerSocket->SetNonBlockingMode(true);
@@ -12,30 +12,62 @@ int main()
 	SocketAddressPtr MyAddressPtr = SocketAddressFactory::CreateIPv4FromIPString("127.0.0.1:7000");
 	UDPServerSocket->Bind(*MyAddressPtr);
  
-	Player ServerPlayer;
 	SocketAddress FromSocketAddress;
 
 	printf("Waiting for receiving..\n");
 
-// 	uint32_t RecvByteCnt = SocketUtil::ReceivePlayerWithBitStream(UDPServerSocket, &ServerPlayer);
-// 	if (RecvByteCnt > 0)
-// 	{ 
-// 		printf("I Recv %d Bytes, Recv Star Count is %d, TestValue is %d, Name is %s\n", RecvByteCnt, ServerPlayer.GetStarCount(), 
-// 			ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
-// 		printf("Pos : %f, %f", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
-// 	}
-
-	//서버에서 정보를 받을 별 객체를 하나 만듦.
-	Star StarTest(StarStatus(1, false));
-	StarStatus::InitDataType(); //적절한 타이밍에 데이터 타입 초기화
-
-	uint32_t RecvByteCnt = SocketUtil::ReceivePODWithBitStream(UDPServerSocket, StarStatus::sDataType, (uint8_t*)(&StarTest.GetStarStatus()));
-
-	if (RecvByteCnt > 0)
+	SocketAddressPtr ToAddressPtr = SocketAddressFactory::CreateIPv4FromIPString("127.0.0.1:7000");
+	if (ToAddressPtr == nullptr)
 	{
-		printf("I Recv ByteCnt %d\n", RecvByteCnt);
-		printf("StarValue : %d, IsHidden : %d", StarTest.GetStarStatus().Value, StarTest.GetStarStatus().bHidden);
+		return -1;
 	}
 
-	SocketUtil::EndUsingSocket();
+	uint32_t RecvByteCnt = SocketUtil::ReceivePacket(UDPServerSocket);
+
+	//1, 2번일거고
+	//Player 먼저쓰니까 Player가 1번
+	Player* PlayerObj = nullptr;
+	Star* StarObj = nullptr;
+
+	Player* PlayerObj2 = nullptr;
+	Star* StarObj2 = nullptr;
+	
+	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+
+	/*
+	if (SentByteCnt > 0)
+	{
+		printf("I Sent ByteCnt %d\n", SentByteCnt);
+
+		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+		if (PlayerObj != nullptr)
+		{ 
+			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
+			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
+		}
+
+		StarObj = static_cast<Star*>(LinkingContext::Get().GetGameObject(2));
+		if (StarObj != nullptr)
+		{ 
+			printf("Star Value : %d, IsHidden : %d", StarObj->GetStarStatus().Value, StarObj->GetStarStatus().bHidden);
+			printf(" Pos : %f, %f", StarObj->GetPos().PosX, StarObj->GetPos().PosY);
+		}
+
+		PlayerObj2 = static_cast<Player*>(LinkingContext::Get().GetGameObject(3));
+		if (PlayerObj2 != nullptr)
+		{
+			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj2->GetStarCount(), PlayerObj2->GetTestValue(), PlayerObj2->GetName().c_str());
+			printf(" Pos : %f, %f\n", PlayerObj2->GetPos().PosX, PlayerObj2->GetPos().PosY);
+		}
+
+		StarObj2 = static_cast<Star*>(LinkingContext::Get().GetGameObject(4));
+		if (StarObj2 != nullptr)
+		{
+			printf("Star Value : %d, IsHidden : %d", StarObj2->GetStarStatus().Value, StarObj2->GetStarStatus().bHidden);
+			printf(" Pos : %f, %f", StarObj2->GetPos().PosX, StarObj2->GetPos().PosY);
+		}
+	}
+	*/
+
+	GamePlayUtils::EndGame();;
 }

@@ -168,6 +168,7 @@
     <ClInclude Include="ByteSwapper.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="GameObjectSubClasses.h" />
+    <ClInclude Include="GamePlayUtils.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputMemoryBitStream.h" />

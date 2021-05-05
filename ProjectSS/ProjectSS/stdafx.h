@@ -16,6 +16,7 @@
 #include "StringUtils.h"
 #include "ByteSwapper.h"
 
+#include "GamePlayUtils.h"
 
 #include "MemberVariable.h"
 #include "UDPSocket.h"

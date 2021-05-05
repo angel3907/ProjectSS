@@ -15,3 +15,9 @@ struct Quaternion
 	FLOAT Z;
 	FLOAT W;
 };
+
+//열거자 직렬화시 최적의 비트 수를 컴파일 타임에 결정함
+constexpr int32_t GetRequiredBits(int32_t Value, int Bits = 0)
+{
+	return Value ? GetRequiredBits(Value >> 1, Bits + 1) : Bits;
+}

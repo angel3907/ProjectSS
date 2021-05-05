@@ -133,5 +133,8 @@
     <ClInclude Include="ReplicationManager.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="GamePlayUtils.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

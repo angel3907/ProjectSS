@@ -35,15 +35,15 @@ public:
 		return GameObject;
 	}
 
+	//객체 생성 레지스트리를 사용하려면, 게임 시작 코드 적당한 위치에서 호출해야 함.
+	static void RegisterObjectCreation() //리플리케이션 하고 싶은 각 클래스를 객체 생성 레지스트리에 등록 (클래스 식별자 - 객체 생성 함수)
+	{
+		ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
+		ObjectCreationRegistry::Get().RegisterCreationFunction<Player>();
+		ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
+	}
+
 private:
 	ObjectCreationRegistry(){}
 	std::unordered_map<uint32_t, GameObjectCreationFunc> mNameToGameObjectCreationFunctionMap; //식별자 - 객체 생성 함수 매핑해둔 맵
 };
-
-//객체 생성 레지스트리를 사용하려면, 게임 시작 코드 적당한 위치에서 호출해야 함.
-void RegisterObjectCreation() //리플리케이션 하고 싶은 각 클래스를 객체 생성 레지스트리에 등록 (클래스 식별자 - 객체 생성 함수)
-{
-	ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
-	ObjectCreationRegistry::Get().RegisterCreationFunction<Player>();
-	ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
-}

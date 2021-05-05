@@ -255,6 +255,56 @@ uint32_t SocketUtil::ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType
 	return RecvByteCount;
 }
 
+uint32_t SocketUtil::SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const vector<GameObject*>& InGameObjects)
+{
+	OutputMemoryBitStream Stream;
+	ReplicationManager::Get().ReplicateWorldState(Stream, InGameObjects);
+
+	size_t SentByteCount = Socket->SendTo(Stream.GetBufferPtr(), Stream.GetByteLength(), ToAddress);
+	return SentByteCount;
+}
+
+uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket)
+{
+	//임시버퍼로 데이터를 받고
+	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
+	SocketAddress FromAddress;
+	size_t RecvByteCount = Socket->ReceiveFrom(TempBuffer, kMaxPakcetSize, FromAddress);
+
+	if (RecvByteCount > 0)
+	{
+		//버퍼 소유권을 입력 메모리 스트림에 넘김
+		//이제 데이터원소를 하나씩 쓰여진 순서대로 읽을 수 있음.
+		InputMemoryBitStream Stream(TempBuffer, static_cast<uint32_t>(RecvByteCount) << 3);
+		
+		//먼저 패킷 종류부터 받음.
+		PacketType PacketTypeValue = PacketType::PT_MAX;
+		Stream.ReadBits(&PacketTypeValue, GetRequiredBits(static_cast<uint8_t>(PacketType::PT_MAX)));
+	
+		//패킷 종류에 따라 처리 함수를 부름
+		switch (PacketTypeValue)
+		{
+		case PacketType::PT_Hello:
+			break;
+		case PacketType::PT_ReplicationData:
+			ReplicationManager::Get().ReceiveWorld(Stream);
+			break;
+		case PacketType::PT_Disconnect:
+			break;
+		case PacketType::PT_MAX:
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		delete[] TempBuffer;
+	}
+
+	return RecvByteCount;
+}
+
 void SocketUtil::Write(OutputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* InData)
 {
 	for (const MemberVariable& Mv : InDataType->GetMemberVariables())

@@ -46,6 +46,10 @@ public:
 	static uint32_t SendPODWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const DataType* InDataType, uint8_t* InData);
 	static uint32_t ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType* InDataType, uint8_t* OutData);
 
+
+	static uint32_t SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const vector<GameObject*>& InGameObjects);
+	static uint32_t ReceivePacket(UDPSocketPtr Socket);
+
 	static void Write(OutputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* InData);
 	static void Read(InputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* OutData);
 

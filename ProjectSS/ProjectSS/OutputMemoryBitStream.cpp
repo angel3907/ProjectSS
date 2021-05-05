@@ -33,6 +33,8 @@ void OutputMemoryBitStream::WriteBits(uint8_t InData, size_t InBitCount)
 	}
 
 	mBitHead = NextBitHead;
+
+	printf("I Write %d\n", InBitCount);
 }
 
 void OutputMemoryBitStream::WriteBits(const void* InData, size_t InBitCount)
