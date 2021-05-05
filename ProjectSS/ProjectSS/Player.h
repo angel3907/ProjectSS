@@ -9,6 +9,9 @@ class Player : public GameObject
 {
 public:
 	Player(int32_t InitialStarCount = 0, bool TestValue = 0, string Name = "") : StarCount(InitialStarCount), TestValue(TestValue), Name(Name){}
+	~Player(){}
+
+	CLASS_IDENTIFICATION('PLYR', Player);
 
 	void NaivelySendPlayer(int InSocket, const Player* InPlayer);
 	void NaivelyReceivePlayer(int InSocket, Player* OutPlayer);

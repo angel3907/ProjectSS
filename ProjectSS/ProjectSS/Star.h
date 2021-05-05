@@ -33,7 +33,9 @@ class Star : public GameObject
 {
 public:
 	Star(StarStatus InStarStatus = StarStatus()) : mStarStatus(InStarStatus){}
+	~Star(){}
 	const StarStatus& GetStarStatus() const { return mStarStatus; }
+	CLASS_IDENTIFICATION('STAR', Star);
 
 private:
 	StarStatus mStarStatus;
