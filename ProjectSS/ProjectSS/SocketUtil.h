@@ -11,6 +11,12 @@ enum SocketAddressFamily
 	INET6 = AF_INET6
 };
 
+enum class ClassIdentifier : uint8_t
+{
+	PLAYER,
+	STAR
+};
+
 class SocketUtil
 {
 public:
@@ -42,4 +48,7 @@ public:
 
 	static void Write(OutputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* InData);
 	static void Read(InputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* OutData);
+
+	void WriteClassType(OutputMemoryBitStream& InStream, const GameObject* InGameObject);
+	GameObject* CreateGameObjectFromStream(InputMemoryBitStream& InStream);
 };

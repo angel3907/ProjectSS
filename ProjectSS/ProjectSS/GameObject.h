@@ -3,6 +3,10 @@
 
 class GameObject
 {
+public:
+	GameObject(Vector2 Pos = {0,0}) : Pos(Pos){}
+	virtual ~GameObject(){}
+
 protected:
 	Vector2 Pos;
 

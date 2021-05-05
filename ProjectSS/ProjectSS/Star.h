@@ -32,7 +32,7 @@ public:
 class Star : public GameObject
 {
 public:
-	Star(StarStatus InStarStatus) : mStarStatus(InStarStatus){}
+	Star(StarStatus InStarStatus = StarStatus()) : mStarStatus(InStarStatus){}
 	const StarStatus& GetStarStatus() const { return mStarStatus; }
 
 private:

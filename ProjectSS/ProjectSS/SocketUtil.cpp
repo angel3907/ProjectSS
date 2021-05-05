@@ -297,3 +297,35 @@ void SocketUtil::Read(InputMemoryBitStream* InMemoryBitStream, const DataType* I
 		}
 	}
 }
+
+void SocketUtil::WriteClassType(OutputMemoryBitStream& InStream, const GameObject* InGameObject)
+{
+	if (dynamic_cast<const Player*>(InGameObject))
+	{
+		InStream.Write(static_cast<uint8_t>(ClassIdentifier::PLAYER));
+	}
+	else if (dynamic_cast<const Star*>(InGameObject))
+	{
+		InStream.Write(static_cast<uint8_t>(ClassIdentifier::STAR));
+	}
+}
+
+GameObject* SocketUtil::CreateGameObjectFromStream(InputMemoryBitStream& InStream)
+{
+	ClassIdentifier ClassId;
+	InStream.Read(ClassId);
+
+	switch (ClassId)
+	{
+	case ClassIdentifier::PLAYER:
+		return new Player();
+		break;
+	case ClassIdentifier::STAR:
+		return new Star();
+		break;
+	default:
+		break;
+	}
+
+	return nullptr;
+}

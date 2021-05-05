@@ -2,6 +2,14 @@
 #include <stdint.h>
 #include "GameInfo.h"
 
+enum class PacketType
+{
+	PT_Hello,
+	PT_ReplicationData,
+	PT_Disconnect,
+	PT_MAX
+};
+
 class MemoryBitStream
 {
 public:
