@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include "GameInfo.h"
 
-enum class PacketType
+enum class PacketType : uint8_t
 {
 	PT_Hello,
 	PT_ReplicationData,
