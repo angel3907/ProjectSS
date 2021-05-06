@@ -4,6 +4,13 @@
 #include "MemberVariable.h"
 #include <vector>
 
+enum StarStatusProperties : uint8_t
+{
+	SSP_Value = 1 << 0,
+	SSP_bHidden = 1 << 1,
+	SSP_MAX
+};
+
 //클래스에 &(참조)단항 연산자를 정의 OR 가상클래스를 상속 OR 멤버변수를 레퍼런스로 가진다면, 이 함수는 사용할 수 없다.
 #define OffsetOf(c, mv) ((size_t) &(static_cast<c*>(nullptr)->mv))
 
@@ -18,6 +25,9 @@ public:
 
 	virtual void Write(OutputMemoryBitStream& InStream) const override;
 	virtual void Read(InputMemoryBitStream& InStream) override;
+
+	virtual void WriteChanged(OutputMemoryBitStream& InStream, uint32_t InProperties) const;
+	virtual void ReadChanged(InputMemoryBitStream& InStream);
 
 	static DataType* sDataType;
 
