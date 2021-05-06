@@ -16,6 +16,13 @@ public:
 	void ReplicateWorldState(OutputMemoryBitStream& InStream, const std::vector<GameObject*>& InAllObjects);
 	void ReceiveWorld(InputMemoryBitStream& InStream);
 
+	//객체 상태 델타 리플렠이션을 위한 3가지 함수
+	void ReplicateCreate(OutputMemoryBitStream& InStream, GameObject* InGameObject);
+	void ReplicateUpdate(OutputMemoryBitStream& InStream, GameObject* InGameObject);
+	void ReplicateDestroy(OutputMemoryBitStream& InStream, GameObject* InGameObject);
+
+	void ProcessReplicationAction(InputMemoryBitStream& InStream);
+
 private:
 	ReplicationManager() {}
 

@@ -63,6 +63,76 @@ void ReplicationManager::ReceiveWorld(InputMemoryBitStream& InStream)
 	mObjectsReplicatedToMe = ReceivedObjects;
 }
 
+void ReplicationManager::ReplicateCreate(OutputMemoryBitStream& InStream, GameObject* InGameObject)
+{
+	//리플리케이션 헤더 쓰고 데이터 변경점을 기록해줌
+	ReplicationHeader Rh(ReplicationAction::RA_Create, LinkingContext::Get().GetNetworkId(InGameObject, true), InGameObject->GetClassId());
+	Rh.Write(InStream);
+	InGameObject->Write(InStream);
+}
+
+void ReplicationManager::ReplicateUpdate(OutputMemoryBitStream& InStream, GameObject* InGameObject)
+{
+	ReplicationHeader Rh(ReplicationAction::RA_Update, LinkingContext::Get().GetNetworkId(InGameObject, false), InGameObject->GetClassId());
+	Rh.Write(InStream);
+	InGameObject->Write(InStream);
+}
+
+void ReplicationManager::ReplicateDestroy(OutputMemoryBitStream& InStream, GameObject* InGameObject)
+{
+	ReplicationHeader Rh(ReplicationAction::RA_Destroy, LinkingContext::Get().GetNetworkId(InGameObject, false));
+	Rh.Write(InStream);
+	InGameObject->Write(InStream);
+}
+
+void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream)
+{
+	ReplicationHeader Rh;
+	Rh.Read(InStream);
+
+	switch (Rh.mReplicationAction)
+	{
+		case ReplicationAction::RA_Create:
+		{
+			GameObject* Go = ObjectCreationRegistry::Get().CreateGameObject(Rh.mClassId);
+			LinkingContext::Get().AddGameObject(Go, Rh.mNetworkId);
+			Go->Read(InStream);
+		}
+		break;
+		case ReplicationAction::RA_Update:
+		{
+			GameObject* Go = LinkingContext::Get().GetGameObject(Rh.mNetworkId);
+			if (Go)
+			{
+				Go->Read(InStream);
+			}
+			else
+			{
+				//생성 동작을 아직 받지 못한 것 같음.
+				//그러므로 더미 객체를 만들어 읽은 다음 폐기함
+				uint32_t ClassId = Rh.mClassId;
+				Go = ObjectCreationRegistry::Get().CreateGameObject(ClassId);
+				Go->Read(InStream);
+				delete Go;
+			}
+		}
+		break;
+		case ReplicationAction::RA_Destroy:
+		{
+			GameObject* Go = LinkingContext::Get().GetGameObject(Rh.mNetworkId);
+			if (Go)
+			{ 
+				LinkingContext::Get().RemoveGameObject(Go);
+				delete Go;
+			}
+		}
+		break;
+		default:
+		//이 동작은 여기서 처리 안 함.
+		break;
+	}
+}
+
 void ReplicationManager::ReplicateIntoStream(OutputMemoryBitStream& InStream, GameObject* InGameObject)
 {
 	//1. 게임 객체 네트워크 id 기록

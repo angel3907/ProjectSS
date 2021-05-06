@@ -62,6 +62,9 @@
     <ClCompile Include="ReplicationManager.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="ReplicationHeader.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -134,6 +137,9 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="GamePlayUtils.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplicationHeader.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

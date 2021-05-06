@@ -36,3 +36,4 @@
 #include "ObjectCreationRegistry.h"
 
 #include "ReplicationManager.h"
+#include "ReplicationHeader.h"

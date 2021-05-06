@@ -153,6 +153,7 @@
     <ClCompile Include="OutputMemoryBitStream.cpp" />
     <ClCompile Include="OutputMemoryStream.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ReplicationHeader.cpp" />
     <ClCompile Include="ReplicationManager.cpp" />
     <ClCompile Include="SocketAddressFactory.cpp" />
     <ClCompile Include="SocketUtil.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ReplicationHeader.h" />
     <ClInclude Include="ReplicationManager.h" />
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="SocketAddressFactory.h" />
