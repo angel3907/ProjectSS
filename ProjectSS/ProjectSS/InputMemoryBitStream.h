@@ -1,6 +1,9 @@
 #pragma once
-#include "stdafx.h"
+#include <stdint.h>
+#include <vector>
+#include "MathUtils.h"
 #include "MemoryBitStream.h"
+class GameObject;
 
 class InputMemoryBitStream : public MemoryBitStream
 {

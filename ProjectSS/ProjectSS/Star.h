@@ -8,13 +8,16 @@
 #define OffsetOf(c, mv) ((size_t) &(static_cast<c*>(nullptr)->mv))
 
 //pod 관련 제약사항으로 복잡한 클래스 처리가 힘들 때, POD할 수 있는 부분만 떼면 처리하기 편함.
-class StarStatus
+class StarStatus : public Serializable
 {
 public:
 	StarStatus(uint8_t Value = 1, bool bHidden = false) : Value(Value), bHidden(bHidden){}
 
 	uint8_t Value; //1 또는 3 값을 가짐. bool로 해도될것 같지만.. 일단 2비트 보내는 것으로
 	bool bHidden; //유저가 먹어서 안보이게 됐는지 여부
+
+	virtual void Write(OutputMemoryBitStream& InStream) const override;
+	virtual void Read(InputMemoryBitStream& InStream) override;
 
 	static DataType* sDataType;
 

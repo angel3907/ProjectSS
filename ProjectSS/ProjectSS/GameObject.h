@@ -1,5 +1,6 @@
 #pragma once
 #include "MathUtils.h"
+#include "Serializable.h"
 
 class LinkingContext;
 class OutputMemoryBitStream;
@@ -11,7 +12,7 @@ enum {kClassId = InCode};\
 virtual uint32_t GetClassId() const {return kClassId;}\
 static GameObject* CreateInstance() {return new InClass();}
 
-class GameObject
+class GameObject : public Serializable
 {
 public:
 	GameObject(Vector2 Pos = {0,0}) : Pos(Pos)
@@ -27,8 +28,8 @@ public:
 
 	CLASS_IDENTIFICATION('GOBJ', GameObject);
 
-	virtual void Write(OutputMemoryBitStream& InStream) const;
-	virtual void Read(InputMemoryBitStream& InStream);
+	virtual void Write(OutputMemoryBitStream& InStream) const override;
+	virtual void Read(InputMemoryBitStream& InStream) override;
 
 protected:
 	Vector2 Pos;

@@ -3,6 +3,7 @@
 #include <vector>
 #include "MathUtils.h"
 #include "MemoryBitStream.h"
+class GameObject;
 
 inline uint32_t ConvertToFixed(float InNumber, float InMin, float InPrecision)
 {

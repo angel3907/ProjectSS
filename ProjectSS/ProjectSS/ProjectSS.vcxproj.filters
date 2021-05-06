@@ -142,5 +142,8 @@
     <ClInclude Include="ReplicationHeader.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Serializable.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
