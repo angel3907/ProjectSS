@@ -68,10 +68,9 @@ void ReplicationManager::ReplicateCreate(OutputMemoryBitStream& InStream, GameOb
 	ReplicationHeader Rh(ReplicationAction::RA_Create, LinkingContext::Get().GetNetworkId(InGameObject, true), InGameObject->GetClassId());
 	Rh.Write(InStream);
 
-	//TODO : 다시 살리기
-	//InGameObject->Write(InStream);
+	InGameObject->Write(InStream);
 	//부분 리플리케이션
-	InGameObject->WriteChanged(InStream);
+	//InGameObject->WriteChanged(InStream);
 }
 
 void ReplicationManager::ReplicateUpdate(OutputMemoryBitStream& InStream, GameObject* InGameObject)
@@ -79,10 +78,9 @@ void ReplicationManager::ReplicateUpdate(OutputMemoryBitStream& InStream, GameOb
 	ReplicationHeader Rh(ReplicationAction::RA_Update, LinkingContext::Get().GetNetworkId(InGameObject, false), InGameObject->GetClassId());
 	Rh.Write(InStream);
 
-	//TODO : 다시 살리기
-	//InGameObject->Write(InStream);
+	InGameObject->Write(InStream);
 	//부분 리플리케이션
-	InGameObject->WriteChanged(InStream);
+	//InGameObject->WriteChanged(InStream);
 }
 
 void ReplicationManager::ReplicateDestroy(OutputMemoryBitStream& InStream, GameObject* InGameObject)
@@ -103,10 +101,9 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 			GameObject* Go = ObjectCreationRegistry::Get().CreateGameObject(Rh.mClassId);
 			LinkingContext::Get().AddGameObject(Go, Rh.mNetworkId);
 			
-			//TODO : 다시 살리기
-			//Go->Read(InStream);
+			Go->Read(InStream);
 			//부분 리플리케이션
-			Go->ReadChanged(InStream);
+			//Go->ReadChanged(InStream);
 		}
 		break;
 		case ReplicationAction::RA_Update:
@@ -114,10 +111,9 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 			GameObject* Go = LinkingContext::Get().GetGameObject(Rh.mNetworkId);
 			if (Go)
 			{
-				//TODO : 다시 살리기
-				//Go->Read(InStream);
+				Go->Read(InStream);
 				//부분 리플리케이션
-				Go->ReadChanged(InStream);
+				//Go->ReadChanged(InStream);
 			}
 			else
 			{
@@ -125,10 +121,9 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 				//그러므로 더미 객체를 만들어 읽은 다음 폐기함
 				uint32_t ClassId = Rh.mClassId;
 				Go = ObjectCreationRegistry::Get().CreateGameObject(ClassId);
-				//TODO : 다시 살리기
-				//Go->Read(InStream);
+				Go->Read(InStream);
 				//부분 리플리케이션
-				Go->ReadChanged(InStream);
+				//Go->ReadChanged(InStream);
 				delete Go;
 			}
 		}
