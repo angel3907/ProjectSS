@@ -2,6 +2,13 @@
 #include "MathUtils.h"
 #include "Serializable.h"
 
+enum GameObjectProperties : uint32_t
+{
+	GOP_Pos = 1 << 0,
+	GOP_MAX
+};
+
+
 class LinkingContext;
 class OutputMemoryBitStream;
 class InputMemoryBitStream;
@@ -30,6 +37,9 @@ public:
 
 	virtual void Write(OutputMemoryBitStream& InStream) const override;
 	virtual void Read(InputMemoryBitStream& InStream) override;
+
+	virtual void WriteChanged(OutputMemoryBitStream& InStream) const override;
+	virtual void ReadChanged(InputMemoryBitStream& InStream) override;
 
 protected:
 	Vector2 Pos;

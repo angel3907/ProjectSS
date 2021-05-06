@@ -7,7 +7,6 @@ void ReplicationManager::ReplicateWorldState(OutputMemoryBitStream& InStream, co
 	InStream.WriteBits(static_cast<uint8_t>(PacketType::PT_ReplicationData), GetRequiredBits(static_cast<int32_t>(PacketType::PT_MAX)));
 	
 	//각 객체를 하나씩 기록
-	
 	for (int i = 0; i < InAllObjects.size(); i++)
 	{ 
 		GameObject* Go = InAllObjects[i];
@@ -68,21 +67,28 @@ void ReplicationManager::ReplicateCreate(OutputMemoryBitStream& InStream, GameOb
 	//리플리케이션 헤더 쓰고 데이터 변경점을 기록해줌
 	ReplicationHeader Rh(ReplicationAction::RA_Create, LinkingContext::Get().GetNetworkId(InGameObject, true), InGameObject->GetClassId());
 	Rh.Write(InStream);
-	InGameObject->Write(InStream);
+
+	//TODO : 다시 살리기
+	//InGameObject->Write(InStream);
+	//부분 리플리케이션
+	InGameObject->WriteChanged(InStream);
 }
 
 void ReplicationManager::ReplicateUpdate(OutputMemoryBitStream& InStream, GameObject* InGameObject)
 {
 	ReplicationHeader Rh(ReplicationAction::RA_Update, LinkingContext::Get().GetNetworkId(InGameObject, false), InGameObject->GetClassId());
 	Rh.Write(InStream);
-	InGameObject->Write(InStream);
+
+	//TODO : 다시 살리기
+	//InGameObject->Write(InStream);
+	//부분 리플리케이션
+	InGameObject->WriteChanged(InStream);
 }
 
 void ReplicationManager::ReplicateDestroy(OutputMemoryBitStream& InStream, GameObject* InGameObject)
 {
 	ReplicationHeader Rh(ReplicationAction::RA_Destroy, LinkingContext::Get().GetNetworkId(InGameObject, false));
 	Rh.Write(InStream);
-	InGameObject->Write(InStream);
 }
 
 void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream)
@@ -96,7 +102,11 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 		{
 			GameObject* Go = ObjectCreationRegistry::Get().CreateGameObject(Rh.mClassId);
 			LinkingContext::Get().AddGameObject(Go, Rh.mNetworkId);
-			Go->Read(InStream);
+			
+			//TODO : 다시 살리기
+			//Go->Read(InStream);
+			//부분 리플리케이션
+			Go->ReadChanged(InStream);
 		}
 		break;
 		case ReplicationAction::RA_Update:
@@ -104,7 +114,10 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 			GameObject* Go = LinkingContext::Get().GetGameObject(Rh.mNetworkId);
 			if (Go)
 			{
-				Go->Read(InStream);
+				//TODO : 다시 살리기
+				//Go->Read(InStream);
+				//부분 리플리케이션
+				Go->ReadChanged(InStream);
 			}
 			else
 			{
@@ -112,7 +125,10 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 				//그러므로 더미 객체를 만들어 읽은 다음 폐기함
 				uint32_t ClassId = Rh.mClassId;
 				Go = ObjectCreationRegistry::Get().CreateGameObject(ClassId);
-				Go->Read(InStream);
+				//TODO : 다시 살리기
+				//Go->Read(InStream);
+				//부분 리플리케이션
+				Go->ReadChanged(InStream);
 				delete Go;
 			}
 		}

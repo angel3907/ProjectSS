@@ -46,7 +46,6 @@ public:
 		}
 
 		ReadBits(&OutData, InBitCount);
-		printf("I Read %d\n", InBitCount);
 	}
 
 	template<class T>

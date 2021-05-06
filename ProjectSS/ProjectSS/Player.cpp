@@ -22,6 +22,40 @@ void Player::Read(InputMemoryStream& InStream)
 	InStream.Read(StarCount);
 }
 
+void Player::WriteChanged(OutputMemoryBitStream& InStream) const
+{
+	GameObject::WriteChanged(InStream);
+	
+	//비트 필드부터 읽어야 실제 읽어야 할 속성을 판단 가능
+	InStream.Write(mProperties, GetRequiredBits(static_cast<uint32_t>(PLR_MAX)));
+
+	//지정된 속성만 기록함
+	if ((mProperties & PLR_StarCount) != 0)
+		InStream.Write(StarCount);
+
+	if ((mProperties & PLR_TestValue) != 0)
+		InStream.Write(TestValue);
+
+	if ((mProperties & PLR_Name) != 0)
+		InStream.Write(Name);
+}
+
+void Player::ReadChanged(InputMemoryBitStream& InStream)
+{
+	GameObject::ReadChanged(InStream);
+	uint32_t WrittenProperties = 0;
+	InStream.Read(WrittenProperties, GetRequiredBits(static_cast<uint32_t>(PLR_MAX)));
+
+	if ((WrittenProperties & PLR_StarCount) != 0)
+		InStream.Read(StarCount);
+
+	if ((WrittenProperties & PLR_TestValue) != 0)
+		InStream.Read(TestValue);
+
+	if ((WrittenProperties & PLR_Name) != 0)
+		InStream.Read(Name);
+}
+
 void Player::Write(OutputMemoryBitStream& InStream) const
 {
  	InStream.Write(TestValue);

@@ -4,7 +4,7 @@
 #include "MemberVariable.h"
 #include <vector>
 
-enum StarStatusProperties : uint8_t
+enum StarStatusProperties : uint32_t
 {
 	SSP_Value = 1 << 0,
 	SSP_bHidden = 1 << 1,
@@ -26,7 +26,7 @@ public:
 	virtual void Write(OutputMemoryBitStream& InStream) const override;
 	virtual void Read(InputMemoryBitStream& InStream) override;
 
-	virtual void WriteChanged(OutputMemoryBitStream& InStream, uint32_t InProperties) const;
+	virtual void WriteChanged(OutputMemoryBitStream& InStream) const;
 	virtual void ReadChanged(InputMemoryBitStream& InStream);
 
 	static DataType* sDataType;
@@ -52,6 +52,9 @@ public:
 
 	virtual void Write(OutputMemoryBitStream& InStream) const override;
 	virtual void Read(InputMemoryBitStream& InStream) override;
+
+	virtual void WriteChanged(OutputMemoryBitStream& InStream) const;
+	virtual void ReadChanged(InputMemoryBitStream& InStream);
 
 private:
 	StarStatus mStarStatus;

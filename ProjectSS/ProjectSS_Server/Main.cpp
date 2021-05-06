@@ -22,7 +22,7 @@ int main()
 		return -1;
 	}
 
-	uint32_t RecvByteCnt = SocketUtil::ReceivePacket(UDPServerSocket);
+	//uint32_t RecvByteCnt = SocketUtil::ReceivePacket(UDPServerSocket);
 
 	//1, 2번일거고
 	//Player 먼저쓰니까 Player가 1번
@@ -32,41 +32,88 @@ int main()
 	Player* PlayerObj2 = nullptr;
 	Star* StarObj2 = nullptr;
 	
-	//printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
 
-	
+	uint32_t RecvByteCnt = SocketUtil::ReceiveChangedGameObject(UDPServerSocket);
+	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+
 	if (RecvByteCnt > 0)
 	{
-		printf("I Sent ByteCnt %d\n", RecvByteCnt);
-
+		printf("I Recv ByteCnt %d\n", RecvByteCnt);
 		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+		
 		if (PlayerObj != nullptr)
 		{ 
 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
 			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
 		}
+	}
 
-		StarObj = static_cast<Star*>(LinkingContext::Get().GetGameObject(2));
-		if (StarObj != nullptr)
-		{ 
-			printf("Star Value : %d, IsHidden : %d", StarObj->GetStarStatus().Value, StarObj->GetStarStatus().bHidden);
-			printf(" Pos : %f, %f\n", StarObj->GetPos().PosX, StarObj->GetPos().PosY);
-		}
+	RecvByteCnt = SocketUtil::ReceiveChangedGameObject(UDPServerSocket);
+	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
 
-		PlayerObj2 = static_cast<Player*>(LinkingContext::Get().GetGameObject(3));
-		if (PlayerObj2 != nullptr)
+	if (RecvByteCnt > 0)
+	{
+		printf("I Recv ByteCnt %d\n", RecvByteCnt);
+		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+
+		if (PlayerObj != nullptr)
 		{
-			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj2->GetStarCount(), PlayerObj2->GetTestValue(), PlayerObj2->GetName().c_str());
-			printf(" Pos : %f, %f\n", PlayerObj2->GetPos().PosX, PlayerObj2->GetPos().PosY);
-		}
-
-		StarObj2 = static_cast<Star*>(LinkingContext::Get().GetGameObject(4));
-		if (StarObj2 != nullptr)
-		{
-			printf("Star Value : %d, IsHidden : %d", StarObj2->GetStarStatus().Value, StarObj2->GetStarStatus().bHidden);
-			printf(" Pos : %f, %f\n", StarObj2->GetPos().PosX, StarObj2->GetPos().PosY);
+			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
+			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
 		}
 	}
+
+	RecvByteCnt = SocketUtil::ReceiveChangedGameObject(UDPServerSocket);
+	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+
+	if (RecvByteCnt > 0)
+	{
+		printf("I Recv ByteCnt %d\n", RecvByteCnt);
+		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+
+		if (PlayerObj != nullptr)
+		{
+			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
+			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
+		}
+		else
+		{
+			printf("The Player Object was Destroyed");
+		}
+	}
+	
+// 	if (RecvByteCnt > 0)
+// 	{
+// 		printf("I Sent ByteCnt %d\n", RecvByteCnt);
+// 
+// 		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+// 		if (PlayerObj != nullptr)
+// 		{ 
+// 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
+// 			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
+// 		}
+// 
+// 		StarObj = static_cast<Star*>(LinkingContext::Get().GetGameObject(2));
+// 		if (StarObj != nullptr)
+// 		{ 
+// 			printf("Star Value : %d, IsHidden : %d", StarObj->GetStarStatus().Value, StarObj->GetStarStatus().bHidden);
+// 			printf(" Pos : %f, %f\n", StarObj->GetPos().PosX, StarObj->GetPos().PosY);
+// 		}
+// 
+// 		PlayerObj2 = static_cast<Player*>(LinkingContext::Get().GetGameObject(3));
+// 		if (PlayerObj2 != nullptr)
+// 		{
+// 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj2->GetStarCount(), PlayerObj2->GetTestValue(), PlayerObj2->GetName().c_str());
+// 			printf(" Pos : %f, %f\n", PlayerObj2->GetPos().PosX, PlayerObj2->GetPos().PosY);
+// 		}
+// 
+// 		StarObj2 = static_cast<Star*>(LinkingContext::Get().GetGameObject(4));
+// 		if (StarObj2 != nullptr)
+// 		{
+// 			printf("Star Value : %d, IsHidden : %d", StarObj2->GetStarStatus().Value, StarObj2->GetStarStatus().bHidden);
+// 			printf(" Pos : %f, %f\n", StarObj2->GetPos().PosX, StarObj2->GetPos().PosY);
+// 		}
+// 	}
 	
 
 	GamePlayUtils::EndGame();;

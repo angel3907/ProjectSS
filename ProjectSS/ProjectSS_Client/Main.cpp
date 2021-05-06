@@ -30,28 +30,60 @@ int main()
 	Star StarTest2(StarStatus(1, false));
 	StarTest2.SetPos(Vector2(-100.3f, -35.6f));
 
-	vector<GameObject*> GameObjects = {&ServerPlayer, &StarTest, &ServerPlayer2, &StarTest2 };
-	uint32_t SentByteCnt = SocketUtil::SendPacket(UDPClientSocket, *ToAddressPtr, GameObjects);
+	ServerPlayer.SetProperties(PLR_Name | PLR_StarCount | PLR_TestValue);
+	//vector<GameObject*> GameObjects = {&ServerPlayer, &StarTest, &ServerPlayer2, &StarTest2 };
 
-	//printf("I Sent BitCnt %d\n", SentByteCnt*8);
-	
+	uint32_t SentByteCnt = SocketUtil::SendChangedGameObject(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Create);
+
 	if (SentByteCnt > 0)
 	{
 	 	printf("I Sent ByteCnt %d\n", SentByteCnt);
+		
+		printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
+		printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
+	} 
 
-	 	printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
-	 	printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
+	ServerPlayer.SetPos(Vector2(-111.7f, 200.2f));
 
-		printf("Star Value : %d, IsHidden : %d", StarTest.GetStarStatus().Value, StarTest.GetStarStatus().bHidden);
-		printf(" Pos : %f, %f\n", StarTest.GetPos().PosX, StarTest.GetPos().PosY);
+	SentByteCnt = SocketUtil::SendChangedGameObject(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Update);
 
-		printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer2.GetStarCount(), ServerPlayer2.GetTestValue(), ServerPlayer2.GetName().c_str());
-		printf(" Pos : %f, %f\n", ServerPlayer2.GetPos().PosX, ServerPlayer2.GetPos().PosY);
+	if (SentByteCnt > 0)
+	{
+		printf("I Sent ByteCnt %d\n", SentByteCnt);
 
-		printf("Star Value : %d, IsHidden : %d", StarTest2.GetStarStatus().Value, StarTest2.GetStarStatus().bHidden);
-		printf(" Pos : %f, %f\n", StarTest2.GetPos().PosX, StarTest2.GetPos().PosY);
+		printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
+		printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
 	}
-	
+
+	SentByteCnt = SocketUtil::SendChangedGameObject(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Destroy);
+
+	if (SentByteCnt > 0)
+	{
+		printf("I Sent ByteCnt %d\n", SentByteCnt);
+		printf("I Destroyed Player\n");
+	}
+
+// 	uint32_t SentByteCnt = SocketUtil::SendPacket(UDPClientSocket, *ToAddressPtr, GameObjects);
+// 
+// 	//printf("I Sent BitCnt %d\n", SentByteCnt*8);
+// 	
+// 	if (SentByteCnt > 0)
+// 	{
+// 	 	printf("I Sent ByteCnt %d\n", SentByteCnt);
+// 
+// 	 	printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
+// 	 	printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
+// 
+// 		printf("Star Value : %d, IsHidden : %d", StarTest.GetStarStatus().Value, StarTest.GetStarStatus().bHidden);
+// 		printf(" Pos : %f, %f\n", StarTest.GetPos().PosX, StarTest.GetPos().PosY);
+// 
+// 		printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer2.GetStarCount(), ServerPlayer2.GetTestValue(), ServerPlayer2.GetName().c_str());
+// 		printf(" Pos : %f, %f\n", ServerPlayer2.GetPos().PosX, ServerPlayer2.GetPos().PosY);
+// 
+// 		printf("Star Value : %d, IsHidden : %d", StarTest2.GetStarStatus().Value, StarTest2.GetStarStatus().bHidden);
+// 		printf(" Pos : %f, %f\n", StarTest2.GetPos().PosX, StarTest2.GetPos().PosY);
+// 	}
+// 	
 
 	GamePlayUtils::EndGame();
 }

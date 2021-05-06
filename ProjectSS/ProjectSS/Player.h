@@ -5,6 +5,15 @@
 #include "OutputMemoryBitStream.h"
 #include "OutputMemoryStream.h"
 
+enum PlayerProperties : uint32_t
+{
+	//GameObject 다음 값으로 설정해줌
+	PLR_StarCount = 1 << 1,
+	PLR_TestValue = 1 << 2,
+	PLR_Name = 1 << 3,
+	PLR_MAX
+};
+
 class Player : public GameObject
 {
 public:
@@ -21,6 +30,9 @@ public:
 
 	virtual void Write(OutputMemoryBitStream& InStream) const override;
 	virtual void Read(InputMemoryBitStream& InStream) override;
+
+	virtual void WriteChanged(OutputMemoryBitStream& InStream) const override;
+	virtual void ReadChanged(InputMemoryBitStream& InStream) override;
 
 	int32_t GetStarCount() const {return StarCount;}
 	bool GetTestValue() const {return TestValue;}
