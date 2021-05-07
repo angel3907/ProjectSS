@@ -138,6 +138,10 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 			}
 		}
 		break;
+		case ReplicationAction::RA_RPC:
+		{
+			RPCManager::Get().ProcessRPC(InStream);
+		}
 		default:
 		//이 동작은 여기서 처리 안 함.
 		break;
