@@ -305,7 +305,7 @@ uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket)
 	return RecvByteCount;
 }
 
-uint32_t SocketUtil::SendChangedGameObject(UDPSocketPtr Socket, SocketAddress& ToAddress, GameObject* InGameObject, ReplicationAction InReplicationAction)
+uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams)
 {
 	OutputMemoryBitStream Stream;
 	//리플리케이션용이라고 미리 표시
@@ -322,6 +322,9 @@ uint32_t SocketUtil::SendChangedGameObject(UDPSocketPtr Socket, SocketAddress& T
 	case ReplicationAction::RA_Destroy:
 		ReplicationManager::Get().ReplicateDestroy(Stream, InGameObject);
 		break;
+	case ReplicationAction::RA_RPC:
+		ReplicationManager::Get().RPC(Stream, InRPCParams);
+		break;
 	default:
 		break;
 	}
@@ -330,7 +333,7 @@ uint32_t SocketUtil::SendChangedGameObject(UDPSocketPtr Socket, SocketAddress& T
 	return SentByteCount;
 }
 
-uint32_t SocketUtil::ReceiveChangedGameObject(UDPSocketPtr Socket)
+uint32_t SocketUtil::ReceiveReplicated(UDPSocketPtr Socket)
 {
 	//임시버퍼로 데이터를 받고
 	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);

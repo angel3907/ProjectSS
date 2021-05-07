@@ -4,37 +4,25 @@
 #include "RPCManager.h"
 #include "ReplicationHeader.h"
 
-namespace GamePlayUtils
-{ 
-	inline void StartGame()
-	{
-		SocketUtil::StartUsingSocket();
-		ObjectCreationRegistry::RegisterObjectCreation();
-	}
+struct PrintSomethingRPCParams : public RPCParams
+{
+	string mName;
+	Vector2 mLocation;
+	float mVolume;
 
-	inline void EndGame()
-	{
-		SocketUtil::EndUsingSocket();
-	}
-}
-
+	PrintSomethingRPCParams(const string& InName, Vector2 InLocation, float InVolume) 
+	: RPCParams('PRST'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
+};
 
 static void PrintSomething(const string& InName, const Vector2 InLocation, float InVolume)
 {
 	printf("Hi, My name is %s, My Location is (%f, %f), My Volume is %f", InName.c_str(), InLocation.PosX, InLocation.PosY, InVolume);
 }
 
-struct PrintSomethingRPCParams
-{
-	string mName;
-	Vector2 mLocation;
-	float mVolume;
-};
-
 static void UnwrapPrintSomething(InputMemoryBitStream& InStream)
 {
 	string Name = "";
-	Vector2 Location = {0, 0};
+	Vector2 Location = { 0, 0 };
 	float Volume = 0;
 
 	InStream.Read(Name);
@@ -44,17 +32,39 @@ static void UnwrapPrintSomething(InputMemoryBitStream& InStream)
 	PrintSomething(Name, Location, Volume);
 }
 
-static void RegisterRPCs()
+static void PrintSomething(OutputMemoryBitStream& InStream, RPCParams* InRPCParams)
 {
-	RPCManager::Get().RegisterUnwrapFunction('PRST', UnwrapPrintSomething);
+	PrintSomethingRPCParams* RealTypeParam = dynamic_cast<PrintSomethingRPCParams*>(InRPCParams);
+
+	if (RealTypeParam == nullptr)
+	{
+		printf("RPCParam has different Type Value");
+		return;
+	}
+
+	InStream.Write(RealTypeParam->mName);
+	InStream.WritePosF(RealTypeParam->mLocation);
+	InStream.Write(RealTypeParam->mVolume);
 }
 
-void PrintSomething(OutputMemoryBitStream& InStream, const string& InName, const Vector2 InLocation, float InVolume)
-{
-	ReplicationHeader Rh(ReplicationAction::RA_RPC);
-	Rh.Write(InStream);
+namespace GamePlayUtils
+{ 
+	//RPC 사용 전 반드시 등록
+	inline void RegisterRPCs()
+	{
+		RPCManager::Get().RegisterUnwrapFunction('PRST', UnwrapPrintSomething);
+		RPCManager::Get().RegisterWrapFunction('PRST', PrintSomething);
+	}
 
-	InStream.Write(InName);
-	InStream.WritePosF(InLocation);
-	InStream.Write(InVolume);
+	inline void StartGame()
+	{
+		SocketUtil::StartUsingSocket();
+		ObjectCreationRegistry::RegisterObjectCreation();
+		RegisterRPCs();
+	}
+
+	inline void EndGame()
+	{
+		SocketUtil::EndUsingSocket();
+	}
 }

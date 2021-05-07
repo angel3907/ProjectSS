@@ -89,6 +89,15 @@ void ReplicationManager::ReplicateDestroy(OutputMemoryBitStream& InStream, GameO
 	Rh.Write(InStream);
 }
 
+void ReplicationManager::RPC(OutputMemoryBitStream& InStream, RPCParams* InRPCParams)
+{
+	ReplicationHeader Rh(ReplicationAction::RA_RPC);
+	Rh.Write(InStream);
+	InStream.Write(InRPCParams->GetRPCId());
+
+	RPCManager::Get().ProcessRPC(InStream, InRPCParams);
+}
+
 void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream)
 {
 	ReplicationHeader Rh;

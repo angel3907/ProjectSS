@@ -16,10 +16,9 @@ void ReplicationHeader::Write(OutputMemoryBitStream& InStream)
 void ReplicationHeader::Read(InputMemoryBitStream& InStream)
 {
 	InStream.ReadBits(&mReplicationAction, GetRequiredBits(static_cast<int32_t>(ReplicationAction::RA_MAX)));
-	InStream.Read(mNetworkId);
-
+	
 	if (mReplicationAction != ReplicationAction::RA_RPC)
-		InStream.Read(mClassId);
+		InStream.Read(mNetworkId);
 
 	if (mReplicationAction != ReplicationAction::RA_Destroy && mReplicationAction != ReplicationAction::RA_RPC)
 		InStream.Read(mClassId);

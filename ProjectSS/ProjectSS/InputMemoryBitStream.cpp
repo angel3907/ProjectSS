@@ -26,7 +26,7 @@ void InputMemoryBitStream::ReadBits(void* OutData, uint32_t InBitCount)
 {
 	uint8_t* DestByte = reinterpret_cast<uint8_t*>(OutData);
 
-	//printf("I Read %d Bits\n", InBitCount);
+	printf("I Read %d Bits\n", InBitCount);
 	//모든 바이트를 쓴다
 	while (InBitCount > 8)
 	{

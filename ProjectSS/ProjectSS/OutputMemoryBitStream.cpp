@@ -39,7 +39,7 @@ void OutputMemoryBitStream::WriteBits(const void* InData, size_t InBitCount)
 {
 	const char* SrcByte = static_cast<const char*>(InData);
 
-	//printf("I Write %d Bits\n", InBitCount);
+	printf("I Write %d Bits\n", InBitCount);
 	//바이트를 하나씩 모두 기록 (1바이트씩 앞으로 가면서)
 	while (InBitCount > 8)
 	{

@@ -32,55 +32,57 @@ int main()
 	Player* PlayerObj2 = nullptr;
 	Star* StarObj2 = nullptr;
 	
-
-	uint32_t RecvByteCnt = SocketUtil::ReceiveChangedGameObject(UDPServerSocket);
+	uint32_t RecvByteCnt = SocketUtil::ReceiveReplicated(UDPServerSocket);
 	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
 
-	if (RecvByteCnt > 0)
-	{
-		printf("I Recv ByteCnt %d\n", RecvByteCnt);
-		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
-		
-		if (PlayerObj != nullptr)
-		{ 
-			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
-			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
-		}
-	}
-
-	RecvByteCnt = SocketUtil::ReceiveChangedGameObject(UDPServerSocket);
-	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
-
-	if (RecvByteCnt > 0)
-	{
-		printf("I Recv ByteCnt %d\n", RecvByteCnt);
-		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
-
-		if (PlayerObj != nullptr)
-		{
-			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
-			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
-		}
-	}
-
-	RecvByteCnt = SocketUtil::ReceiveChangedGameObject(UDPServerSocket);
-	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
-
-	if (RecvByteCnt > 0)
-	{
-		printf("I Recv ByteCnt %d\n", RecvByteCnt);
-		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
-
-		if (PlayerObj != nullptr)
-		{
-			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
-			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
-		}
-		else
-		{
-			printf("The Player Object was Destroyed");
-		}
-	}
+// 	uint32_t RecvByteCnt = SocketUtil::ReceiveReplicated(UDPServerSocket);
+// 	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+// 
+// 	if (RecvByteCnt > 0)
+// 	{
+// 		printf("I Recv ByteCnt %d\n", RecvByteCnt);
+// 		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+// 		
+// 		if (PlayerObj != nullptr)
+// 		{ 
+// 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
+// 			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
+// 		}
+// 	}
+// 
+// 	RecvByteCnt = SocketUtil::ReceiveReplicated(UDPServerSocket);
+// 	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+// 
+// 	if (RecvByteCnt > 0)
+// 	{
+// 		printf("I Recv ByteCnt %d\n", RecvByteCnt);
+// 		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+// 
+// 		if (PlayerObj != nullptr)
+// 		{
+// 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
+// 			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
+// 		}
+// 	}
+// 
+// 	RecvByteCnt = SocketUtil::ReceiveReplicated(UDPServerSocket);
+// 	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+// 
+// 	if (RecvByteCnt > 0)
+// 	{
+// 		printf("I Recv ByteCnt %d\n", RecvByteCnt);
+// 		PlayerObj = static_cast<Player*>(LinkingContext::Get().GetGameObject(1));
+// 
+// 		if (PlayerObj != nullptr)
+// 		{
+// 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", PlayerObj->GetStarCount(), PlayerObj->GetTestValue(), PlayerObj->GetName().c_str());
+// 			printf(" Pos : %f, %f\n", PlayerObj->GetPos().PosX, PlayerObj->GetPos().PosY);
+// 		}
+// 		else
+// 		{
+// 			printf("The Player Object was Destroyed");
+// 		}
+// 	}
 	
 // 	if (RecvByteCnt > 0)
 // 	{

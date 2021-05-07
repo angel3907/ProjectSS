@@ -33,35 +33,44 @@
 		ServerPlayer.SetProperties(PLR_Name | PLR_StarCount | PLR_TestValue);
 		//vector<GameObject*> GameObjects = {&ServerPlayer, &StarTest, &ServerPlayer2, &StarTest2 };
 
-		uint32_t SentByteCnt = SocketUtil::SendChangedGameObject(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Create);
+		PrintSomethingRPCParams Params("Name", Vector2(3.f, 5.f), 30.f);
+
+		uint32_t SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, ReplicationAction::RA_RPC, nullptr, &Params);
 
 		if (SentByteCnt > 0)
 		{
 	 		printf("I Sent ByteCnt %d\n", SentByteCnt);
-		
-			printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
-			printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
-		} 
-
-		ServerPlayer.SetPos(Vector2(-111.7f, 200.2f));
-
-		SentByteCnt = SocketUtil::SendChangedGameObject(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Update);
-
-		if (SentByteCnt > 0)
-		{
-			printf("I Sent ByteCnt %d\n", SentByteCnt);
-
-			printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
-			printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
 		}
 
-		SentByteCnt = SocketUtil::SendChangedGameObject(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Destroy);
-
-		if (SentByteCnt > 0)
-		{
-			printf("I Sent ByteCnt %d\n", SentByteCnt);
-			printf("I Destroyed Player\n");
-		}
+// 		uint32_t SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Create);
+// 
+// 		if (SentByteCnt > 0)
+// 		{
+// 	 		printf("I Sent ByteCnt %d\n", SentByteCnt);
+// 		
+// 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
+// 			printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
+// 		} 
+// 
+// 		ServerPlayer.SetPos(Vector2(-111.7f, 200.2f));
+// 
+// 		SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Update);
+// 
+// 		if (SentByteCnt > 0)
+// 		{
+// 			printf("I Sent ByteCnt %d\n", SentByteCnt);
+// 
+// 			printf("Player StarCnt : %d, TestValue : %d, Name : %s", ServerPlayer.GetStarCount(), ServerPlayer.GetTestValue(), ServerPlayer.GetName().c_str());
+// 			printf(" Pos : %f, %f\n", ServerPlayer.GetPos().PosX, ServerPlayer.GetPos().PosY);
+// 		}
+// 
+// 		SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Destroy);
+// 
+// 		if (SentByteCnt > 0)
+// 		{
+// 			printf("I Sent ByteCnt %d\n", SentByteCnt);
+// 			printf("I Destroyed Player\n");
+// 		}
 
 	// 	uint32_t SentByteCnt = SocketUtil::SendPacket(UDPClientSocket, *ToAddressPtr, GameObjects);
 	// 
