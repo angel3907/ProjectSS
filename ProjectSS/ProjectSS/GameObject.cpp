@@ -59,5 +59,6 @@ void GameObject::UnwrapPrintSomething(InputMemoryBitStream& InStream, bool bFunc
 	InStream.ReadPosF(Location);
 	InStream.Read(Volume);
 
-	PrintSomething(Name, Location, Volume);
+	if (bFuncCall)
+		PrintSomething(Name, Location, Volume);
 }
