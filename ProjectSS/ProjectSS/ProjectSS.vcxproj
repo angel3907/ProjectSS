@@ -183,6 +183,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="ReplicationHeader.h" />
     <ClInclude Include="ReplicationManager.h" />
+    <ClInclude Include="RPCManager.h" />
     <ClInclude Include="Serializable.h" />
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="SocketAddressFactory.h" />

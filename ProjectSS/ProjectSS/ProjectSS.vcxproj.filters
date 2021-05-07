@@ -145,5 +145,8 @@
     <ClInclude Include="Serializable.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="RPCManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
