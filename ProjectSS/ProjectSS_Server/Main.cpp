@@ -32,6 +32,9 @@ int main()
 	Player* PlayerObj2 = nullptr;
 	Star* StarObj2 = nullptr;
 	
+// 	uint32_t RecvByteCnt = SocketUtil::ReceiveReplicated(UDPServerSocket);
+// 	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
+
 	uint32_t RecvByteCnt = SocketUtil::ReceiveReplicated(UDPServerSocket);
 	printf("I Recved BitCnt %d\n", RecvByteCnt * 8);
 

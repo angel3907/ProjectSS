@@ -22,6 +22,7 @@ public:
 	void ReplicateDestroy(OutputMemoryBitStream& InStream, GameObject* InGameObject);
 
 	void RPC(OutputMemoryBitStream& InStream, RPCParams* InRPCParams);
+	void RMI(OutputMemoryBitStream& InStream, GameObject* InGameObject, RPCParams* InRPCParams);
 
 	void ProcessReplicationAction(InputMemoryBitStream& InStream);
 

@@ -9,7 +9,9 @@ void ReplicationHeader::Write(OutputMemoryBitStream& InStream)
 		InStream.Write(mNetworkId);
 
 	//파괴할 땐 클래스 식별자 필요 없음
-	if (mReplicationAction != ReplicationAction::RA_Destroy && mReplicationAction != ReplicationAction::RA_RPC)
+	if (mReplicationAction != ReplicationAction::RA_Destroy 
+		&& mReplicationAction != ReplicationAction::RA_RPC
+		&& mReplicationAction != ReplicationAction::RA_RMI)
 		InStream.Write(mClassId);
 }
 
@@ -20,6 +22,8 @@ void ReplicationHeader::Read(InputMemoryBitStream& InStream)
 	if (mReplicationAction != ReplicationAction::RA_RPC)
 		InStream.Read(mNetworkId);
 
-	if (mReplicationAction != ReplicationAction::RA_Destroy && mReplicationAction != ReplicationAction::RA_RPC)
+	if (mReplicationAction != ReplicationAction::RA_Destroy 
+		&& mReplicationAction != ReplicationAction::RA_RPC
+		&& mReplicationAction != ReplicationAction::RA_RMI)
 		InStream.Read(mClassId);
 }

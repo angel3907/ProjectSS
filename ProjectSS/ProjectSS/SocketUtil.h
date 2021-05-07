@@ -54,7 +54,7 @@ public:
 	static uint32_t SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const vector<GameObject*>& InGameObjects);
 	static uint32_t ReceivePacket(UDPSocketPtr Socket);
 
-	//RA_PRC면 InGameObject가 null / 그 외의 동작은 RPCParam이 null
+	//RA_PRC면 InGameObject가 null, RPCParam 존재 / RA_RMI면 InGameObject가 존재, RPCParam 존재 / 그 외에는 RPCParams만 null
 	static uint32_t SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams);
 	static uint32_t ReceiveReplicated(UDPSocketPtr Socket);
 

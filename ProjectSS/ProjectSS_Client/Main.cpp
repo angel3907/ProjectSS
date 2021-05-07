@@ -34,12 +34,20 @@
 		//vector<GameObject*> GameObjects = {&ServerPlayer, &StarTest, &ServerPlayer2, &StarTest2 };
 
 		PrintSomethingRPCParams Params("Name", Vector2(3.f, 5.f), 30.f);
+// 
+// 		uint32_t SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, ReplicationAction::RA_RPC, nullptr, &Params);
+// 
+// 		if (SentByteCnt > 0)
+// 		{
+// 	 		printf("I Sent ByteCnt %d\n", SentByteCnt);
+// 		}
 
-		uint32_t SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, ReplicationAction::RA_RPC, nullptr, &Params);
+		GameObject GO;
+		uint32_t SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, ReplicationAction::RA_RMI, &GO, &Params);
 
 		if (SentByteCnt > 0)
 		{
-	 		printf("I Sent ByteCnt %d\n", SentByteCnt);
+			printf("I Sent ByteCnt %d\n", SentByteCnt);
 		}
 
 // 		uint32_t SentByteCnt = SocketUtil::SendReplicated(UDPClientSocket, *ToAddressPtr, &ServerPlayer, ReplicationAction::RA_Create);

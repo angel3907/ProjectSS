@@ -3,13 +3,14 @@
 class InputMemoryBitStream;
 class OutputMemoryBitStream;
 
-//리플리케이션 동작의 종류 3가지 + 1
+//리플리케이션 동작의 종류 3가지 + 2
 enum class ReplicationAction : uint8_t
 {
 	RA_Create,
 	RA_Update,
 	RA_Destroy,
 	RA_RPC,
+	RA_RMI,
 	RA_MAX
 };
 

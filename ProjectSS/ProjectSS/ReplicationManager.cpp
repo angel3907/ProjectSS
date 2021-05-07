@@ -98,6 +98,15 @@ void ReplicationManager::RPC(OutputMemoryBitStream& InStream, RPCParams* InRPCPa
 	RPCManager::Get().ProcessRPC(InStream, InRPCParams);
 }
 
+void ReplicationManager::RMI(OutputMemoryBitStream& InStream, GameObject* InGameObject, RPCParams* InRPCParams)
+{
+	ReplicationHeader Rh(ReplicationAction::RA_RMI, LinkingContext::Get().GetNetworkId(InGameObject, false));
+	Rh.Write(InStream);
+	InStream.Write(InRPCParams->GetRPCId());
+
+	RPCManager::Get().ProcessRMI(InStream, InRPCParams, InGameObject);
+}
+
 void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream)
 {
 	ReplicationHeader Rh;
@@ -150,6 +159,11 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 		case ReplicationAction::RA_RPC:
 		{
 			RPCManager::Get().ProcessRPC(InStream);
+		}
+		break;
+		case ReplicationAction::RA_RMI:
+		{	
+			RPCManager::Get().ProcessRMI(InStream, Rh.mNetworkId);
 		}
 		default:
 		//이 동작은 여기서 처리 안 함.

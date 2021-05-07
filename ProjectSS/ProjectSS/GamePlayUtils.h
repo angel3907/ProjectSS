@@ -11,7 +11,8 @@ struct PrintSomethingRPCParams : public RPCParams
 	float mVolume;
 
 	PrintSomethingRPCParams(const string& InName, Vector2 InLocation, float InVolume) 
-	: RPCParams('PRST'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
+	//: RPCParams('PRST'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
+	: RPCParams('GPRT'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
 };
 
 static void PrintSomething(const string& InName, const Vector2 InLocation, float InVolume)
@@ -51,9 +52,12 @@ namespace GamePlayUtils
 { 
 	//RPC 사용 전 반드시 등록
 	inline void RegisterRPCs()
-	{
-		RPCManager::Get().RegisterUnwrapFunction('PRST', UnwrapPrintSomething);
-		RPCManager::Get().RegisterWrapFunction('PRST', PrintSomething);
+ 	{
+// 		RPCManager::Get().RegisterUnwrapFunction('PRST', UnwrapPrintSomething);
+// 		RPCManager::Get().RegisterWrapFunction('PRST', PrintSomething);
+// 		
+		RPCManager::Get().RegisterUnwrapFunction('GPRT', &GameObject::UnwrapPrintSomething);
+		RPCManager::Get().RegisterWrapFunction('GPRT', &GameObject::PrintSomething);
 	}
 
 	inline void StartGame()

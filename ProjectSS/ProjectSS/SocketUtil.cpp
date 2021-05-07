@@ -325,6 +325,9 @@ uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddres
 	case ReplicationAction::RA_RPC:
 		ReplicationManager::Get().RPC(Stream, InRPCParams);
 		break;
+	case ReplicationAction::RA_RMI:
+		ReplicationManager::Get().RMI(Stream, InGameObject, InRPCParams);
+		break;
 	default:
 		break;
 	}
