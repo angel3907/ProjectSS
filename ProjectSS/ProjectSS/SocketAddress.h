@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h> //for using uint32_t, uint16_t
 #include <memory> //for using shared_ptr
+#include <string>
 using namespace std; //for using ""
 
 //자료형 안전성이 확보된 상태로 소켓 기본 자료형 구현
@@ -28,6 +29,16 @@ public:
 
 	size_t GetSize() const { return sizeof(sockaddr);} //객체의 크기
 
+	string ToString() const;
+
+
+	bool operator==(const SocketAddress& InOther) const
+	{
+		return (mSockAddr.sa_family == AF_INET && 
+				GetAsSockAddrIn()->sin_port == InOther.GetAsSockAddrIn()->sin_port) &&
+				(GetAsSockAddrIn()->sin_addr.S_un.S_addr == InOther.GetAsSockAddrIn()->sin_addr.S_un.S_addr);
+	}
+
 private:
 	friend class UDPSocket;
 	friend class TCPSocket;
@@ -36,6 +47,10 @@ private:
 	sockaddr_in* GetAsSockAddrIn() // IPV4 전용 소켓주소 구조체 반환
 	{
 		return reinterpret_cast<sockaddr_in*>(&mSockAddr);
+	}
+	const sockaddr_in* GetAsSockAddrIn() const // IPV4 전용 소켓주소 구조체 반환
+	{
+		return reinterpret_cast<const sockaddr_in*>(&mSockAddr);
 	}
 };
 
