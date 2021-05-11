@@ -14,9 +14,15 @@
     <ClInclude Include="Player_Client.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkManagerClient.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManagerClient.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

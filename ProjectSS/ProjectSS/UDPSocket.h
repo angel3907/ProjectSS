@@ -1,4 +1,6 @@
 #pragma once
+#include <WinSock2.h>
+#include <memory>
 class SocketUtil;
 class SocketAddress;
 
@@ -17,4 +19,4 @@ private:
 	SOCKET mSocket;
 };
 
-using UDPSocketPtr = shared_ptr<UDPSocket>;
+using UDPSocketPtr = std::shared_ptr<UDPSocket>;

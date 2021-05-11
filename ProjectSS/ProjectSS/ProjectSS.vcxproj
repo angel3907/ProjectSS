@@ -150,6 +150,7 @@
     <ClCompile Include="InputMemoryStream.cpp" />
     <ClCompile Include="LinkingContext.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="OutputMemoryBitStream.cpp" />
     <ClCompile Include="OutputMemoryStream.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="LinkingContext.h" />
     <ClInclude Include="MemberVariable.h" />
     <ClInclude Include="MemoryBitStream.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="ObjectCreationRegistry.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
@@ -192,6 +194,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="TCPSocket.h" />
+    <ClInclude Include="TimeUtil.h" />
     <ClInclude Include="UDPSocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -65,6 +65,9 @@
     <ClCompile Include="ReplicationHeader.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -146,6 +149,12 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="RPCManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeUtil.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

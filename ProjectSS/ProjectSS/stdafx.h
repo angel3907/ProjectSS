@@ -21,7 +21,6 @@
 #include "MemberVariable.h"
 #include "UDPSocket.h"
 #include "TCPSocket.h"
-
 #include "GameObjectSubClasses.h"
 
 #include "MemoryBitStream.h"
@@ -37,3 +36,6 @@
 
 #include "ReplicationManager.h"
 #include "ReplicationHeader.h"
+#include "TimeUtil.h"
+
+#include "NetworkManager.h"
