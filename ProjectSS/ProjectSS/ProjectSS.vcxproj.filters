@@ -68,6 +68,9 @@
     <ClCompile Include="NetworkManager.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="SocketAddress.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

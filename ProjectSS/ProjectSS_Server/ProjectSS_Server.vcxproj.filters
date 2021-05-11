@@ -14,9 +14,18 @@
     <ClInclude Include="Player_Server.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkManagerServer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientProxy.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManagerServer.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
