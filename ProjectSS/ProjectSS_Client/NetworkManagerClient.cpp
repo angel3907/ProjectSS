@@ -67,7 +67,27 @@ void NetworkManagerClient::SendHelloPacket()
 
 void NetworkManagerClient::SendInputPacket()
 {
-	//TODO : 뒤에서 구현
+	//입력이 있을 때만 구현
+	MoveList& MoveListValue = InputManager::Get().GetMoveList();
+	if (!MoveListValue.HasMoves())
+		return;
+
+	OutputMemoryBitStream InputPacket;
+	InputPacket.Write(kInputCC);
+
+	//최근 3개의 입력조작만 전송
+	int MoveCount = MoveListValue.GetMoveCount();
+	int StartIndex = MoveCount > 3 ? MoveCount - 3 : 0; //뒤에서 3개까지만 보냄 //-3-1이 아닌 것 같은데..
+	
+	InputPacket.Write(MoveCount - StartIndex, 2); //2비트만 보냄
+
+	for (int i = StartIndex; i < MoveCount; i++)
+	{
+		MoveListValue[i].Write(InputPacket);
+	}
+
+	SendPacket(InputPacket, mServerAddress);
+	MoveListValue.Clear();
 }
 
 void NetworkManagerClient::HandleWelcomePacket(InputMemoryBitStream& InInputStream)

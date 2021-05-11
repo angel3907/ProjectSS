@@ -39,3 +39,7 @@
 #include "TimeUtil.h"
 
 #include "NetworkManager.h"
+#include "InputState.h"
+#include "Move.h"
+#include "MoveList.h"
+#include "InputManager.h"

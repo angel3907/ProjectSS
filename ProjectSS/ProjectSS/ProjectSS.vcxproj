@@ -148,8 +148,11 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputMemoryBitStream.cpp" />
     <ClCompile Include="InputMemoryStream.cpp" />
+    <ClCompile Include="InputState.cpp" />
     <ClCompile Include="LinkingContext.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Move.cpp" />
+    <ClCompile Include="MoveList.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="OutputMemoryBitStream.cpp" />
     <ClCompile Include="OutputMemoryStream.cpp" />
@@ -172,6 +175,8 @@
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="GameObjectSubClasses.h" />
     <ClInclude Include="GamePlayUtils.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InputState.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputMemoryBitStream.h" />
@@ -179,6 +184,8 @@
     <ClInclude Include="LinkingContext.h" />
     <ClInclude Include="MemberVariable.h" />
     <ClInclude Include="MemoryBitStream.h" />
+    <ClInclude Include="Move.h" />
+    <ClInclude Include="MoveList.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="ObjectCreationRegistry.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />

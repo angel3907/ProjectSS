@@ -71,6 +71,15 @@
     <ClCompile Include="SocketAddress.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="InputState.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Move.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveList.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -158,6 +167,18 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="TimeUtil.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="InputState.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Move.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveList.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
