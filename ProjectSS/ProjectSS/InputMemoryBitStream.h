@@ -3,6 +3,7 @@
 #include <vector>
 #include "MathUtils.h"
 #include "MemoryBitStream.h"
+#include <string>
 class GameObject;
 
 class InputMemoryBitStream : public MemoryBitStream
@@ -63,7 +64,7 @@ public:
 		}
 	}
 
-	void Read(string& OutString);
+	void Read(std::string& OutString);
 	void ReadPosF(Vector2& OutVector);
 
 	void Read(GameObject* OutGameObject);
