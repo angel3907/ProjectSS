@@ -1,12 +1,13 @@
 #include "stdafx.h"
 
+/*
 int main()
 {
 	printf("this is server\n");
 
 	GamePlayUtils::StartGame();;
 
-	/*
+	
 	UDPSocketPtr UDPServerSocket = SocketUtil::CreateUDPSocket(INET);
 	//UDPServerSocket->SetNonBlockingMode(true);
 
@@ -121,6 +122,7 @@ int main()
 // 		}
 // 	}
 	
-	*/
+	
 	GamePlayUtils::EndGame();;
 }
+*/

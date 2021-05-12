@@ -1,6 +1,31 @@
 #include "NetworkManagerClient.h"
 #include "stdafx.h"
 
+NetworkManagerClient* NetworkManagerClient::sInstance;
+
+NetworkManagerClient::NetworkManagerClient()
+	: mState(NCS_Uninitialized)
+{
+
+}
+
+void NetworkManagerClient::StaticInit(const SocketAddress& InServerAddress, const string& InName)
+{
+	sInstance = new NetworkManagerClient();
+	return sInstance->Init(InServerAddress, InName);
+}
+
+void NetworkManagerClient::Init(const SocketAddress& InServerAddress, const string& InName)
+{
+	//클라이언트는 빈 아무 포트로나 초기화
+	NetworkManager::Init(0);
+
+	mServerAddress = InServerAddress;
+	mState = NCS_SayingHello;
+	mTimeOfLastHello = 0.f;
+	mName = InName;
+}
+
 void NetworkManagerClient::SendOutgoingPackets()
 {
 	//헬로 패킷 전송 / 입력(상태) 패킷 전송
@@ -106,9 +131,9 @@ void NetworkManagerClient::HandleWelcomePacket(InputMemoryBitStream& InInputStre
 
 void NetworkManagerClient::HandleStatePacket(InputMemoryBitStream& InInputStream)
 {
-	//TODO : 상태 패킷(리플리케이션 데이터) 처리
 	if (mState == NCS_Welcomed)
 	{
-
+		//리플리케이션 매니저에게 처리를 맡김
+		mReplicationManagerClient.ProcessReplicationAction(InInputStream);
 	}
 }

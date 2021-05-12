@@ -2,9 +2,9 @@
 #include "MathUtils.h"
 #include "Serializable.h"
 
+class LinkingContext;
 class RPCManager;
 class RPCParams;
-class LinkingContext;
 class OutputMemoryBitStream;
 class InputMemoryBitStream;
 
@@ -18,13 +18,13 @@ enum GameObjectProperties : uint32_t
 #define CLASS_IDENTIFICATION(InCode, InClass)\
 enum {kClassId = InCode};\
 virtual uint32_t GetClassId() const {return kClassId;}\
-static GameObject* CreateInstance() {return new InClass();}
+static GameObject* CreateInstance() {return static_cast< GameObject* >(new InClass());}
 
 class GameObject : public Serializable
 {
 public:
 	GameObject(Vector2 Pos = {0,0}) : Pos(Pos){}
-	virtual ~GameObject(){}
+	virtual ~GameObject();
 
 	CLASS_IDENTIFICATION('GOBJ', GameObject);
 

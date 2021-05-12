@@ -36,8 +36,22 @@ public:
 	{
 		return (mSockAddr.sa_family == AF_INET && 
 				GetAsSockAddrIn()->sin_port == InOther.GetAsSockAddrIn()->sin_port) &&
-				(GetAsSockAddrIn()->sin_addr.S_un.S_addr == InOther.GetAsSockAddrIn()->sin_addr.S_un.S_addr);
+				(GetIP4Ref() == InOther.GetIP4Ref());
 	}
+
+	//uin32_t 형태로 IPV4 주소를 리턴해주는 함수
+	uint32_t& GetIP4Ref()	{ return *reinterpret_cast<uint32_t*> (&GetAsSockAddrIn()->sin_addr.S_un.S_addr); }
+	const uint32_t& GetIP4Ref() const { return *reinterpret_cast<const uint32_t*> (&GetAsSockAddrIn()->sin_addr.S_un.S_addr); }
+
+	//해쉬값 얻어오는 함수 (for unordered_map)
+	size_t GetHash() const
+	{
+		//IP주소, 포트, 주소패밀리 값을 or 연산
+		return (GetIP4Ref()) | 
+			((static_cast<uint32_t>(GetAsSockAddrIn()->sin_port)) << 13 ) |
+			mSockAddr.sa_family;
+	}
+
 
 private:
 	friend class UDPSocket;
@@ -55,3 +69,17 @@ private:
 };
 
 using SocketAddressPtr = shared_ptr<SocketAddress>; //소켓 주소를 여러곳에서 공유해서 쓸 때 메모리 정리 신경안써도 됨.
+
+//해쉬 함수 정의
+namespace std
+{
+	template<> 
+	struct hash <SocketAddress>
+	{
+		size_t operator()(const SocketAddress& InSocketAddress) const
+		{
+			return InSocketAddress.GetHash();
+		}
+	
+	};
+}

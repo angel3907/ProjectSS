@@ -255,16 +255,16 @@ uint32_t SocketUtil::ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType
 	return RecvByteCount;
 }
 
-uint32_t SocketUtil::SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const vector<GameObject*>& InGameObjects)
+uint32_t SocketUtil::SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const vector<GameObject*>& InGameObjects, ReplicationManager& InReplicationManager)
 {
 	OutputMemoryBitStream Stream;
-	ReplicationManager::Get().ReplicateWorldState(Stream, InGameObjects);
+	InReplicationManager.ReplicateWorldState(Stream, InGameObjects);
 
 	size_t SentByteCount = Socket->SendTo(Stream.GetBufferPtr(), Stream.GetByteLength(), ToAddress);
 	return SentByteCount;
 }
 
-uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket)
+uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket, ReplicationManager& InReplicationManager)
 {
 	//임시버퍼로 데이터를 받고
 	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
@@ -287,7 +287,7 @@ uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket)
 		case PacketType::PT_Hello:
 			break;
 		case PacketType::PT_ReplicationData:
-			ReplicationManager::Get().ReceiveWorld(Stream);
+			InReplicationManager.ReceiveWorld(Stream);
 			break;
 		case PacketType::PT_Disconnect:
 			break;
@@ -305,7 +305,7 @@ uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket)
 	return RecvByteCount;
 }
 
-uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams)
+uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams, ReplicationManager& InReplicationManager)
 {
 	OutputMemoryBitStream Stream;
 	//리플리케이션용이라고 미리 표시
@@ -314,19 +314,19 @@ uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddres
 	switch (InReplicationAction)
 	{
 	case ReplicationAction::RA_Create:
-		ReplicationManager::Get().ReplicateCreate(Stream, InGameObject);
+		InReplicationManager.ReplicateCreate(Stream, InGameObject);
 		break;
 	case ReplicationAction::RA_Update:
-		ReplicationManager::Get().ReplicateUpdate(Stream, InGameObject);
+		InReplicationManager.ReplicateUpdate(Stream, InGameObject);
 		break;
 	case ReplicationAction::RA_Destroy:
-		ReplicationManager::Get().ReplicateDestroy(Stream, InGameObject);
+		InReplicationManager.ReplicateDestroy(Stream, InGameObject);
 		break;
 	case ReplicationAction::RA_RPC:
-		ReplicationManager::Get().RPC(Stream, InRPCParams);
+		InReplicationManager.RPC(Stream, InRPCParams);
 		break;
 	case ReplicationAction::RA_RMI:
-		ReplicationManager::Get().RMI(Stream, InGameObject, InRPCParams);
+		InReplicationManager.RMI(Stream, InGameObject, InRPCParams);
 		break;
 	default:
 		break;
@@ -336,7 +336,7 @@ uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddres
 	return SentByteCount;
 }
 
-uint32_t SocketUtil::ReceiveReplicated(UDPSocketPtr Socket)
+uint32_t SocketUtil::ReceiveReplicated(UDPSocketPtr Socket, ReplicationManager& InReplicationManager)
 {
 	//임시버퍼로 데이터를 받고
 	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
@@ -359,7 +359,7 @@ uint32_t SocketUtil::ReceiveReplicated(UDPSocketPtr Socket)
 		case PacketType::PT_Hello:
 			break;
 		case PacketType::PT_ReplicationData:
-			ReplicationManager::Get().ProcessReplicationAction(Stream);
+			InReplicationManager.ProcessReplicationAction(Stream);
 			break;
 		case PacketType::PT_Disconnect:
 			break;

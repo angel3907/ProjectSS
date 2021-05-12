@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+GameObject::~GameObject()
+{
+	LinkingContext::Get().RemoveGameObject(this);
+}
+
 void GameObject::Write(OutputMemoryBitStream& InStream) const
 {
 	InStream.WritePosF(Pos);

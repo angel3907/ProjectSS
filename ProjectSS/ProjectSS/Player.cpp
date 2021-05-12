@@ -1,13 +1,20 @@
 #include "stdafx.h"
 
-void Player::NaivelySendPlayer(int InSocket, const Player* InPlayer)
+void Player::ProcessInput(float InDeltaTime, const InputState& InCurrentState)
 {
-	send(InSocket, reinterpret_cast<const char*>(InPlayer), sizeof(*InPlayer) , 0);
+	//인풋 처리
+	//이동값, 공격중 처리
+	float NewPosX = GetPos().PosX + InCurrentState.GetDesiredHorizontalDelta() * InDeltaTime;
+	float NewPosY = GetPos().PosY + InCurrentState.GetDesiredVerticallDelta() * InDeltaTime;
+
+	SetPos(Vector2(NewPosX, NewPosY));
+	mIsAttacking = InCurrentState.IsAttacking();
 }
 
-void Player::NaivelyReceivePlayer(int InSocket, Player* OutPlayer)
+void Player::SimulateMovement(float InDeltaTime)
 {
-	recv(InSocket, reinterpret_cast<char*>(OutPlayer), sizeof(*OutPlayer), 0);
+	//기존은 속도 설정, 그에 따른 위치 설정, 콜리전 처리를 해줌
+	//나는 할게 없으니 냅둔다
 }
 
 void Player::Write(OutputMemoryStream& InStream) const

@@ -17,12 +17,21 @@
     <ClInclude Include="PlayerClient.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="NetworkManagerClient.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientMain.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

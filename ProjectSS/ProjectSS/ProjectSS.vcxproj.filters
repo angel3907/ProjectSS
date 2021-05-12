@@ -80,6 +80,12 @@
     <ClCompile Include="MoveList.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -179,6 +185,12 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="MoveList.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="InputAction.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

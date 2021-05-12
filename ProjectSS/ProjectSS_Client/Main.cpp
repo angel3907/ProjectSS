@@ -1,5 +1,6 @@
 	#include "stdafx.h"
 
+	/*
 	int main()
 	{
 	
@@ -104,6 +105,7 @@
 	// 	}
 	// 	
 
-	*/
+	
 		GamePlayUtils::EndGame();
 	}
+	*/

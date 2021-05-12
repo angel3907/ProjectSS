@@ -1,21 +1,34 @@
 #pragma once
 #include <stdint.h>
 #include "UDPSocket.h"
-class UDPSocket;
-class OutputMemoryBitStream;
-class SocketAddress;
-static const uint32_t kHelloCC = 'HELO';
-static const uint32_t kWelcomeCC = 'WLCM';
-static const uint32_t kStateCC = 'STAT';
-static const uint32_t kInputCC = 'INPT';
+#include "InputMemoryBitStream.h"
+#include "SocketAddress.h"
+#include "OutputMemoryBitStream.h"
+#include "ReplicationManager.h"
 
 class NetworkManager
 {
 public:
+	static const uint32_t kHelloCC = 'HELO';
+	static const uint32_t kWelcomeCC = 'WLCM';
+	static const uint32_t kStateCC = 'STAT';
+	static const uint32_t kInputCC = 'INPT';
+
 	NetworkManager(){}
 	virtual ~NetworkManager(){}
 
+	//네트워크 매니저 초기화
+	bool Init(uint16_t InPort);
+
+	//패킷 처리
+	virtual void ProcessPacket (InputMemoryBitStream& InInputStream, const SocketAddress& InFromAddress ) = 0;
+	
+	//패킷 전송
 	void SendPacket(OutputMemoryBitStream& InOutputStream, SocketAddress& InToAddress);
+
+	//리플리케이션 패킷 전송
+	int32_t SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
+		ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams);
 
 private:
 	UDPSocketPtr mSocket;

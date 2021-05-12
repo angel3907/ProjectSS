@@ -4,6 +4,8 @@
 #include "InputMemoryStream.h"
 #include "OutputMemoryBitStream.h"
 #include "OutputMemoryStream.h"
+#include <memory>
+#include "InputState.h"
 
 enum PlayerProperties : uint32_t
 {
@@ -24,8 +26,8 @@ public:
 
 	virtual void Update() override {}
 
-	void NaivelySendPlayer(int InSocket, const Player* InPlayer);
-	void NaivelyReceivePlayer(int InSocket, Player* OutPlayer);
+	void ProcessInput(float InDeltaTime, const InputState& InCurrentState);
+	void SimulateMovement(float InDeltaTime);
 
 	void Write(OutputMemoryStream& InStream) const;
 	void Read(InputMemoryStream& InStream);
@@ -40,8 +42,18 @@ public:
 	bool GetTestValue() const {return TestValue;}
 	string GetName() const {return Name;}
 
+	uint32_t GetPlayerId() const {return mPlayerId;}
+	void SetPlayerId(uint32_t InPlayerId) { mPlayerId = InPlayerId;}
+
 private:
 	int32_t StarCount;
 	bool TestValue = false;
 	string Name = "";
+
+	uint32_t mPlayerId = 0;
+
+protected:
+	bool mIsAttacking = false;
 };
+
+using PlayerPtr = std::shared_ptr<Player>;

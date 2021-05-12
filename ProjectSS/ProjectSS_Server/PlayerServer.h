@@ -4,16 +4,17 @@
 class PlayerServer : public Player
 {
 public:
-	PlayerServer(int32_t InitialStarCount = 0, bool TestValue = 0, string Name = "")
-	: Player(InitialStarCount, TestValue, Name)
-	{}
+	CLASS_IDENTIFICATION('PLSV', PlayerServer);
+
+	PlayerServer();
 	~PlayerServer(){}
 
 	virtual void Update() override;
 
-	void ProcessInput(float InDeltaTime, const InputState& InCurrentState);
-	void SimulateMovement(float InDeltaTime);
-
 private:
+	//공격 처리
+	void HandleAttacking();
 
+	float mTimeOfNextAttack; //다음 공격가능한 시간
+	float mTimeBetweenAttack; //공격 쿨타임
 };

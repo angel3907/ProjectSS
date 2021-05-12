@@ -11,12 +11,13 @@ const Move& MoveList::AddMove(const InputState& InInputState, float InTimeStamp)
 	return mMoves.back();
 }
 
-void MoveList::Write(OutputMemoryBitStream& InStream) const
+bool MoveList::AddMove(const Move& InMove)
 {
-	//TODO 작성
-}
+	//해당 Move값에서 타임스탬프를 가져와 Delta를 계산
+	float TimeStamp = InMove.GetTimeStamp();
+	float DeltaTime = mLastMoveTimeStamp >= 0.f? TimeStamp - mLastMoveTimeStamp : 0.f;
+	mLastMoveTimeStamp = TimeStamp;
+	mMoves.emplace_back(InMove.GetInputState(), TimeStamp, DeltaTime);
 
-void MoveList::Read(InputMemoryBitStream& InStream)
-{
-	//TODO 작성
+	return true;
 }

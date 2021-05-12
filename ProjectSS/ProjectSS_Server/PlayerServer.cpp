@@ -3,12 +3,19 @@
 #include "ClientProxy.h"
 #include "NetworkManagerServer.h"
 
+PlayerServer::PlayerServer() :
+	mTimeOfNextAttack(0.0f),
+	mTimeBetweenAttack(0.2f)
+{
+}
+
 void PlayerServer::Update()
 {
 	Player::Update();
 
-	ClientProxyPtr Client = nullptr;// TODO 주석살리기 = NetworkManagerServer::Get().GetClientProxy(GetPlayerId());
+	ClientProxyPtr Client = NetworkManagerServer::sInstance->GetClientProxy(GetPlayerId());
 
+	//처리 안된 이동 리스트를 가져와서 처리함
 	if (Client)
 	{
 		MoveList& MoveListValue = Client->GetUnprocessedMoveList();
@@ -24,14 +31,22 @@ void PlayerServer::Update()
 
 		MoveListValue.Clear();
 	}
+
+	HandleAttacking();
+	//여기에 이동상태가 변경되었으면 세팅해주는게 있는데 일단 패스
 }
 
-void PlayerServer::ProcessInput(float InDeltaTime, const InputState& InCurrentState)
+void PlayerServer::HandleAttacking()
 {
-	//TODO : 입력 처리
-}
+	float time = TimeUtil::Get().GetFrameStartTime();
+	
+	//공격을 눌렀고, 다음 공격 가능 시간을 넘어갔다면
+	if (mIsAttacking && TimeUtil::Get().GetFrameStartTime() > mTimeOfNextAttack)
+	{
+		//다음 공격 가능 시간 갱신해주고
+		mTimeOfNextAttack = time + mTimeBetweenAttack;
 
-void PlayerServer::SimulateMovement(float InDeltaTime)
-{
-	//TODO : 이동 시뮬레이션
+		//TODO 공격 처리
+	}
+
 }
