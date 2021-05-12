@@ -22,7 +22,7 @@ public:
 	Player(int32_t InitialStarCount = 0, bool TestValue = 0, string Name = "") : StarCount(InitialStarCount), TestValue(TestValue), Name(Name){}
 	~Player(){}
 
-	CLASS_IDENTIFICATION('PLYR', Player);
+	//CLASS_IDENTIFICATION('PLYR', Player);
 
 	virtual void Update() override {}
 

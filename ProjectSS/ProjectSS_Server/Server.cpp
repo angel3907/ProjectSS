@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "Server.h"
 #include "NetworkManagerServer.h"
+#include "PlayerServer.h"
 
 void RegisterObjectCreation()
 {
 	//실제로는 PlayerServer, StarServer가 필요할 것
-	ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
-	ObjectCreationRegistry::Get().RegisterCreationFunction<Player>();
-	ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
+	//ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
+	ObjectCreationRegistry::Get().RegisterCreationFunction<PlayerServer>();
+	//ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
 }
 
 void RegisterRPCs()
@@ -96,7 +97,7 @@ Player* Server::GetPlayerWithPlayerId(int InPlayerId)
 void Server::SpawnPlayer(int InPlayerId)
 {
 	//static_pointer_cast 함수로 std::shared_ptr이 가리키는 객체 형을 변환할 수 있음.
-	Player* Player_ = static_cast<Player*>(ObjectCreationRegistry::Get().CreateGameObject('PLYR'));
+	PlayerServer* Player_ = static_cast<PlayerServer*>(ObjectCreationRegistry::Get().CreateGameObject('PLYR'));
 	
 	if (Player_)
 	{ 

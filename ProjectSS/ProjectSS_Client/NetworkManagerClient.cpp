@@ -134,7 +134,24 @@ void NetworkManagerClient::HandleStatePacket(InputMemoryBitStream& InInputStream
 {
 	if (mState == NCS_Welcomed)
 	{
-		//리플리케이션 매니저에게 처리를 맡김
-		mReplicationManagerClient.ProcessReplicationAction(InInputStream);
+		//먼저 패킷 종류부터 받음.
+		PacketType PacketTypeValue = PacketType::PT_MAX;
+		InInputStream.ReadBits(&PacketTypeValue, GetRequiredBits(static_cast<uint8_t>(PacketType::PT_MAX)));
+
+		//패킷 종류에 따라 처리 함수를 부름
+		switch (PacketTypeValue)
+		{
+		case PacketType::PT_Hello:
+			break;
+		case PacketType::PT_ReplicationData:
+			mReplicationManagerClient.ProcessReplicationAction(InInputStream);
+			break;
+		case PacketType::PT_Disconnect:
+			break;
+		case PacketType::PT_MAX:
+			break;
+		default:
+			break;
+		}
 	}
 }

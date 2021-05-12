@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "Client.h"
+#include "PlayerClient.h"
 #include "NetworkManagerClient.h"
 
 void RegisterObjectCreation()
 {
 	//실제로는 PlayerClient, StarClient가 필요할 것
-	ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
-	ObjectCreationRegistry::Get().RegisterCreationFunction<Player>();
-	ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
+	//ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
+	ObjectCreationRegistry::Get().RegisterCreationFunction<PlayerClient>();
+	//ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
 }
 
 void RegisterRPCs()

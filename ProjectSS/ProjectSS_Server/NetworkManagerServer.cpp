@@ -1,6 +1,7 @@
 #include "NetworkManagerServer.h"
 #include "stdafx.h"
 #include "ClientProxy.h"
+#include "Server.h"
 
 NetworkManagerServer* NetworkManagerServer::sInstance;
 
@@ -56,6 +57,7 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 		SendWelcomePacket(NewClientProxy);
 
 		//클라이언트를 위한 플레이어 생성
+		static_cast<Server*> (Engine::sInstance.get())->HandleNewClient(NewClientProxy);
 
 		//이 클라에 대한 리플리케이션 관리자를 가져와서
 		//그리고 지금까지 월드에 있는 걸 모두 생성으로 리플리케이션해줌.

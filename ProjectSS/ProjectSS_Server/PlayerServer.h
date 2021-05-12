@@ -4,7 +4,7 @@
 class PlayerServer : public Player
 {
 public:
-	CLASS_IDENTIFICATION('PLSV', PlayerServer);
+	CLASS_IDENTIFICATION('PLYR', PlayerServer);
 
 	PlayerServer();
 	~PlayerServer(){}
