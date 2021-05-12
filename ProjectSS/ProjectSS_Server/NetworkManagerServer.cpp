@@ -134,7 +134,7 @@ void NetworkManagerServer::SendWelcomePacket(ClientProxyPtr InClientProxy)
 void NetworkManagerServer::UpdateAllClients()
 {
 	//모든 클라이언트를 업데이트 (상태 패킷 송신)
-	float time = TimeUtil::GetCurrentTime();
+	float time = TimeUtil::Get().GetTimef();
 
 	if (time > mTimeOfLastStatePackets + mTimeBetweenStatePackets)
 	{

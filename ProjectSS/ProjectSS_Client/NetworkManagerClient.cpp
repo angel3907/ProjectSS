@@ -60,10 +60,11 @@ void NetworkManagerClient::ProcessPacket(InputMemoryBitStream& InInputStream, co
 void NetworkManagerClient::UpdateSayingHello()
 {
 	//Hello 메시지를 일정 간격으로 전송
-	float time = TimeUtil::GetCurrentTime();
+	float time = TimeUtil::Get().GetTimef();
 
 	if (time > mTimeOfLastHello + kTimeBetweenHellos)
 	{
+		printf("I Send Hello Packet\n"); //TODO 삭제
 		SendHelloPacket();
 		mTimeOfLastHello = time;
 	}
@@ -72,7 +73,7 @@ void NetworkManagerClient::UpdateSayingHello()
 void NetworkManagerClient::UpdateSendingInputPackets()
 {
 	//입력 패킷을 일정 간격으로 전송
-	float time = TimeUtil::GetCurrentTime();
+	float time = TimeUtil::Get().GetTimef();
 
 	if (time > mTimeOfLastInputPacket + kTimeBetweenInputPackets)
 	{

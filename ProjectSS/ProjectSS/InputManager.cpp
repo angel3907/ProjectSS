@@ -71,7 +71,7 @@ void InputManager::Update()
 
 bool InputManager::IsTimeToSampleInput()
 {
-	float time = TimeUtil::GetFrameStartTime();
+	float time = TimeUtil::Get().GetFrameStartTime();
 	
 	//샘플링할 시간이 지났다면
 	if (time > mNextTimeToSampleInput)
@@ -86,5 +86,5 @@ bool InputManager::IsTimeToSampleInput()
 
 const Move& InputManager::SampleInputAsMove()
 {
-	return mMoveList.AddMove(GetState(), TimeUtil::GetFrameStartTime());
+	return mMoveList.AddMove(GetState(), TimeUtil::Get().GetFrameStartTime());
 }
