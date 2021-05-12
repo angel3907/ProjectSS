@@ -6,6 +6,7 @@ int main()
 
 	GamePlayUtils::StartGame();;
 
+	/*
 	UDPSocketPtr UDPServerSocket = SocketUtil::CreateUDPSocket(INET);
 	//UDPServerSocket->SetNonBlockingMode(true);
 
@@ -120,6 +121,6 @@ int main()
 // 		}
 // 	}
 	
-
+	*/
 	GamePlayUtils::EndGame();;
 }

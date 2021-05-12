@@ -2,10 +2,12 @@
 
 	int main()
 	{
+	
 		printf("this is client\n");
 
 		GamePlayUtils::StartGame();
 
+		/*
 		UDPSocketPtr UDPClientSocket = SocketUtil::CreateUDPSocket(INET);
 		//UDPClientSocket->SetNonBlockingMode(true);
 
@@ -102,5 +104,6 @@
 	// 	}
 	// 	
 
+	*/
 		GamePlayUtils::EndGame();
 	}
