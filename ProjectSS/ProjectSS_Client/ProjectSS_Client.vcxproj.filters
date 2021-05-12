@@ -11,10 +11,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player_Client.h">
+    <ClInclude Include="NetworkManagerClient.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkManagerClient.h">
+    <ClInclude Include="PlayerClient.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

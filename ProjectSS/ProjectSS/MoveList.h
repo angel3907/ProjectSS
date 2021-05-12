@@ -19,6 +19,9 @@ public:
 
 	const Move& operator[](size_t index) { return mMoves[index]; }
 	
+	deque<Move>::const_iterator begin() const {return mMoves.begin();}
+	deque<Move>::const_iterator end () const {return mMoves.end(); }
+
 
 private:
 	std::deque<Move> mMoves;

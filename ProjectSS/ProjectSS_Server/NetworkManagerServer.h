@@ -8,6 +8,12 @@
 class NetworkManagerServer : public NetworkManager
 {
 public:
+	static NetworkManagerServer& Get()
+	{
+		static NetworkManagerServer sInstance;
+		return sInstance;
+	}
+
 	NetworkManagerServer(){}
 	virtual ~NetworkManagerServer(){}
 

@@ -144,7 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="NetworkManagerClient.h" />
-    <ClInclude Include="Player_Client.h" />
+    <ClInclude Include="PlayerClient.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

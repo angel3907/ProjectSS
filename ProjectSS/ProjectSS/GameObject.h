@@ -28,6 +28,8 @@ public:
 
 	CLASS_IDENTIFICATION('GOBJ', GameObject);
 
+	virtual void Update() {}
+
 	virtual void Write(OutputMemoryBitStream& InStream) const override;
 	virtual void Read(InputMemoryBitStream& InStream) override;
 

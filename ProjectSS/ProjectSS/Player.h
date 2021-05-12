@@ -22,6 +22,8 @@ public:
 
 	CLASS_IDENTIFICATION('PLYR', Player);
 
+	virtual void Update() override {}
+
 	void NaivelySendPlayer(int InSocket, const Player* InPlayer);
 	void NaivelyReceivePlayer(int InSocket, Player* OutPlayer);
 

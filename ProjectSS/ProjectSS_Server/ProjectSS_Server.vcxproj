@@ -149,11 +149,12 @@
   <ItemGroup>
     <ClInclude Include="ClientProxy.h" />
     <ClInclude Include="NetworkManagerServer.h" />
-    <ClInclude Include="Player_Server.h" />
+    <ClInclude Include="PlayerServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NetworkManagerServer.cpp" />
+    <ClCompile Include="PlayerServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
