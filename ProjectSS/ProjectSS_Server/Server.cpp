@@ -37,7 +37,7 @@ Server::Server()
 void Server::DoFrame()
 {
 	//패킷 받아오는 함수 호출
-	//NetworkManagerServer::sInstance->()
+	NetworkManagerServer::sInstance->ProcessInComingPacket();
 
 	//게임 루프 수행
 	Engine::DoFrame();

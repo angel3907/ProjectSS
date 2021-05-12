@@ -26,10 +26,16 @@ public:
 	//패킷 전송
 	void SendPacket(OutputMemoryBitStream& InOutputStream, SocketAddress& InToAddress);
 
+	//패킷 받기
+	void ReceiveReplicated(ReplicationManager& InReplicationManager);
+
+	//들어오는 패킷 처리
+	void ProcessInComingPacket();
+
 	//리플리케이션 패킷 전송
 	int32_t SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
 		ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams);
 
-private:
+protected:
 	UDPSocketPtr mSocket;
 };

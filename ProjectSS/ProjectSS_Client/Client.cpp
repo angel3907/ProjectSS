@@ -52,7 +52,7 @@ void Client::DoFrame()
 	Engine::DoFrame();
 
 	//들어오는 패킷 처리
-	//NetworkManagerClient::sInstance->ProcessPacket()
+	NetworkManagerClient::sInstance->ProcessInComingPacket();
 
 	//렌더링
 
