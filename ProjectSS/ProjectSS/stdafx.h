@@ -9,6 +9,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <memory>
 
 #include "SocketAddress.h"
 #include "SocketAddressFactory.h"
