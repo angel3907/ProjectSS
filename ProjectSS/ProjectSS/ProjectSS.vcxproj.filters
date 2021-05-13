@@ -86,6 +86,9 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="SDLRenderer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -191,6 +194,9 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLRenderer.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include "Client.h"
 #include "PlayerClient.h"
 #include "NetworkManagerClient.h"
+#include "SDLRenderer.h"
 
 void RegisterObjectCreation()
 {
@@ -24,6 +25,8 @@ bool Client::StaticInit()
 	Client* Client_ = new Client();
 
 	//SDL 초기화...
+	SDLRenderer::Get().InitSDL();
+	SDLRenderer::Get().LoadTextures();
 
 	//입력 매니저 초기화해주는거 있는데 그냥 나는 싱글턴 선언함
 
@@ -55,8 +58,15 @@ void Client::DoFrame()
 	//들어오는 패킷 처리
 	NetworkManagerClient::sInstance->ProcessInComingPacket();
 
-	//렌더링
+	//렌더 클리어
+	SDLRenderer::Get().Clear();
+
+	//드로우
+	SDLRenderer::Get().DrawTexture('TEST', Vector2(0,0));
+
+	//표시
+	SDLRenderer::Get().Present();
 
 	//나가는 패킷 처리
-	NetworkManagerClient::sInstance->SendOutgoingPackets();
+	//NetworkManagerClient::sInstance->SendOutgoingPackets();
 }

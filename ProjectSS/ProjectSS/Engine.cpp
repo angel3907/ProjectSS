@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Engine.h"
 #include <time.h>
+#include "SDL.h"
+#include "SDLRenderer.h"
 
 std::unique_ptr<Engine> Engine::sInstance;
 
@@ -17,6 +19,7 @@ Engine::Engine()
 Engine::~Engine()
 {
 	SocketUtil::EndUsingSocket();	
+	SDLRenderer::Get().QuitSDL();
 }
 
 int Engine::Run()
@@ -28,17 +31,38 @@ int Engine::DoRunLoop()
 {
 	//프레임 루프
 	
-	bool quit = false;
-	
-	while (!quit && mShouldKeepRunning)
+	bool Quit = false;
+	SDL_Event Event;
+	memset(&Event, 0, sizeof(SDL_Event));
+
+	while (!Quit && mShouldKeepRunning)
 	{
 		//SDL 이벤트 폴링하는 부분
-		//그 외 게임 루프
-		TimeUtil::Get().Update();
-		DoFrame();
+		if (SDL_PollEvent(&Event))
+		{
+			if (Event.type == SDL_QUIT)
+			{
+				Quit = true;
+			}
+			else
+			{
+				HandleEvent(&Event);
+			}
+		}
+		else
+		{ 
+			//그 외 게임 루프
+			TimeUtil::Get().Update();
+			DoFrame();
+		}
 	}
 
-	return true; //SDL 이벤트 타입 반환하는 부분
+	return Event.type; //SDL 이벤트 타입 반환하는 부분
+}
+
+void Engine::HandleEvent(SDL_Event* InEvent)
+{
+	//창 닫기 외 이벤트 처리
 }
 
 void Engine::DoFrame()

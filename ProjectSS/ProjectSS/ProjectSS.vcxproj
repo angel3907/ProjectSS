@@ -172,6 +172,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ReplicationHeader.cpp" />
     <ClCompile Include="ReplicationManager.cpp" />
+    <ClCompile Include="SDLRenderer.cpp" />
     <ClCompile Include="SocketAddress.cpp" />
     <ClCompile Include="SocketAddressFactory.cpp" />
     <ClCompile Include="SocketUtil.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="ReplicationHeader.h" />
     <ClInclude Include="ReplicationManager.h" />
     <ClInclude Include="RPCManager.h" />
+    <ClInclude Include="SDLRenderer.h" />
     <ClInclude Include="Serializable.h" />
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="SocketAddressFactory.h" />

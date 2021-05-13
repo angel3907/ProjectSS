@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "SDL.h"
 
 class Engine
 {
@@ -23,5 +24,7 @@ protected:
 
 private:
 	int DoRunLoop();
+	void HandleEvent(SDL_Event* InEvent);
+
 	bool mShouldKeepRunning;
 };
