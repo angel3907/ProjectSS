@@ -62,7 +62,8 @@ void Client::DoFrame()
 	SDLRenderer::Get().Clear();
 
 	//드로우
-	SDLRenderer::Get().DrawTexture('TEST', Vector2(0,0));
+	//SDLRenderer::Get().DrawTexture('TEST', Vector2(0,0));
+	SDLRenderer::Get().DrawTest();
 
 	//표시
 	SDLRenderer::Get().Present();
