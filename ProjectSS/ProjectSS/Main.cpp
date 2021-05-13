@@ -2,7 +2,7 @@
 
 #define GOOD_SEGMENT_SIZE 1500
 bool bGameRunning = true;
-
+/*
 void DoTCPLoop()
 {
 	//TCP 서버를 개설하고 리스닝
@@ -122,3 +122,6 @@ int main()
 												 //소켓 라이브러리 함수 결과로 -1을 받았다면 바로 불러야 에러 이유를 알 수 있음
 	}
 }
+
+
+*/
