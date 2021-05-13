@@ -2,6 +2,8 @@
 #pragma comment(lib, "ws2_32")
 #define WIN32_LEAN_AND_MEAN
 
+#include "SDL.h"
+
 #include <stdio.h>
 #include <WinSock2.h>
 #include <Windows.h>
