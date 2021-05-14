@@ -97,6 +97,17 @@ void SDLRenderer::LoadFonts()
 void SDLRenderer::LoadTextures()
 {
 	TestTexture = LoadTexture("../Resources/Images/ppp.png");
+	BackgroundTexture = LoadTexture("../Resources/Images/Back.jpg");
+}
+
+void SDLRenderer::SetTextureColorMod(SDL_Texture* InTexture, SDL_Color InColor)
+{
+	SDL_SetTextureColorMod(InTexture, InColor.r, InColor.g, InColor.b);
+}
+
+void SDLRenderer::SetTextureBlendMod(SDL_Texture* InTexture, SDL_BlendMode InBlendMode)
+{
+	SDL_SetTextureBlendMode(InTexture, InBlendMode);
 }
 
 void SDLRenderer::DrawTexture(uint32_t InKey, Vector2 InPos)
@@ -177,6 +188,62 @@ void SDLRenderer::DrawTexture(SDL_Texture* InTexture, Vector2 InPos)
 	SDL_RenderCopy(Renderer, Texture, &Src, &Dst);
 }
 
+void SDLRenderer::DrawStretchedTexture(SDL_Texture* InTexture, Vector2 InPos, Vector2 InWidthHeight)
+{
+	SDL_Texture* Texture = InTexture;
+
+	if (Texture == nullptr)
+	{
+		printf("Texture Is Null at SDLRenderer::DrawStretchedTexture\n");
+		return;
+	}
+
+	SDL_Rect Src, Dst;
+	Src.x = Src.y = 0;
+
+	SDL_QueryTexture(Texture, nullptr, nullptr, &Src.w, &Src.h);
+
+	Dst.x = InPos.PosX;
+	Dst.y = InPos.PosY;
+	Dst.w = InWidthHeight.PosX;
+	Dst.h = InWidthHeight.PosY;
+
+	SDL_RenderCopy(Renderer, Texture, &Src, &Dst);
+}
+
+void SDLRenderer::DrawStretchedTextureEx(SDL_Texture* InTexture, Vector2 InPos, Vector2 InWidthHeight, float InAngle, SDL_RendererFlip InFlip /*= SDL_FLIP_NONE*/)
+{
+	SDL_Texture* Texture = InTexture;
+
+	if (Texture == nullptr)
+	{
+		printf("Texture Is Null at SDLRenderer::DrawStretchedTextureEx\n");
+		return;
+	}
+
+	SDL_Point Center;
+	Center.x = InWidthHeight.PosX * 0.5f;
+	Center.y = InWidthHeight.PosX * 0.5f;
+	
+	SDL_Rect Src, Dst;
+	Src.x = Src.y = 0;
+
+	SDL_QueryTexture(Texture, nullptr, nullptr, &Src.w, &Src.h);
+
+	Dst.x = InPos.PosX;
+	Dst.y = InPos.PosY;
+	Dst.w = InWidthHeight.PosX;
+	Dst.h = InWidthHeight.PosY;
+
+	//Angle : 회전각
+	//Flip : 뒤집기 옵션
+	//	- SDL_FLIP_NONE	      : 안 뒤집음
+	//	- SDL_FLIP_HORIZONTAL : 수평 뒤집기
+	//	- SDL_FLIP_VERTICAL   : 수직 뒤집기
+	//Center : 회전 / 뒤집기 중심
+	SDL_RenderCopyEx(Renderer, Texture, &Src, &Dst, InAngle, &Center, InFlip);
+}
+
 void SDLRenderer::DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, const char* InText)
 {
 	SDL_Surface* Surface = TTF_RenderText_Solid(InFont, InText, InColor);
@@ -201,7 +268,30 @@ void SDLRenderer::DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, c
 
 void SDLRenderer::DrawTest()
 {
-	DrawTexture(TestTexture, Vector2(0,0));
+	//DrawTexture(TestTexture, Vector2(0,0));
+	SDL_Color R = {255, 0, 0};
+	SDL_Color G = {0, 255, 0};
+	SDL_Color B = {0, 0, 255};
+	SDL_Color Y = {255, 255, 0};
+	
+	//DrawStretchedTexture(TestTexture, Vector2(0,0), Vector2(640,480));
+
+	/*
+	SetTextureColorMod(TestTexture, R);
+ 	DrawStretchedTextureEx(TestTexture, Vector2(0,0), Vector2(150, 150), 90); //90도 회전
+	SetTextureColorMod(TestTexture, G);
+ 	DrawStretchedTextureEx(TestTexture, Vector2(150, 0), Vector2(150, 150), 0, SDL_FLIP_HORIZONTAL); //수평 뒤집기
+	SetTextureColorMod(TestTexture, B);
+ 	DrawStretchedTextureEx(TestTexture, Vector2(0, 150), Vector2(150, 150), 0, SDL_FLIP_VERTICAL); //수직 뒤집기
+	SetTextureColorMod(TestTexture, Y);
+ 	DrawStretchedTextureEx(TestTexture, Vector2(150, 150), Vector2(150, 150), -180, SDL_FLIP_HORIZONTAL); //-180도 회전
+	*/
+
+	DrawStretchedTexture(BackgroundTexture, Vector2(0,0), Vector2(640, 480));
+	
+	SetTextureBlendMod(TestTexture, SDL_BLENDMODE_MUL);
+	//SDL_SetTextureAlphaMod(TestTexture, 128);
+	DrawStretchedTexture(TestTexture, Vector2(0, 0), Vector2(640, 480));
 
 	SDL_Color Color = {255, 255, 255};
 	DrawFont(MainFont,  Color, Vector2(0,0), "Hi~My Name is..");
@@ -239,4 +329,5 @@ void SDLRenderer::CloseFonts()
 void SDLRenderer::CloseTextures()
 {
 	SDL_DestroyTexture(TestTexture);
+	SDL_DestroyTexture(BackgroundTexture);
 }
