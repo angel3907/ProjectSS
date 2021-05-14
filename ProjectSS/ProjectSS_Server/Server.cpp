@@ -81,7 +81,7 @@ void Server::HandleLostClient(ClientProxyPtr InClientProxy)
 		RC.NetworkId = LinkingContext::Get().GetNetworkId(Player_, false);
 		RC.RA = ReplicationAction::RA_Destroy;
 
-		LinkingContext::Get().AddUnprocessedRA(RC);
+		InClientProxy->AddUnprocessedRA(RC);
 		delete Player_; //여기서 LinkingContext에서도 빠짐.
 	}
 }

@@ -47,7 +47,7 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 		InInputStream.Read(Name);
 
 		//클라이언트 프록시 생성
-		ClientProxyPtr NewClientProxy = std::make_shared<ClientProxy>(InFromAddress, Name, mNewPlayerId);
+		ClientProxyPtr NewClientProxy = std::make_shared<ClientProxy>(InFromAddress, Name, mNewPlayerId++);
 
 		//각 맵에 추가
 		mAddressToClientMap[InFromAddress] = NewClientProxy;
@@ -155,14 +155,14 @@ void NetworkManagerServer::SendStatePacketToClient(ClientProxyPtr InClientProxy)
 	OutputMemoryBitStream StatePacket;
 
 	//일단 임시대응.. RA 큐에 등록된 걸 리플리케이션시킴
-	for (auto RA : LinkingContext::Get().GetUnprocessedRAs())
+	for (auto RA : InClientProxy->GetUnprocessedRAs())
 	{
 		GameObject* GO = LinkingContext::Get().GetGameObject(RA.NetworkId);
 		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), RA.RA, GO, nullptr);
 		printf("Update Client : GameObject Network Id %d\n");
 	}
 
-	LinkingContext::Get().ClearUnprocessedRAs();
+	InClientProxy->ClearUnprocessedRAs();
 }
 
 void NetworkManagerServer::HandleInputPacket(ClientProxyPtr InClientProxy, InputMemoryBitStream& InInputStream)
@@ -176,7 +176,7 @@ void NetworkManagerServer::HandleInputPacket(ClientProxyPtr InClientProxy, Input
 	{
 		MoveValue.Read(InInputStream);
 
-		printf("Move Value is hor : %f, ver : %f, IsAttacking : %d\n", MoveValue.GetInputState().GetDesiredHorizontalDelta(), MoveValue.GetInputState().GetDesiredVerticallDelta(), MoveValue.GetInputState().IsAttacking());
+		//printf("Move Value is hor : %f, ver : %f, IsAttacking : %d\n", MoveValue.GetInputState().GetDesiredHorizontalDelta(), MoveValue.GetInputState().GetDesiredVerticallDelta(), MoveValue.GetInputState().IsAttacking());
 
 		if (InClientProxy->GetUnprocessedMoveList().AddMove(MoveValue))
 		{

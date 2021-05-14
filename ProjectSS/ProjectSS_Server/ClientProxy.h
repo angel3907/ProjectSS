@@ -23,6 +23,10 @@ public:
 	MoveList& GetUnprocessedMoveList() { return mUnprocessedMoveList; }
 	const MoveList& GetUnprocessedMoveList() const { return mUnprocessedMoveList; }
 
+	vector<ReplicationCommand>& GetUnprocessedRAs() { return UnprocessedRAs; }
+	void AddUnprocessedRA(ReplicationCommand& RC) { UnprocessedRAs.push_back(RC); }
+	void ClearUnprocessedRAs() { UnprocessedRAs.clear(); }
+
 	//이동 타임스탬프가 변경되었는지.
 	//void SetIsLastMoveTimestampDirty(bool InIsDirty) { mIsLastMoveTimestampDirty = InIsDirty;}
 	//bool IsLastMoveTimestampDirty() const {return mIsLastMoveTimestampDirty;}
@@ -37,6 +41,8 @@ private:
 	int mPlayerId;
 
 	MoveList mUnprocessedMoveList; //처리 안된 이동 리스트
+
+	vector<ReplicationCommand> UnprocessedRAs; //+추가 : RA해야할 일이 있으면 여기 추가해줌
 	//bool mIsLastMoveTimestampDirty;
 };
 

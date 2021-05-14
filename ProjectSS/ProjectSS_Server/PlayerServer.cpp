@@ -39,7 +39,7 @@ void PlayerServer::Update()
 		ReplicationCommand RA;
 		RA.NetworkId = GetNetworkId();
 		RA.RA = ReplicationAction::RA_Update;
-		LinkingContext::Get().AddUnprocessedRA(RA);
+		Client->AddUnprocessedRA(RA);
 	}
 
 	HandleAttacking();
