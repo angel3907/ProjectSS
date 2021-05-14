@@ -1,6 +1,8 @@
 #pragma once
 struct SDL_Renderer;
 struct SDL_Window;
+
+#include "SDL_ttf.h"
 #include <unordered_map>
 #include "MathUtils.h"
 
@@ -15,17 +17,28 @@ public:
 
 	void InitSDL();
 	SDL_Texture* LoadTexture(const char* File);
+	TTF_Font* LoadFont(const char* File, int FontSize);
 
+	void LoadFonts();
 	void LoadTextures();
 	void DrawTexture(uint32_t InKey, Vector2 InPos);
 	void DrawTexture(SDL_Texture* InTexture, Vector2 InPos);
 
+	void DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, const char* InText);
+
+	//테스트용 함수
 	void DrawTest();
 
+
+	//그린 걸 화면에 표시
 	void Present();
+	//화면 비우기
 	void Clear();
 
 	void QuitSDL();
+
+	void CloseFonts();
+	void CloseTextures();
 
 private:
 	//SDL은 여러 창을 띄울 수 있고, 각 창에 대한 렌더링을 지원.
@@ -40,4 +53,6 @@ private:
 	SDL_Texture* TestTexture;
 
 	unordered_map<uint32_t, SDL_Texture*> Textures;
+
+	TTF_Font* MainFont;
 };

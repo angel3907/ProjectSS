@@ -27,6 +27,7 @@ bool Client::StaticInit()
 	//SDL 초기화...
 	SDLRenderer::Get().InitSDL();
 	SDLRenderer::Get().LoadTextures();
+	SDLRenderer::Get().LoadFonts();
 
 	//입력 매니저 초기화해주는거 있는데 그냥 나는 싱글턴 선언함
 

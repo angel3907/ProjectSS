@@ -2,6 +2,7 @@
 #include "SDLRenderer.h"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_ttf.h"
 
 void SDLRenderer::InitSDL()
 {
@@ -10,6 +11,9 @@ void SDLRenderer::InitSDL()
 
 	//이미지 초기화
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+
+	//텍스트 초기화
+	TTF_Init();
 	
 	//윈도우 생성
 	//인자
@@ -72,13 +76,27 @@ SDL_Texture* SDLRenderer::LoadTexture(const char* File)
 	return Texture;
 }
 
+TTF_Font* SDLRenderer::LoadFont(const char* File, int FontSize)
+{
+	TTF_Font* Font = TTF_OpenFont(File, FontSize);
+
+	if (Font == nullptr)
+	{
+		printf("폰트를 불러오는 데 실패했습니다\n");
+		return nullptr;
+	}
+
+	return Font;
+}
+
+void SDLRenderer::LoadFonts()
+{
+	MainFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 25);
+}
+
 void SDLRenderer::LoadTextures()
 {
-	SDL_Texture* Texture;
-	Texture = LoadTexture("../Resources/ppp.png");
-
-	TestTexture = Texture;
-	//Textures['TEST'] = Texture;
+	TestTexture = LoadTexture("../Resources/Images/ppp.png");
 }
 
 void SDLRenderer::DrawTexture(uint32_t InKey, Vector2 InPos)
@@ -159,9 +177,34 @@ void SDLRenderer::DrawTexture(SDL_Texture* InTexture, Vector2 InPos)
 	SDL_RenderCopy(Renderer, Texture, &Src, &Dst);
 }
 
+void SDLRenderer::DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, const char* InText)
+{
+	SDL_Surface* Surface = TTF_RenderText_Solid(InFont, InText, InColor);
+	SDL_Texture* Texture = SDL_CreateTextureFromSurface(Renderer, Surface);
+	
+	if (Surface == nullptr || Texture == nullptr)
+	{
+		printf("폰트 로드에 실패했습니다\n");
+		printf("에러 : %s\n", SDL_GetError());
+		return;
+	}
+	
+	//폰트 그리기
+	DrawTexture(Texture, InPos);
+	
+	//서페이스에 할당한 메모리 해제
+	SDL_FreeSurface(Surface);
+
+	//텍스쳐에 할당한 메모리 해제
+	SDL_DestroyTexture(Texture);
+}
+
 void SDLRenderer::DrawTest()
 {
 	DrawTexture(TestTexture, Vector2(0,0));
+
+	SDL_Color Color = {255, 255, 255};
+	DrawFont(MainFont,  Color, Vector2(0,0), "Hi~My Name is..");
 }
 
 void SDLRenderer::Present()
@@ -176,7 +219,8 @@ void SDLRenderer::Clear()
 
 void SDLRenderer::QuitSDL()
 {
-	SDL_DestroyTexture(TestTexture);
+	CloseTextures();
+	CloseFonts();
 
 	SDL_DestroyRenderer(Renderer);
 	SDL_DestroyWindow(Window);
@@ -184,4 +228,15 @@ void SDLRenderer::QuitSDL()
 	//SDL 정리
 	SDL_Quit();
 	IMG_Quit();
+	TTF_Quit();
+}
+
+void SDLRenderer::CloseFonts()
+{
+	TTF_CloseFont(MainFont);
+}
+
+void SDLRenderer::CloseTextures()
+{
+	SDL_DestroyTexture(TestTexture);
 }
