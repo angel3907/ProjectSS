@@ -6,6 +6,11 @@ struct SDL_Window;
 #include <unordered_map>
 #include "MathUtils.h"
 
+#define WINDOW_WIDTH 1000
+#define WINDOW_HEIGHT 1000
+#define  WINDOW_HALF_WIDTH 500
+#define  WINDOW_HALF_HEIGHT 500
+
 class SDLRenderer
 {
 public:
@@ -56,7 +61,7 @@ private:
 	//렌더러 - 창에 대해 렌더링할 수 있도록 하는 핸들
 	SDL_Renderer* Renderer;
 
-	SDL_Texture* TestTexture;
+	SDL_Texture* PlayerTexture;
 	SDL_Texture* BackgroundTexture;
 
 	unordered_map<uint32_t, SDL_Texture*> Textures;

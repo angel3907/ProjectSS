@@ -21,10 +21,12 @@ namespace
 		if (InInputAction == EIA_Pressed)
 		{
 			IoVariable = 1.0f;
+			printf("You Pressed Key");
 		}
 		else if (InInputAction == EIA_Released)
 		{
 			IoVariable = 0.f;
+			printf("You Released Key");
 		}
 	}
 }

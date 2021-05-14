@@ -24,7 +24,7 @@ protected:
 
 private:
 	int DoRunLoop();
-	void HandleEvent(SDL_Event* InEvent);
+	virtual void HandleEvent(SDL_Event* InEvent);
 
 	bool mShouldKeepRunning;
 };

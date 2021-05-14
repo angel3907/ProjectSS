@@ -28,7 +28,7 @@ void SDLRenderer::InitSDL()
 	Window = SDL_CreateWindow(
 		"Hello SDL",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, //화면 정중앙에 표시
-		640, 480, 0
+		WINDOW_WIDTH, WINDOW_HEIGHT, 0
 	);
 
 	//렌더러 생성
@@ -96,8 +96,10 @@ void SDLRenderer::LoadFonts()
 
 void SDLRenderer::LoadTextures()
 {
-	TestTexture = LoadTexture("../Resources/Images/ppp.png");
-	BackgroundTexture = LoadTexture("../Resources/Images/Back.jpg");
+	PlayerTexture = LoadTexture("../Resources/Images/Player.png");
+	BackgroundTexture = LoadTexture("../Resources/Images/Background.png");
+
+	Textures['PLYR'] = PlayerTexture;
 }
 
 void SDLRenderer::SetTextureColorMod(SDL_Texture* InTexture, SDL_Color InColor)
@@ -287,14 +289,11 @@ void SDLRenderer::DrawTest()
  	DrawStretchedTextureEx(TestTexture, Vector2(150, 150), Vector2(150, 150), -180, SDL_FLIP_HORIZONTAL); //-180도 회전
 	*/
 
-	DrawStretchedTexture(BackgroundTexture, Vector2(0,0), Vector2(640, 480));
-	
-	SetTextureBlendMod(TestTexture, SDL_BLENDMODE_MUL);
-	//SDL_SetTextureAlphaMod(TestTexture, 128);
-	DrawStretchedTexture(TestTexture, Vector2(0, 0), Vector2(640, 480));
+	DrawStretchedTexture(BackgroundTexture, Vector2(0,0), Vector2(WINDOW_WIDTH, WINDOW_HEIGHT));
+	DrawStretchedTexture(PlayerTexture, Vector2(0, 0), Vector2(100, 100));
 
 	SDL_Color Color = {255, 255, 255};
-	DrawFont(MainFont,  Color, Vector2(0,0), "Hi~My Name is..");
+	//DrawFont(MainFont,  Color, Vector2(0,0), "Hi~My Name is..");
 }
 
 void SDLRenderer::Present()
@@ -328,6 +327,6 @@ void SDLRenderer::CloseFonts()
 
 void SDLRenderer::CloseTextures()
 {
-	SDL_DestroyTexture(TestTexture);
+	SDL_DestroyTexture(PlayerTexture);
 	SDL_DestroyTexture(BackgroundTexture);
 }

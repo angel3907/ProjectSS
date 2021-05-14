@@ -11,5 +11,5 @@ protected:
 
 	//매 프레임 진행
 	virtual void DoFrame() override;
-	//virtual void HandleEvent(SDL_Event* InEvent) override;
+	virtual void HandleEvent(SDL_Event* InEvent) override;
 };
