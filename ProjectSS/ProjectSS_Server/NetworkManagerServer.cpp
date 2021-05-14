@@ -157,8 +157,9 @@ void NetworkManagerServer::SendStatePacketToClient(ClientProxyPtr InClientProxy)
 	//일단 임시대응.. RA 큐에 등록된 걸 리플리케이션시킴
 	for (auto RA : LinkingContext::Get().GetUnprocessedRAs())
 	{
-		GameObject* GO = LinkingContext::Get().GetGameObject(RA.NerworkId);
+		GameObject* GO = LinkingContext::Get().GetGameObject(RA.NetworkId);
 		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), RA.RA, GO, nullptr);
+		printf("Update Client : GameObject Network Id %d\n");
 	}
 
 	LinkingContext::Get().ClearUnprocessedRAs();
@@ -174,6 +175,8 @@ void NetworkManagerServer::HandleInputPacket(ClientProxyPtr InClientProxy, Input
 	for (; MoveCount > 0; --MoveCount)
 	{
 		MoveValue.Read(InInputStream);
+
+		printf("Move Value is hor : %f, ver : %f, IsAttacking : %d\n", MoveValue.GetInputState().GetDesiredHorizontalDelta(), MoveValue.GetInputState().GetDesiredVerticallDelta(), MoveValue.GetInputState().IsAttacking());
 
 		if (InClientProxy->GetUnprocessedMoveList().AddMove(MoveValue))
 		{

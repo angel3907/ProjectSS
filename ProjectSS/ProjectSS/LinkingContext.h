@@ -7,7 +7,7 @@
 
 struct ReplicationCommand
 {
-	int32_t NerworkId;
+	int32_t NetworkId;
 	ReplicationAction RA;
 };
 

@@ -43,8 +43,12 @@ public:
 	void PrintSomething(OutputMemoryBitStream& InStream, RPCParams* InRPCParams);
 	//³¡
 
+	void SetNetworkId(int InNetworkId) { mNetworkId = InNetworkId; }
+	int GetNetworkId() const {return mNetworkId;}
+
 protected:
 	Vector2 Pos;
+	int mNetworkId;
 
 public:
 	Vector2 GetPos() {return Pos;}

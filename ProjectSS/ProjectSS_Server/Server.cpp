@@ -43,8 +43,14 @@ void Server::DoFrame()
 	//게임 루프 수행
 	Engine::DoFrame();
 
+	//게임 오브젝트 업데이트
+	UpdateGameObjects();
+
 	//리플리케이션 패킷 전송
 	NetworkManagerServer::sInstance->SendOutgoingPackets();
+
+	//클라이언트 상태 패킷 보내기
+	NetworkManagerServer::sInstance->UpdateAllClients();
 }
 
 int Server::Run()
@@ -72,7 +78,7 @@ void Server::HandleLostClient(ClientProxyPtr InClientProxy)
 		//플레이어 삭제 예약.. 다른 등록된 곳(LinkingContext)에서도 없애줘야함 
 		//그리고 리플리케이션할 목록에 추가해야 함
 		ReplicationCommand RC;
-		RC.NerworkId = LinkingContext::Get().GetNetworkId(Player_, false);
+		RC.NetworkId = LinkingContext::Get().GetNetworkId(Player_, false);
 		RC.RA = ReplicationAction::RA_Destroy;
 
 		LinkingContext::Get().AddUnprocessedRA(RC);
@@ -102,10 +108,11 @@ void Server::SpawnPlayer(int InPlayerId)
 	if (Player_)
 	{ 
 		//링킹 컨텍스트에 추가
-		LinkingContext::Get().GetNetworkId(Player_, true);
+		int NetworkId = LinkingContext::Get().GetNetworkId(Player_, true);
 
-		//플레이어 속성 설정 - 아이디 설정, 위치 설정
+		//플레이어 속성 설정 - 아이디 설정, 네트워크 아이디 설정, 위치 설정
 		Player_->SetPlayerId(InPlayerId);
+		Player_->SetNetworkId(NetworkId);
 		Player_->SetPos(Vector2(0,0));
 	}
 	else
@@ -125,4 +132,12 @@ bool Server::InitNetworkManager()
 void Server::SetupWorld()
 {
 	//월드 관련 세팅 (초기 별 생성 등..)
+}
+
+void Server::UpdateGameObjects()
+{
+	for (auto GO : LinkingContext::Get().GetGameObjectSet())
+	{
+		GO->Update();
+	}
 }

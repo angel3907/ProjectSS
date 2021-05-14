@@ -65,13 +65,11 @@ void InputManager::HandleInput(EInputAction InInputAction, int InKeyCode)
 void InputManager::Update()
 {
 	//샘플링할 시간 주기마다 샘플링
-	//TODO 주석삭제
-	/*
 	if (IsTimeToSampleInput())
 	{
 		mPendingMove = &SampleInputAsMove();
 	}
-	*/
+	
 }
 
 bool InputManager::IsTimeToSampleInput()

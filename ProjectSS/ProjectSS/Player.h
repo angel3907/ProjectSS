@@ -50,11 +50,13 @@ private:
 	int32_t StarCount;
 	bool TestValue = false;
 	string Name = "";
-
 	uint32_t mPlayerId = 0;
 
 protected:
 	bool mIsAttacking = false;
+
+public:
+	const float Speed = 50.0f;
 };
 
 using PlayerPtr = std::shared_ptr<Player>;

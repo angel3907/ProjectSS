@@ -118,6 +118,7 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 		{
 			GameObject* Go = ObjectCreationRegistry::Get().CreateGameObject(Rh.mClassId);
 			LinkingContext::Get().AddGameObject(Go, Rh.mNetworkId);
+			Go->SetNetworkId(Rh.mNetworkId);
 			
 			Go->Read(InStream);
 			//何盒 府敲府纳捞记

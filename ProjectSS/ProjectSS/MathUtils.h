@@ -6,6 +6,10 @@ struct Vector2
 	float PosY = 0;
 
 	Vector2(float PosX = 0, float PosY = 0) : PosX(PosX), PosY(PosY) {}
+	bool IsEqual(Vector2 InVector) 
+	{
+		return (abs(InVector.PosX - PosX) < 0.001f && abs(InVector.PosY - PosY) < 0.001f);
+	}
 };
 
 struct Quaternion

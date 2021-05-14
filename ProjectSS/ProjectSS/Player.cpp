@@ -4,8 +4,8 @@ void Player::ProcessInput(float InDeltaTime, const InputState& InCurrentState)
 {
 	//인풋 처리
 	//이동값, 공격중 처리
-	float NewPosX = GetPos().PosX + InCurrentState.GetDesiredHorizontalDelta() * InDeltaTime;
-	float NewPosY = GetPos().PosY + InCurrentState.GetDesiredVerticallDelta() * InDeltaTime;
+	float NewPosX = GetPos().PosX + InCurrentState.GetDesiredHorizontalDelta() * InDeltaTime * Speed;
+	float NewPosY = GetPos().PosY - InCurrentState.GetDesiredVerticallDelta() * InDeltaTime * Speed;
 
 	SetPos(Vector2(NewPosX, NewPosY));
 	mIsAttacking = InCurrentState.IsAttacking();

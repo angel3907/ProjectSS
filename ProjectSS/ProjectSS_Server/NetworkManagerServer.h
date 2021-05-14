@@ -23,6 +23,9 @@ public:
 	//특정 클라이언트 프록시 포인터 가져오기
 	ClientProxyPtr GetClientProxy (int PlayerId) const;
 
+	//모든 클라이언트 업데이트
+	void UpdateAllClients();
+
 private:
 	NetworkManagerServer();
 
@@ -40,9 +43,6 @@ private:
 
 	//받은 입력 패킷 처리
 	void HandleInputPacket(ClientProxyPtr InClientProxy, InputMemoryBitStream& InInputStream);
-
-	//모든 클라이언트 업데이트
-	void UpdateAllClients();
 
 	typedef unordered_map <int, ClientProxyPtr> IntToClientMap;
 	typedef unordered_map <SocketAddress, ClientProxyPtr> AddressToClientMap;

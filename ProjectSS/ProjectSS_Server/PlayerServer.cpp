@@ -13,6 +13,8 @@ void PlayerServer::Update()
 {
 	Player::Update();
 
+	Vector2 OldPos = Pos;
+
 	ClientProxyPtr Client = NetworkManagerServer::sInstance->GetClientProxy(GetPlayerId());
 
 	//처리 안된 이동 리스트를 가져와서 처리함
@@ -30,6 +32,14 @@ void PlayerServer::Update()
 		}
 
 		MoveListValue.Clear();
+	}
+
+	if (!Pos.IsEqual(OldPos))
+	{
+		ReplicationCommand RA;
+		RA.NetworkId = GetNetworkId();
+		RA.RA = ReplicationAction::RA_Update;
+		LinkingContext::Get().AddUnprocessedRA(RA);
 	}
 
 	HandleAttacking();

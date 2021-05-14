@@ -28,4 +28,7 @@ private:
 
 	//월드 초기화
 	void SetupWorld();
+
+	//게임오브젝트 업데이트
+	void UpdateGameObjects();
 };
