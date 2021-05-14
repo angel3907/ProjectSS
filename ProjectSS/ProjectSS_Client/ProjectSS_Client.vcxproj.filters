@@ -34,5 +34,8 @@
     <ClCompile Include="ClientMain.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerClient.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

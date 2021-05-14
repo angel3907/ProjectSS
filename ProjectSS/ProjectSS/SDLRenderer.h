@@ -38,7 +38,7 @@ public:
 	void DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, const char* InText);
 
 	//테스트용 함수
-	void DrawTest();
+	void DrawBackground();
 
 
 	//그린 걸 화면에 표시

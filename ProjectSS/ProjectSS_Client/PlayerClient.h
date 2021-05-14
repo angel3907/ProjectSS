@@ -8,4 +8,6 @@ public:
 
 	PlayerClient(){};
 	~PlayerClient() {}
+
+	virtual void Render() override;
 };

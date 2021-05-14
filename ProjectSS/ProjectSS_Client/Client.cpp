@@ -59,18 +59,29 @@ void Client::DoFrame()
 	//들어오는 패킷 처리
 	NetworkManagerClient::sInstance->ProcessInComingPacket();
 
+	//렌더링
+	Render();
+
+	//나가는 패킷 처리
+	NetworkManagerClient::sInstance->SendOutgoingPackets();
+}
+
+void Client::Render()
+{
 	//렌더 클리어
 	SDLRenderer::Get().Clear();
 
 	//드로우
-	//SDLRenderer::Get().DrawTexture('TEST', Vector2(0,0));
-	SDLRenderer::Get().DrawTest();
+	SDLRenderer::Get().DrawBackground();
+
+	//모든 오브젝트 드로우
+	for (auto GO : LinkingContext::Get().GetGameObjectSet())
+	{
+		GO->Render();
+	}
 
 	//표시
 	SDLRenderer::Get().Present();
-
-	//나가는 패킷 처리
-	//NetworkManagerClient::sInstance->SendOutgoingPackets();
 }
 
 void Client::HandleEvent(SDL_Event* InEvent)

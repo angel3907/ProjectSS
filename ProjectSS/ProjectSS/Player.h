@@ -29,6 +29,7 @@ public:
 	void ProcessInput(float InDeltaTime, const InputState& InCurrentState);
 	void SimulateMovement(float InDeltaTime);
 
+
 	void Write(OutputMemoryStream& InStream) const;
 	void Read(InputMemoryStream& InStream);
 

@@ -268,29 +268,10 @@ void SDLRenderer::DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, c
 	SDL_DestroyTexture(Texture);
 }
 
-void SDLRenderer::DrawTest()
+void SDLRenderer::DrawBackground()
 {
-	//DrawTexture(TestTexture, Vector2(0,0));
-	SDL_Color R = {255, 0, 0};
-	SDL_Color G = {0, 255, 0};
-	SDL_Color B = {0, 0, 255};
-	SDL_Color Y = {255, 255, 0};
-	
-	//DrawStretchedTexture(TestTexture, Vector2(0,0), Vector2(640,480));
-
-	/*
-	SetTextureColorMod(TestTexture, R);
- 	DrawStretchedTextureEx(TestTexture, Vector2(0,0), Vector2(150, 150), 90); //90도 회전
-	SetTextureColorMod(TestTexture, G);
- 	DrawStretchedTextureEx(TestTexture, Vector2(150, 0), Vector2(150, 150), 0, SDL_FLIP_HORIZONTAL); //수평 뒤집기
-	SetTextureColorMod(TestTexture, B);
- 	DrawStretchedTextureEx(TestTexture, Vector2(0, 150), Vector2(150, 150), 0, SDL_FLIP_VERTICAL); //수직 뒤집기
-	SetTextureColorMod(TestTexture, Y);
- 	DrawStretchedTextureEx(TestTexture, Vector2(150, 150), Vector2(150, 150), -180, SDL_FLIP_HORIZONTAL); //-180도 회전
-	*/
-
 	DrawStretchedTexture(BackgroundTexture, Vector2(0,0), Vector2(WINDOW_WIDTH, WINDOW_HEIGHT));
-	DrawStretchedTexture(PlayerTexture, Vector2(0, 0), Vector2(100, 100));
+//	DrawStretchedTexture(PlayerTexture, Vector2(0, 0), Vector2(100, 100));
 
 	SDL_Color Color = {255, 255, 255};
 	//DrawFont(MainFont,  Color, Vector2(0,0), "Hi~My Name is..");
