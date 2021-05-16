@@ -62,7 +62,7 @@ void OutputMemoryBitStream::Write(const GameObject* InGameObject)
 	//Write(NetworkId);
 }
 
-void OutputMemoryBitStream::Write(const string& InString)
+void OutputMemoryBitStream::Write(const std::string& InString)
 {
 	size_t ElementCount = InString.size();
 	Write(ElementCount);

@@ -18,7 +18,7 @@ public:
 	
 	uint32_t GetOffset() const { return mOffset; }
 	EPrimitiveType GetPrimitiveType() const {return mPrimitiveType;}
-	string GetName() const {return mName;}
+	std::string GetName() const {return mName;}
 
 private:
 	std::string mName; //변수 이름
@@ -31,7 +31,7 @@ private:
 class DataType
 {
 public:
-	DataType(vector<MemberVariable>&& InMVs) : mMemberVariables(InMVs){}
+	DataType(std::vector<MemberVariable>&& InMVs) : mMemberVariables(InMVs){}
 
 	const std::vector<MemberVariable>& GetMemberVariables() const
 	{

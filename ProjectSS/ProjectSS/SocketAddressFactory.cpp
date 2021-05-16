@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-SocketAddressPtr SocketAddressFactory::CreateIPv4FromIPString(const string& InString)
+SocketAddressPtr SocketAddressFactory::CreateIPv4FromIPString(const std::string& InString)
 {
 	/*문자열로 된 IP를 sockaddr로 변환하는 함수
 		int InetPton(int af, const PCTSTR src, void* dst);
@@ -11,9 +11,9 @@ SocketAddressPtr SocketAddressFactory::CreateIPv4FromIPString(const string& InSt
 	*/
 
 	auto Pos = InString.find_last_of(':');
-	string Ip, Port;
+	std::string Ip, Port;
 
-	if (Pos != string::npos)
+	if (Pos != std::string::npos)
 	{
 		Ip = InString.substr(0, Pos);
 		Port = InString.substr(Pos + 1);
@@ -48,7 +48,7 @@ SocketAddressPtr SocketAddressFactory::CreateIPv4FromIPString(const string& InSt
 	return toRet;
 }
 
-SocketAddressPtr SocketAddressFactory::CreateIPv4FromDomainString(const string& inString)
+SocketAddressPtr SocketAddressFactory::CreateIPv4FromDomainString(const std::string& inString)
 {
 	/*도메인 이름을 IP주소로 변환하는 함수
 		int getaddrinfo(const char* hostname, const char* servname, const addrinfo* hints, addrinfo** res);
@@ -60,9 +60,9 @@ SocketAddressPtr SocketAddressFactory::CreateIPv4FromDomainString(const string& 
 
 	//이름에서 콜론을 찾아 포트번호 분리
 	auto pos = inString.find_last_of(':');
-	string host, service;
+	std::string host, service;
 
-	if (pos != string::npos) //포트번호가 있다면
+	if (pos != std::string::npos) //포트번호가 있다면
 	{
 		host = inString.substr(0, pos); //잘라낼 문자열 시작 위치, 길이
 		service = inString.substr(pos + 1); //잘라낼 문자열 시작 위치 (부터 끝까지)

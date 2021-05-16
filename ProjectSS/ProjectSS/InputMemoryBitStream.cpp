@@ -50,7 +50,7 @@ void InputMemoryBitStream::Read(GameObject* OutGameObject)
 	//OutGameObject = mLinkingContext->GetGameObject(NetworkId);
 }
 
-void InputMemoryBitStream::Read(string& OutString)
+void InputMemoryBitStream::Read(std::string& OutString)
 {
 	size_t ElementCount = 0;
 	Read(ElementCount);

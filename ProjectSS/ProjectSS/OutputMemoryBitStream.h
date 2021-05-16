@@ -1,4 +1,5 @@
 #pragma once
+#include <WinSock2.h>
 #include <stdint.h>
 #include <vector>
 #include "MathUtils.h"
@@ -72,7 +73,7 @@ public:
 		}
 	}
 
-	void Write(const string& InString);
+	void Write(const std::string& InString);
 	void Write(const GameObject* InGameObject);
 
 	void Write(const Quaternion& InQuat);

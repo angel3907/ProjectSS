@@ -16,7 +16,7 @@ public:
 
 	//처리할 이동값이 있는지 봄
 	bool HasMoves() const {return !mMoves.empty(); }
-	int32_t GetMoveCount() const {return mMoves.size(); }
+	size_t GetMoveCount() const {return mMoves.size(); }
 
 	void Clear() {mMoves.clear();}
 	const Move& GetLatestMove() const {return mMoves.back();}
@@ -24,8 +24,8 @@ public:
 	//괄호로 이동값을 참조할 수 있게 함
 	const Move& operator[](size_t index) { return mMoves[index]; }
 	
-	deque<Move>::const_iterator begin() const {return mMoves.begin();}
-	deque<Move>::const_iterator end () const {return mMoves.end(); }
+	std::deque<Move>::const_iterator begin() const {return mMoves.begin();}
+	std::deque<Move>::const_iterator end () const {return mMoves.end(); }
 
 
 private:

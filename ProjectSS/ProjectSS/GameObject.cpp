@@ -34,7 +34,7 @@ void GameObject::ReadChanged(InputMemoryBitStream& InStream)
 		InStream.ReadPosF(Pos);
 }
 
-void GameObject::PrintSomething(const string& InName, const Vector2 InLocation, float InVolume)
+void GameObject::PrintSomething(const std::string& InName, const Vector2 InLocation, float InVolume)
 {
 	printf("Hi, My name is %s, My Location is (%f, %f), My Volume is %f", InName.c_str(), InLocation.PosX, InLocation.PosY, InVolume);
 }
@@ -56,7 +56,7 @@ void GameObject::PrintSomething(OutputMemoryBitStream& InStream, RPCParams* InRP
 
 void GameObject::UnwrapPrintSomething(InputMemoryBitStream& InStream, bool bFuncCall)
 {
-	string Name = "";
+	std::string Name = "";
 	Vector2 Location = { 0, 0 };
 	float Volume = 0;
 

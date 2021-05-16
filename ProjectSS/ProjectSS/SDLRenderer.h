@@ -64,7 +64,7 @@ private:
 	SDL_Texture* PlayerTexture;
 	SDL_Texture* BackgroundTexture;
 
-	unordered_map<uint32_t, SDL_Texture*> Textures;
+	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 
 	TTF_Font* MainFont;
 };

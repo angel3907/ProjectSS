@@ -44,8 +44,8 @@ private:
 	//받은 입력 패킷 처리
 	void HandleInputPacket(ClientProxyPtr InClientProxy, InputMemoryBitStream& InInputStream);
 
-	typedef unordered_map <int, ClientProxyPtr> IntToClientMap;
-	typedef unordered_map <SocketAddress, ClientProxyPtr> AddressToClientMap;
+	typedef std::unordered_map <int, ClientProxyPtr> IntToClientMap;
+	typedef std::unordered_map <SocketAddress, ClientProxyPtr> AddressToClientMap;
 
 	//소켓 주소 - 클라이언트 프록시 맵
 	AddressToClientMap mAddressToClientMap;

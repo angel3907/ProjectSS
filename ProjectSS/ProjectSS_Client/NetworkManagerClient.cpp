@@ -9,13 +9,13 @@ NetworkManagerClient::NetworkManagerClient()
 
 }
 
-void NetworkManagerClient::StaticInit(const SocketAddress& InServerAddress, const string& InName)
+void NetworkManagerClient::StaticInit(const SocketAddress& InServerAddress, const std::string& InName)
 {
 	sInstance = new NetworkManagerClient();
 	return sInstance->Init(InServerAddress, InName);
 }
 
-void NetworkManagerClient::Init(const SocketAddress& InServerAddress, const string& InName)
+void NetworkManagerClient::Init(const SocketAddress& InServerAddress, const std::string& InName)
 {
 	//클라이언트는 빈 아무 포트로나 초기화
 	NetworkManager::Init(0);

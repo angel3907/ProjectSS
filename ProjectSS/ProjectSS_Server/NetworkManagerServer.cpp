@@ -43,7 +43,7 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 	//새 클라이언트라면 Hello를 먼저 받아야 함
 	if (PacketType == kHelloCC)
 	{
-		string Name;
+		std::string Name = "";
 		InInputStream.Read(Name);
 
 		//클라이언트 프록시 생성
@@ -159,7 +159,7 @@ void NetworkManagerServer::SendStatePacketToClient(ClientProxyPtr InClientProxy)
 	{
 		GameObject* GO = LinkingContext::Get().GetGameObject(RA.NetworkId);
 		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), RA.RA, GO, nullptr);
-		printf("Update Client : GameObject Network Id %d\n");
+		printf("Update Client : GameObject Network Id %d\n", RA.NetworkId);
 	}
 
 	InClientProxy->ClearUnprocessedRAs();

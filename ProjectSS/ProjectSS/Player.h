@@ -19,7 +19,7 @@ enum PlayerProperties : uint32_t
 class Player : public GameObject
 {
 public:
-	Player(int32_t InitialStarCount = 0, bool TestValue = 0, string Name = "") : StarCount(InitialStarCount), TestValue(TestValue), Name(Name){}
+	Player(int32_t InitialStarCount = 0, bool TestValue = 0, std::string Name = "") : StarCount(InitialStarCount), TestValue(TestValue), Name(Name){}
 	~Player(){}
 
 	//CLASS_IDENTIFICATION('PLYR', Player);
@@ -41,7 +41,7 @@ public:
 
 	int32_t GetStarCount() const {return StarCount;}
 	bool GetTestValue() const {return TestValue;}
-	string GetName() const {return Name;}
+	std::string GetName() const {return Name;}
 
 	uint32_t GetPlayerId() const {return mPlayerId;}
 	void SetPlayerId(uint32_t InPlayerId) { mPlayerId = InPlayerId;}
@@ -49,7 +49,7 @@ public:
 private:
 	int32_t StarCount;
 	bool TestValue = false;
-	string Name = "";
+	std::string Name = "";
 	uint32_t mPlayerId = 0;
 
 protected:

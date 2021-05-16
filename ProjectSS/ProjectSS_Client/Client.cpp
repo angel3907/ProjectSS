@@ -41,10 +41,10 @@ Client::Client()
 	RegisterObjectCreation();
 	RegisterRPCs();
 
-	string destination = "10.99.0.28:7000";
+	std::string destination = "10.99.0.28:7000";
 	SocketAddressPtr ServerAddress = SocketAddressFactory::CreateIPv4FromIPString(destination);
 
-	string PlayerName = "MyName";
+	std::string PlayerName = "MyName";
 
 	//주소와 이름으로 네트워크 매니저 초기화
 	NetworkManagerClient::StaticInit(*ServerAddress, PlayerName);

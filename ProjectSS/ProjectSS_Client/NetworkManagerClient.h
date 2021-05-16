@@ -21,7 +21,7 @@ public:
 	virtual ~NetworkManagerClient() {}
 
 	//네트워크 매니저 초기화	
-	static void StaticInit (const SocketAddress& InServerAddress, const string& InName);
+	static void StaticInit (const SocketAddress& InServerAddress, const std::string& InName);
 
 	//패킷 전송
 	void SendOutgoingPackets();
@@ -31,7 +31,7 @@ public:
 
 private:
 	NetworkManagerClient();
-	void Init (const SocketAddress& InServerAddress, const string& InName); //실제 초기화 함수
+	void Init (const SocketAddress& InServerAddress, const std::string& InName); //실제 초기화 함수
 
 	//헬로 패킷 / 입력 패킷 전송
 	void UpdateSayingHello();
@@ -61,6 +61,6 @@ private:
 	SocketAddress mServerAddress;
 
 	//플레이어 이름과 아이디
-	string mName;
+	std::string mName;
 	int32_t mPlayerId;
 };

@@ -6,23 +6,23 @@
 
 struct PrintSomethingRPCParams : public RPCParams
 {
-	string mName;
+	std::string mName;
 	Vector2 mLocation;
 	float mVolume;
 
-	PrintSomethingRPCParams(const string& InName, Vector2 InLocation, float InVolume) 
+	PrintSomethingRPCParams(const std::string& InName, Vector2 InLocation, float InVolume) 
 	//: RPCParams('PRST'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
 	: RPCParams('GPRT'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
 };
 
-static void PrintSomething(const string& InName, const Vector2 InLocation, float InVolume)
+static void PrintSomething(const std::string& InName, const Vector2 InLocation, float InVolume)
 {
 	printf("Hi, My name is %s, My Location is (%f, %f), My Volume is %f", InName.c_str(), InLocation.PosX, InLocation.PosY, InVolume);
 }
 
 static void UnwrapPrintSomething(InputMemoryBitStream& InStream)
 {
-	string Name = "";
+	std::string Name = "";
 	Vector2 Location = { 0, 0 };
 	float Volume = 0;
 

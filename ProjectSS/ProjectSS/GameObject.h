@@ -38,7 +38,7 @@ public:
 	virtual void ReadChanged(InputMemoryBitStream& InStream) override;
 
 	//아래는 RMI 테스트용
-	void PrintSomething(const string& InName, const Vector2 InLocation, float InVolume);
+	void PrintSomething(const std::string& InName, const Vector2 InLocation, float InVolume);
 	void UnwrapPrintSomething(InputMemoryBitStream& InStream, bool bFuncCall);
 	void PrintSomething(OutputMemoryBitStream& InStream, RPCParams* InRPCParams);
 	//끝
@@ -55,4 +55,4 @@ public:
 	void SetPos(Vector2 NewPos){Pos = NewPos;}
 };
 
-using GameObjectPtr = shared_ptr<GameObject>;
+using GameObjectPtr = std::shared_ptr<GameObject>;
