@@ -53,7 +53,7 @@ int TCPSocket::Listen(int InBackLog /*= 32*/)
 	return -SocketUtil::GetLastError();
 }
 
-TCPSocketPtr TCPSocket::Accept(SocketAddress& InFromAddress)
+TCPSocket* TCPSocket::Accept(SocketAddress& InFromAddress)
 {
 	//서버가 들어오는 연결을 받아 계속 진행하려면 accept 호출
 	int length = InFromAddress.GetSize();
@@ -67,7 +67,7 @@ TCPSocketPtr TCPSocket::Accept(SocketAddress& InFromAddress)
 	//유효한 소켓이 생성되었을 때만 포인터를 리턴
 	if (newSocket != INVALID_SOCKET)
 	{
-		return TCPSocketPtr(new TCPSocket(newSocket)); //더이상 소켓이 참조되는 곳이 없을 때 자동으로 닫힘.
+		return new TCPSocket(newSocket); //더이상 소켓이 참조되는 곳이 없을 때 자동으로 닫힘.
 	}
 	SocketUtil::ReportError("TCPSocket::Accept");
 	return nullptr;

@@ -7,7 +7,7 @@
 class ClientProxy
 {
 public:
-	ClientProxy(const SocketAddress& InSocketAddress, const string& InName, int InPlayerId)
+	ClientProxy(const SocketAddress& InSocketAddress, const std::string& InName, int InPlayerId)
 	:mSocketAddress(InSocketAddress),
 	mName(InName),
 	mPlayerId(InPlayerId)
@@ -17,13 +17,13 @@ public:
 
 	SocketAddress& GetSocketAddress() {return mSocketAddress;}
 	int GetPlayerId() {return mPlayerId;}
-	string GetName() {return mName;}
+	std::string GetName() {return mName;}
 	
 	ReplicationManager& GetReplicationManagerServer() {return mReplicationManagerServer;}
 	MoveList& GetUnprocessedMoveList() { return mUnprocessedMoveList; }
 	const MoveList& GetUnprocessedMoveList() const { return mUnprocessedMoveList; }
 
-	vector<ReplicationCommand>& GetUnprocessedRAs() { return UnprocessedRAs; }
+	std::vector<ReplicationCommand>& GetUnprocessedRAs() { return UnprocessedRAs; }
 	void AddUnprocessedRA(ReplicationCommand& RC) { UnprocessedRAs.push_back(RC); }
 	void ClearUnprocessedRAs() { UnprocessedRAs.clear(); }
 
@@ -37,12 +37,12 @@ private:
 
 	//소켓주소, 플레이어 이름, 아이디
 	SocketAddress mSocketAddress;
-	string mName;
+	std::string mName;
 	int mPlayerId;
 
 	MoveList mUnprocessedMoveList; //처리 안된 이동 리스트
 
-	vector<ReplicationCommand> UnprocessedRAs; //+추가 : RA해야할 일이 있으면 여기 추가해줌
+	std::vector<ReplicationCommand> UnprocessedRAs; //+추가 : RA해야할 일이 있으면 여기 추가해줌
 	//bool mIsLastMoveTimestampDirty;
 };
 

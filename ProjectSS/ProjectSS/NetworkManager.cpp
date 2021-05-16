@@ -93,7 +93,7 @@ void NetworkManager::ProcessInComingPacket()
 	}
 }
 
-int32_t NetworkManager::SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager, 
+size_t NetworkManager::SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager, 
 									ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams)
 {
 	OutputMemoryBitStream Stream;

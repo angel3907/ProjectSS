@@ -1,7 +1,5 @@
 #pragma once
 #include "stdafx.h"
-class TCPSocket;
-using TCPSocketPtr = std::shared_ptr<TCPSocket>;
 
 class TCPSocket
 {
@@ -10,7 +8,7 @@ public:
 	int Connect(const SocketAddress& InAddress);
 	int Bind (const SocketAddress& InToAddress);
 	int Listen(int InBackLog = 32);
-	TCPSocketPtr Accept(SocketAddress& InFromAddress);
+	TCPSocket* Accept(SocketAddress& InFromAddress);
 	int Send (const void* InData, int InLen);
 	int Receive(void* InBuffer, int InLen);
 

@@ -58,7 +58,7 @@ TCPSocketPtr SocketUtil::CreateTCPSocket(SocketAddressFamily inFamily)
 	return nullptr;
 }
 
-fd_set* SocketUtil::FillSetFromVector(fd_set& OutSet, const vector<TCPSocketPtr>* InSockets)
+fd_set* SocketUtil::FillSetFromVector(fd_set& OutSet, const std::vector<TCPSocketPtr>* InSockets)
 {
 	//TCP 소켓 포인터 벡터로 fd_set을 만들어서 리턴함
 
@@ -78,7 +78,7 @@ fd_set* SocketUtil::FillSetFromVector(fd_set& OutSet, const vector<TCPSocketPtr>
 	else return nullptr;
 }
 
-void SocketUtil::FillVectorFromSet(vector<TCPSocketPtr>* OutSockets, const vector<TCPSocketPtr>* InSockets, const fd_set& InSet)
+void SocketUtil::FillVectorFromSet(std::vector<TCPSocketPtr>* OutSockets, const std::vector<TCPSocketPtr>* InSockets, const fd_set& InSet)
 {
 	//Set에 속하는 TCP 소켓 포인터(InSockets)로 벡터를 만들어 리턴
 
@@ -96,7 +96,7 @@ void SocketUtil::FillVectorFromSet(vector<TCPSocketPtr>* OutSockets, const vecto
 	}
 }
 
-int SocketUtil::Select(const vector<TCPSocketPtr>* InReadSet, vector<TCPSocketPtr>* OutReadSet, const vector<TCPSocketPtr>* InWriteSet, vector<TCPSocketPtr>* OutWriteSet, const vector<TCPSocketPtr>* InExceptSet, vector<TCPSocketPtr>* OutExceptSet)
+int SocketUtil::Select(const std::vector<TCPSocketPtr>* InReadSet, std::vector<TCPSocketPtr>* OutReadSet, const std::vector<TCPSocketPtr>* InWriteSet, std::vector<TCPSocketPtr>* OutWriteSet, const std::vector<TCPSocketPtr>* InExceptSet, std::vector<TCPSocketPtr>* OutExceptSet)
 {
 	//여러 소켓을 한꺼번에 확인하고, 그 중 하나라도 준비되면 즉시 대응하는 방법
 	// -> select() 함수
@@ -195,7 +195,7 @@ void SocketUtil::ReceivePlayer(UDPSocketPtr Socket, Player* OutPlayer)
 	//MemoryInputStream이 메모리를 직접 관리하게 하는 기능을 추가하는 것도 좋음.
 }
 
-uint32_t SocketUtil::SendPlayerWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const Player* InPlayer)
+size_t SocketUtil::SendPlayerWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const Player* InPlayer)
 {
 	OutputMemoryBitStream Stream;
 	InPlayer->Write(Stream);
@@ -203,7 +203,7 @@ uint32_t SocketUtil::SendPlayerWithBitStream(UDPSocketPtr Socket, SocketAddress&
 	return SentByteCount;
 }
 
-uint32_t SocketUtil::ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* OutPlayer)
+size_t SocketUtil::ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* OutPlayer)
 {
 	//임시버퍼로 데이터를 받고
 	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
@@ -214,7 +214,7 @@ uint32_t SocketUtil::ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* Out
 	{
 		//버퍼 소유권을 입력 메모리 스트림에 넘김
 		//이제 데이터원소를 하나씩 쓰여진 순서대로 읽을 수 있음.
-		InputMemoryBitStream Stream(TempBuffer, static_cast<uint32_t>(RecvByteCount) << 3);
+		InputMemoryBitStream Stream(TempBuffer, static_cast<size_t>(RecvByteCount) << 3);
 		OutPlayer->Read(Stream);
 	}
 	else
@@ -225,7 +225,7 @@ uint32_t SocketUtil::ReceivePlayerWithBitStream(UDPSocketPtr Socket, Player* Out
 	return RecvByteCount;
 }
 
-uint32_t SocketUtil::SendPODWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const DataType* InDataType, uint8_t* InData)
+size_t SocketUtil::SendPODWithBitStream(UDPSocketPtr Socket, SocketAddress& ToAddress, const DataType* InDataType, uint8_t* InData)
 {
 	OutputMemoryBitStream Stream;
 	Write(&Stream, InDataType, InData);
@@ -233,7 +233,7 @@ uint32_t SocketUtil::SendPODWithBitStream(UDPSocketPtr Socket, SocketAddress& To
 	return SentByteCount;
 }
 
-uint32_t SocketUtil::ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType* InDataType, uint8_t* OutData)
+size_t SocketUtil::ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType* InDataType, uint8_t* OutData)
 {
 	//임시버퍼로 데이터를 받고
 	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
@@ -255,7 +255,7 @@ uint32_t SocketUtil::ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType
 	return RecvByteCount;
 }
 
-uint32_t SocketUtil::SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const vector<GameObject*>& InGameObjects, ReplicationManager& InReplicationManager)
+size_t SocketUtil::SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const std::vector<GameObject*>& InGameObjects, ReplicationManager& InReplicationManager)
 {
 	OutputMemoryBitStream Stream;
 	InReplicationManager.ReplicateWorldState(Stream, InGameObjects);
@@ -264,7 +264,7 @@ uint32_t SocketUtil::SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, c
 	return SentByteCount;
 }
 
-uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket, ReplicationManager& InReplicationManager)
+size_t SocketUtil::ReceivePacket(UDPSocketPtr Socket, ReplicationManager& InReplicationManager)
 {
 	//임시버퍼로 데이터를 받고
 	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
@@ -305,7 +305,7 @@ uint32_t SocketUtil::ReceivePacket(UDPSocketPtr Socket, ReplicationManager& InRe
 	return RecvByteCount;
 }
 
-uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams, ReplicationManager& InReplicationManager)
+size_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams, ReplicationManager& InReplicationManager)
 {
 	OutputMemoryBitStream Stream;
 	//리플리케이션용이라고 미리 표시
@@ -336,7 +336,7 @@ uint32_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddres
 	return SentByteCount;
 }
 
-uint32_t SocketUtil::ReceiveReplicated(UDPSocketPtr Socket, ReplicationManager& InReplicationManager)
+size_t SocketUtil::ReceiveReplicated(UDPSocketPtr Socket, ReplicationManager& InReplicationManager)
 {
 	//임시버퍼로 데이터를 받고
 	char* TempBuffer = static_cast<char*>(new char[kMaxPakcetSize]);
@@ -389,7 +389,7 @@ void SocketUtil::Write(OutputMemoryBitStream* InMemoryBitStream, const DataType*
 			InMemoryBitStream->Write(*(int*)MvData);
 			break;
 		case EPrimitiveType::EPT_String:
-			InMemoryBitStream->Write(*(string*)MvData);
+			InMemoryBitStream->Write(*(std::string*)MvData);
 			break;
 		case EPrimitiveType::EPT_Uint8:
 			InMemoryBitStream->Write(*(float*)MvData);
@@ -411,7 +411,7 @@ void SocketUtil::Read(InputMemoryBitStream* InMemoryBitStream, const DataType* I
 			InMemoryBitStream->Read(*(int*)MvData);
 			break;
 		case EPrimitiveType::EPT_String:
-			InMemoryBitStream->Read(*(string*)MvData);
+			InMemoryBitStream->Read(*(std::string*)MvData);
 			break;
 		case EPrimitiveType::EPT_Uint8:
 			InMemoryBitStream->Read(*(float*)MvData);

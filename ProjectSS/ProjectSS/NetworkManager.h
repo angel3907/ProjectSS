@@ -33,7 +33,7 @@ public:
 	void ProcessInComingPacket();
 
 	//리플리케이션 패킷 전송
-	int32_t SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
+	size_t SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
 		ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams);
 
 protected:
