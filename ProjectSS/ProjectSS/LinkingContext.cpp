@@ -24,6 +24,12 @@ void LinkingContext::AddGameObject(GameObject* InGameObject, uint32_t InNetworkI
 	mNetworkIdToGameObjectMap[InNetworkId] = InGameObject;
 	mGameObjectToNetworkMap[InGameObject] = InNetworkId;
 	GameObjects.insert(InGameObject);
+
+	//플레이어였다면
+	if (Player* PlayerValue = static_cast<Player*>(InGameObject))
+	{
+		Players.insert(PlayerValue);
+	}
 }
 
 void LinkingContext::RemoveGameObject(GameObject* InGameObject)
@@ -32,6 +38,12 @@ void LinkingContext::RemoveGameObject(GameObject* InGameObject)
 	mGameObjectToNetworkMap.erase(InGameObject);
 	mNetworkIdToGameObjectMap.erase(NetworkId);
 	GameObjects.erase(InGameObject);
+
+	//플레이어였다면
+	if (Player* PlayerValue = static_cast<Player*>(InGameObject))
+	{
+		Players.erase(PlayerValue);
+	}
 }
 
 GameObject* LinkingContext::GetGameObject(uint32_t InNetworkId)
