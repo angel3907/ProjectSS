@@ -10,6 +10,18 @@ struct Vector2
 	{
 		return (abs(InVector.PosX - PosX) < 0.001f && abs(InVector.PosY - PosY) < 0.001f);
 	}
+
+	Vector2 operator+(const Vector2 &InVector)
+	{
+		Vector2 V(PosX + InVector.PosX, PosY + InVector.PosY);
+		return V;
+	}
+
+	Vector2 operator-(const Vector2& InVector)
+	{
+		Vector2 V(PosX - InVector.PosX, PosY - InVector.PosY);
+		return V;
+	}
 };
 
 struct Quaternion
