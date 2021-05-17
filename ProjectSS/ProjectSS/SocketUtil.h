@@ -2,13 +2,14 @@
 #include <vector>
 #include "UDPSocket.h"
 #include "TCPSocket.h"
-#include "Player.h"
 #include "MemoryBitStream.h"
 #include "MemberVariable.h"
 #include "ReplicationHeader.h"
-#include "ReplicationManager.h"
 
+class GameObject;
+class ReplicationManager;
 class RPCParams;
+class Player;
 using TCPSocketPtr = std::shared_ptr<TCPSocket>;
 
 enum SocketAddressFamily 
@@ -53,12 +54,12 @@ public:
 	static size_t ReceivePODWithBitStream(UDPSocketPtr Socket, const DataType* InDataType, uint8_t* OutData);
 
 
-	static size_t SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const std::vector<GameObject*>& InGameObjects, ReplicationManager& InReplicationManager);
-	static size_t ReceivePacket(UDPSocketPtr Socket, ReplicationManager& InReplicationManager);
+	static size_t SendPacket(UDPSocketPtr Socket, SocketAddress& ToAddress, const std::vector<GameObject*>& InGameObjects, ReplicationManager* InReplicationManager);
+	static size_t ReceivePacket(UDPSocketPtr Socket, ReplicationManager* InReplicationManager);
 
 	//RA_PRC면 InGameObject가 null, RPCParam 존재 / RA_RMI면 InGameObject가 존재, RPCParam 존재 / 그 외에는 RPCParams만 null
-	static size_t SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams, ReplicationManager& InReplicationManager);
-	static size_t ReceiveReplicated(UDPSocketPtr Socket, ReplicationManager& InReplicationManager);
+	static size_t SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams, ReplicationManager* InReplicationManager);
+	static size_t ReceiveReplicated(UDPSocketPtr Socket, ReplicationManager* InReplicationManager);
 
 	static void Write(OutputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* InData);
 	static void Read(InputMemoryBitStream* InMemoryBitStream, const DataType* InDataType, uint8_t* OutData);
