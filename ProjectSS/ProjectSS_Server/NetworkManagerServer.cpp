@@ -59,6 +59,26 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 		//클라이언트를 위한 플레이어 생성
 		static_cast<Server*> (Engine::sInstance.get())->HandleNewClient(NewClientProxy);
 
+		Player* NewPlayer = static_cast<Server*> (Engine::sInstance.get())->GetPlayerWithPlayerId(NewClientProxy->GetPlayerId());
+
+		if (NewPlayer == nullptr)
+		{
+			LOG("새 플레이어가 생성되지 않았습니다. Player Id는 %d\n", NewClientProxy->GetPlayerId());
+			return;
+		}
+
+		//타 클라에도 해당 플레이어를 리플리케이션
+		for (auto ClientProxyValue : mPlayerIdToClientMap)
+		{
+			if (ClientProxyValue.first != NewClientProxy->GetPlayerId())
+			{
+				ReplicationCommand RA;
+				RA.NetworkId = NewPlayer->GetNetworkId();
+				RA.RA = ReplicationAction::RA_Create;
+				ClientProxyValue.second->AddUnprocessedRA(RA);
+			}
+		}
+
 		//이 클라에 대한 리플리케이션 관리자를 가져와서
 		//그리고 지금까지 월드에 있는 걸 모두 생성으로 리플리케이션해줌.
 		for (auto GO : LinkingContext::Get().GetGameObjectSet())
@@ -146,6 +166,14 @@ void NetworkManagerServer::UpdateAllClients()
 		}
 		
 		mTimeOfLastStatePackets = time;
+	}
+}
+
+void NetworkManagerServer::AddUnprocessedRAToAllClients(ReplicationCommand& RA)
+{
+	for (auto AddressToClientProxy : mAddressToClientMap)
+	{
+		AddressToClientProxy.second->AddUnprocessedRA(RA);
 	}
 }
 

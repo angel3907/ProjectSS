@@ -26,6 +26,9 @@ public:
 	//모든 클라이언트 업데이트
 	void UpdateAllClients();
 
+	//모든 클라이언트에 리플리케이션 패킷 추가
+	void AddUnprocessedRAToAllClients(ReplicationCommand& RA);
+
 private:
 	NetworkManagerServer();
 

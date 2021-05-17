@@ -39,7 +39,9 @@ void PlayerServer::Update()
 		ReplicationCommand RA;
 		RA.NetworkId = GetNetworkId();
 		RA.RA = ReplicationAction::RA_Update;
-		Client->AddUnprocessedRA(RA);
+
+		//모든 클라이언트에게 이동정보를 전송
+		NetworkManagerServer::sInstance->AddUnprocessedRAToAllClients(RA);
 	}
 
 	HandleAttacking();
