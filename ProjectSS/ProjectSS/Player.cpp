@@ -5,31 +5,17 @@ void Player::ProcessInput(float InDeltaTime, const InputState& InCurrentState)
 {
 	//인풋 처리
 	//이동값, 공격중 처리
-	float NewPosX = GetPos().PosX + InCurrentState.GetDesiredHorizontalDelta() * InDeltaTime * Speed;
-	float NewPosY = GetPos().PosY - InCurrentState.GetDesiredVerticallDelta() * InDeltaTime * Speed;
+	
+	if (!bAttacked) //공격당하는 중에는 이동 입력을 처리하지 않음
+	{
+		float NewPosX = GetPos().PosX + InCurrentState.GetDesiredHorizontalDelta() * InDeltaTime * Speed;
+		float NewPosY = GetPos().PosY - InCurrentState.GetDesiredVerticallDelta() * InDeltaTime * Speed;
 
-	//이동 최대값 조정
-	//X
-	if ( NewPosX > WINDOW_WIDTH - PlayerRadius)
-	{
-		NewPosX = WINDOW_WIDTH - PlayerRadius;
-	}
-	else if (NewPosX < PlayerRadius)
-	{
-		NewPosX = PlayerRadius;
+		Vector2 NewPos(NewPosX, NewPosY);
+		ApplyPosLimit(NewPos);
+		SetPos(NewPos);
 	}
 
-	//Y
-	if (NewPosY > WINDOW_HEIGHT - PlayerRadius)
-	{
-		NewPosY = WINDOW_WIDTH - PlayerRadius;
-	}
-	else if (NewPosY < PlayerRadius)
-	{
-		NewPosY = PlayerRadius;
-	}
-
-	SetPos(Vector2(NewPosX, NewPosY));
 	mIsAttacking = InCurrentState.IsAttacking();
 }
 
@@ -37,6 +23,38 @@ void Player::SimulateMovement(float InDeltaTime)
 {
 	//기존은 속도 설정, 그에 따른 위치 설정, 콜리전 처리를 해줌
 	//나는 할게 없으니 냅둔다
+}
+
+bool Player::ApplyPosLimit(Vector2& InOutPos)
+{
+	bool IsPosLimited = false;
+
+	//이동 최대값 조정
+	//X
+	if (InOutPos.PosX > WINDOW_WIDTH - PlayerRadius)
+	{
+		InOutPos.PosX = WINDOW_WIDTH - PlayerRadius;
+		IsPosLimited = true;
+	}
+	else if (InOutPos.PosX < PlayerRadius)
+	{
+		InOutPos.PosX = PlayerRadius;
+		IsPosLimited = true;
+	}
+
+	//Y
+	if (InOutPos.PosY > WINDOW_HEIGHT - PlayerRadius)
+	{
+		InOutPos.PosY = WINDOW_WIDTH - PlayerRadius;
+		IsPosLimited = true;
+	}
+	else if (InOutPos.PosY < PlayerRadius)
+	{
+		InOutPos.PosY = PlayerRadius;
+		IsPosLimited = true;
+	}
+	
+	return IsPosLimited;
 }
 
 void Player::Write(OutputMemoryStream& InStream) const
@@ -91,6 +109,7 @@ void Player::Write(OutputMemoryBitStream& InStream) const
  	InStream.Write(StarCount);
 	InStream.Write(Name);
 	InStream.WritePosF(Pos);
+	InStream.Write(bAttackEffectOn);
 
 	//희소 배열 압축
 	//NickName이 널 종료 문자열일 때.
@@ -105,6 +124,7 @@ void Player::Read(InputMemoryBitStream& InStream)
  	InStream.Read(StarCount);
 	InStream.Read(Name);
 	InStream.ReadPosF(Pos);
+	InStream.Read(bAttackEffectOn);
 
 	//NickName이 널 종료 문자열일 때.
 	//uint8_t NameLength;

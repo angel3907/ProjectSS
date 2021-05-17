@@ -29,6 +29,7 @@ public:
 	void ProcessInput(float InDeltaTime, const InputState& InCurrentState);
 	void SimulateMovement(float InDeltaTime);
 
+	bool ApplyPosLimit(Vector2& InOutPos);
 
 	void Write(OutputMemoryStream& InStream) const;
 	void Read(InputMemoryStream& InStream);
@@ -46,6 +47,10 @@ public:
 	uint32_t GetPlayerId() const {return mPlayerId;}
 	void SetPlayerId(uint32_t InPlayerId) { mPlayerId = InPlayerId;}
 
+	float GetPlayerRadius() const {return PlayerRadius;}
+
+	bool IsAttacked(){return bAttacked;}
+
 private:
 	int32_t StarCount;
 	bool TestValue = false;
@@ -54,9 +59,16 @@ private:
 
 protected:
 	bool mIsAttacking = false;
+	bool bAttacked = false; //공격당하는 중인지
+	bool bAttackEffectOn = false; //공격 이펙트가 켜졌는지
 
 public:
 	const float Speed = 50.0f;
+	const float PlayerRadius = 50.0f;
+	const float AttackRadius = 100.0f;
+
+	//공격 이펙트 유지시간
+	const float AttackEffectDuration = 2.5f;
 };
 
 using PlayerPtr = std::shared_ptr<Player>;
