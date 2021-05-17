@@ -4,5 +4,10 @@
 
 void PlayerClient::Render()
 {
+	if (bAttackEffectOn)
+	{
+		SDLRenderer::Get().DrawTexture('PLAE', Pos);
+	}
+
 	SDLRenderer::Get().DrawTexture('PLYR', Pos);
 }

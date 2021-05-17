@@ -62,6 +62,7 @@ private:
 	SDL_Renderer* Renderer;
 
 	SDL_Texture* PlayerTexture;
+	SDL_Texture* PlayerAttackEffectTexture;
 	SDL_Texture* BackgroundTexture;
 
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;

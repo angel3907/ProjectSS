@@ -98,8 +98,10 @@ void SDLRenderer::LoadTextures()
 {
 	PlayerTexture = LoadTexture("../Resources/Images/Player.png");
 	BackgroundTexture = LoadTexture("../Resources/Images/Background.png");
+	PlayerAttackEffectTexture = LoadTexture("../Resources/Images/Effect.png");
 
 	Textures['PLYR'] = PlayerTexture;
+	Textures['PLAE'] = PlayerAttackEffectTexture;
 }
 
 void SDLRenderer::SetTextureColorMod(SDL_Texture* InTexture, SDL_Color InColor)
