@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "SDLRenderer.h"
 
 void Player::ProcessInput(float InDeltaTime, const InputState& InCurrentState)
 {
@@ -6,6 +7,27 @@ void Player::ProcessInput(float InDeltaTime, const InputState& InCurrentState)
 	//이동값, 공격중 처리
 	float NewPosX = GetPos().PosX + InCurrentState.GetDesiredHorizontalDelta() * InDeltaTime * Speed;
 	float NewPosY = GetPos().PosY - InCurrentState.GetDesiredVerticallDelta() * InDeltaTime * Speed;
+
+	//이동 최대값 조정
+	//X
+	if ( NewPosX > WINDOW_WIDTH - PlayerRadius)
+	{
+		NewPosX = WINDOW_WIDTH - PlayerRadius;
+	}
+	else if (NewPosX < PlayerRadius)
+	{
+		NewPosX = PlayerRadius;
+	}
+
+	//Y
+	if (NewPosY > WINDOW_HEIGHT - PlayerRadius)
+	{
+		NewPosY = WINDOW_WIDTH - PlayerRadius;
+	}
+	else if (NewPosY < PlayerRadius)
+	{
+		NewPosY = PlayerRadius;
+	}
 
 	SetPos(Vector2(NewPosX, NewPosY));
 	mIsAttacking = InCurrentState.IsAttacking();
