@@ -22,6 +22,41 @@ struct Vector2
 		Vector2 V(PosX - InVector.PosX, PosY - InVector.PosY);
 		return V;
 	}
+
+	Vector2 operator*(const float& InValue)
+	{
+		Vector2 V(PosX * InValue, PosY* InValue);
+		return V;
+	}
+
+	Vector2 operator*(const int& InValue)
+	{
+		Vector2 V(PosX * InValue, PosY * InValue);
+		return V;
+	}
+
+	Vector2 operator/(const float& InValue) const
+	{
+		Vector2 V(PosX / InValue, PosY / InValue);
+		return V;
+	}
+
+	Vector2 operator/(const int& InValue) const
+	{
+		Vector2 V(PosX / InValue, PosY / InValue);
+		return V;
+	}
+
+	static float GetLength(const Vector2& InVector)
+	{
+		return sqrtf(InVector.PosX * InVector.PosX + InVector.PosY * InVector.PosY);
+	}
+
+	static Vector2 GetNormalized(const Vector2& InVector)
+	{
+		return InVector / GetLength(InVector);
+	}
+
 };
 
 struct Quaternion
@@ -36,4 +71,10 @@ struct Quaternion
 constexpr int32_t GetRequiredBits(int32_t Value, int Bits = 0)
 {
 	return Value ? GetRequiredBits(Value >> 1, Bits + 1) : Bits;
+}
+
+inline bool IsCircleCollided(Vector2 PlayerPosA, Vector2 PlayerPosB, float CollisionRadiusA, float CollisionRadiusB)
+{
+	float Length = Vector2::GetLength(PlayerPosA - PlayerPosB);
+	return (Length < (CollisionRadiusA + CollisionRadiusB));
 }
