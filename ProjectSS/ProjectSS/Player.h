@@ -63,7 +63,7 @@ protected:
 	bool bAttackEffectOn = false; //공격 이펙트가 켜졌는지
 
 public:
-	const float Speed = 50.0f;
+	const float Speed = 150.0f;
 	const float PlayerRadius = 50.0f;
 	const float AttackRadius = 100.0f;
 
