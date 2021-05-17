@@ -41,7 +41,7 @@ Client::Client()
 	RegisterObjectCreation();
 	RegisterRPCs();
 
-	std::string destination = "10.99.0.28:7000";
+	std::string destination = "127.0.0.1:7000";
 	SocketAddressPtr ServerAddress = SocketAddressFactory::CreateIPv4FromIPString(destination);
 
 	std::string PlayerName = "MyName";
