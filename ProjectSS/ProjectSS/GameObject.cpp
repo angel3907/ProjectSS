@@ -1,5 +1,16 @@
 #include "stdafx.h"
 
+struct PrintSomethingRPCParams : public RPCParams
+{
+	std::string mName;
+	Vector2 mLocation;
+	float mVolume;
+
+	PrintSomethingRPCParams(const std::string& InName, Vector2 InLocation, float InVolume)
+		//: RPCParams('PRST'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
+		: RPCParams('GPRT'), mName(InName), mLocation(InLocation), mVolume(InVolume) {}
+};
+
 GameObject::~GameObject()
 {
 	LinkingContext::Get().RemoveGameObject(this);
