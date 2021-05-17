@@ -11,7 +11,9 @@ public:
 	:mSocketAddress(InSocketAddress),
 	mName(InName),
 	mPlayerId(InPlayerId)
-	{}
+	{
+		UpdateLastPacketTime();
+	}
 
 	~ClientProxy(){}
 
@@ -26,6 +28,10 @@ public:
 	std::vector<ReplicationCommand>& GetUnprocessedRAs() { return UnprocessedRAs; }
 	void AddUnprocessedRA(ReplicationCommand& RC) { UnprocessedRAs.push_back(RC); }
 	void ClearUnprocessedRAs() { UnprocessedRAs.clear(); }
+
+	void UpdateLastPacketTime() {mLastPacketFromClientTime = TimeUtil::Get().GetTimef();}
+
+	float GetLastPacketFromClientTime() const {return mLastPacketFromClientTime; }
 
 	//이동 타임스탬프가 변경되었는지.
 	//void SetIsLastMoveTimestampDirty(bool InIsDirty) { mIsLastMoveTimestampDirty = InIsDirty;}
@@ -44,6 +50,8 @@ private:
 
 	std::vector<ReplicationCommand> UnprocessedRAs; //+추가 : RA해야할 일이 있으면 여기 추가해줌
 	//bool mIsLastMoveTimestampDirty;
+
+	float mLastPacketFromClientTime; //마지막으로 클라한테 패킷을 받은 시간
 };
 
 using ClientProxyPtr = std::shared_ptr<ClientProxy>;

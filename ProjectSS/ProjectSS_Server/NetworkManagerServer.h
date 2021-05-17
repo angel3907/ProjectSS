@@ -29,6 +29,18 @@ public:
 	//모든 클라이언트에 리플리케이션 패킷 추가
 	void AddUnprocessedRAToAllClients(ReplicationCommand& RA);
 
+	//모든 클라이언트에게 리플리케이션 패킷 전송
+	void SendReplicatedToAllClients(ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams);
+
+	//나간 클라이언트 처리
+	void HandleLostClient(ClientProxyPtr InClientProxy);
+
+	//연결 해제 처리
+	virtual void HandleConnectionReset(const SocketAddress& InFromAddress) override;
+
+	//연결 해제 체크
+	void CheckForDisconnects();
+
 private:
 	NetworkManagerServer();
 
@@ -64,4 +76,7 @@ private:
 
 	//상태 패킷을 마지막으로 보낸 시간
 	float mTimeOfLastStatePackets;
+
+	//클라이언트 연결 만료 시간
+	float mClientDisconnectTimeout;
 };

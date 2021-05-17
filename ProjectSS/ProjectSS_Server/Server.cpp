@@ -46,6 +46,9 @@ void Server::DoFrame()
 	//게임 오브젝트 업데이트
 	UpdateGameObjects();
 
+	//클라이언트 연결 상태 체크
+	NetworkManagerServer::sInstance->CheckForDisconnects();
+
 	//리플리케이션 패킷 전송
 	NetworkManagerServer::sInstance->SendOutgoingPackets();
 
@@ -75,13 +78,13 @@ void Server::HandleLostClient(ClientProxyPtr InClientProxy)
 	Player* Player_ = GetPlayerWithPlayerId(PlayerId);
 	if (Player_)
 	{
-		//플레이어 삭제 예약.. 다른 등록된 곳(LinkingContext)에서도 없애줘야함 
-		//그리고 리플리케이션할 목록에 추가해야 함
 		ReplicationCommand RC;
 		RC.NetworkId = LinkingContext::Get().GetNetworkId(Player_, false);
 		RC.RA = ReplicationAction::RA_Destroy;
 
-		InClientProxy->AddUnprocessedRA(RC);
+		//모든 클라 프록시에게 삭제 액션 리플리케이션
+		NetworkManagerServer::sInstance->SendReplicatedToAllClients(RC.RA, Player_, nullptr);
+
 		delete Player_; //여기서 LinkingContext에서도 빠짐.
 	}
 }

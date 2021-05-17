@@ -8,7 +8,8 @@ NetworkManagerServer* NetworkManagerServer::sInstance;
 NetworkManagerServer::NetworkManagerServer() : 
 	mNewPlayerId(1),
 	mTimeBetweenStatePackets(0.033f),
-	mTimeOfLastStatePackets(0.f)
+	mTimeOfLastStatePackets(0.f),
+	mClientDisconnectTimeout(3.0f)
 {
 
 }
@@ -95,6 +96,9 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 
 void NetworkManagerServer::ProcessPacket(ClientProxyPtr InClientProxy, InputMemoryBitStream& InInputStream)
 {
+	//패킷 온 시간 기록
+	InClientProxy->UpdateLastPacketTime();
+
 	//패킷 종류에 따라 처리
 	uint32_t PacketType;
 	InInputStream.Read(PacketType);
@@ -174,6 +178,58 @@ void NetworkManagerServer::AddUnprocessedRAToAllClients(ReplicationCommand& RA)
 	for (auto AddressToClientProxy : mAddressToClientMap)
 	{
 		AddressToClientProxy.second->AddUnprocessedRA(RA);
+	}
+}
+
+void NetworkManagerServer::SendReplicatedToAllClients(ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams)
+{
+	for (auto AddressToClientProxy : mAddressToClientMap)
+	{
+		ClientProxyPtr Cp = AddressToClientProxy.second;
+		SendReplicated(Cp->GetSocketAddress(), Cp->GetReplicationManagerServer(), InReplicationAction, InGameObject, InRPCParams);
+	}
+}
+
+void NetworkManagerServer::HandleLostClient(ClientProxyPtr InClientProxy)
+{
+	//각 맵에서 제거
+	mAddressToClientMap.erase(InClientProxy->GetSocketAddress());
+	mPlayerIdToClientMap.erase(InClientProxy->GetPlayerId());
+
+	//링킹 컨텍스트에서 제거, 플레이어 오브젝트 삭제
+	static_cast<Server*> (Engine::sInstance.get())->HandleLostClient(InClientProxy);
+}
+
+void NetworkManagerServer::HandleConnectionReset(const SocketAddress& InFromAddress)
+{
+	//address 맵에서 클라이언트를 찾아서 플레이어와 해당 클라이언트 프록시를 처리해줌
+	auto it = mAddressToClientMap.find(InFromAddress);
+	if (it != mAddressToClientMap.end())
+	{
+		HandleLostClient(it->second);
+	}
+}
+
+void NetworkManagerServer::CheckForDisconnects()
+{	
+	std::vector<ClientProxyPtr> ClientToDisconnect;
+
+	//연결이 유지되는 클라이언트는 적어도 이 시간 전에는 패킷을 보낸 적이 있어야 함.
+	float MinAllowedLastPacketFromClientTime = TimeUtil::Get().GetTimef() - mClientDisconnectTimeout;
+
+	for (const auto& Pair : mAddressToClientMap)
+	{
+		//해당 시간 이전에 보낸 패킷이 마지막이였다면, 삭제할 목록에 넣어줌
+		if (Pair.second->GetLastPacketFromClientTime() < MinAllowedLastPacketFromClientTime)
+		{
+			ClientToDisconnect.push_back(Pair.second);
+		}
+	}
+
+	//삭제할 클라이언트 프록시 처리
+	for (ClientProxyPtr ClientProxyValue : ClientToDisconnect)
+	{
+		HandleLostClient(ClientProxyValue);
 	}
 }
 

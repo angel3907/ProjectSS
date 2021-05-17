@@ -64,6 +64,12 @@ int UDPSocket::ReceiveFrom(void* InBuffer, int InMaxLength, SocketAddress& outFr
 		{
 			return 0;
 		}
+		else if (ErrorCode == WSAECONNRESET)
+		{
+			//클라이언트가 닫혔을 때 발생가능한 에러
+			LOG("Connection reset from %s", outFromAddress.ToString().c_str());
+			return -WSAECONNRESET;
+		}
 		else
 		{
 			//에러코드를 음수로 리턴

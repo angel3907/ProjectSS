@@ -89,6 +89,11 @@ void NetworkManager::ProcessInComingPacket()
 	}
 	else
 	{
+		if (RecvByteCount == -WSAECONNRESET)
+		{
+			HandleConnectionReset(FromAddress);
+		}
+
 		delete[] TempBuffer;
 	}
 }

@@ -36,6 +36,9 @@ public:
 	size_t SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
 		ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams);
 
+	//연결 리셋
+	virtual void HandleConnectionReset(const SocketAddress& InFromAddress){}
+
 protected:
 	UDPSocketPtr mSocket;
 };
