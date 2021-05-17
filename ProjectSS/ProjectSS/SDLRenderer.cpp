@@ -140,8 +140,9 @@ void SDLRenderer::DrawTexture(uint32_t InKey, Vector2 InPos)
 	//1. 정보를 얻어올 텍스쳐, 2. 텍스쳐 픽셀 포맷, 3.텍스처 접근 정보, 4&5. 텍스쳐 width, height
 	SDL_QueryTexture(Texture, nullptr, nullptr, &Src.w, &Src.h);
 
-	Dst.x = InPos.PosX;
-	Dst.y = InPos.PosY;
+	//인자로 받아온 위치가 그림의 중심이 되도록..
+	Dst.x = InPos.PosX - Src.w * 0.5f;
+	Dst.y = InPos.PosY - Src.h * 0.5f;
 	Dst.w = Src.w;
 	Dst.h = Src.h;
 
