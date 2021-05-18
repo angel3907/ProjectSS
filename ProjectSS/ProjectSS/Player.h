@@ -11,15 +11,14 @@ enum PlayerProperties : uint32_t
 {
 	//GameObject 다음 값으로 설정해줌
 	PLR_StarCount = 1 << 1,
-	PLR_TestValue = 1 << 2,
-	PLR_Name = 1 << 3,
+	PLR_Name = 1 << 2,
 	PLR_MAX
 };
 
 class Player : public GameObject
 {
 public:
-	Player(int32_t InitialStarCount = 0, bool TestValue = 0, std::string Name = "") : StarCount(InitialStarCount), TestValue(TestValue), Name(Name){}
+	Player(int32_t InitialStarCount = 0, std::string Name = "") : StarCount(InitialStarCount), Name(Name){}
 	~Player(){}
 
 	//CLASS_IDENTIFICATION('PLYR', Player);
@@ -41,7 +40,6 @@ public:
 	virtual void ReadChanged(InputMemoryBitStream& InStream) override;
 
 	int32_t GetStarCount() const {return StarCount;}
-	bool GetTestValue() const {return TestValue;}
 	std::string GetName() const {return Name;}
 
 	uint32_t GetPlayerId() const {return mPlayerId;}
@@ -51,9 +49,10 @@ public:
 
 	bool IsAttacked(){return bAttacked;}
 
+	void AddStarCount(int InStarValue) { StarCount += InStarValue; }
+
 private:
 	int32_t StarCount;
-	bool TestValue = false;
 	std::string Name = "";
 	uint32_t mPlayerId = 0;
 

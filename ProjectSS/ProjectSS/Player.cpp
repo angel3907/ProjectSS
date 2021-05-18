@@ -80,9 +80,6 @@ void Player::WriteChanged(OutputMemoryBitStream& InStream) const
 	if ((mProperties & PLR_StarCount) != 0)
 		InStream.Write(StarCount);
 
-	if ((mProperties & PLR_TestValue) != 0)
-		InStream.Write(TestValue);
-
 	if ((mProperties & PLR_Name) != 0)
 		InStream.Write(Name);
 }
@@ -96,16 +93,13 @@ void Player::ReadChanged(InputMemoryBitStream& InStream)
 	if ((WrittenProperties & PLR_StarCount) != 0)
 		InStream.Read(StarCount);
 
-	if ((WrittenProperties & PLR_TestValue) != 0)
-		InStream.Read(TestValue);
-
 	if ((WrittenProperties & PLR_Name) != 0)
 		InStream.Read(Name);
 }
 
 void Player::Write(OutputMemoryBitStream& InStream) const
-{
- 	InStream.Write(TestValue);
+{	
+	InStream.Write(mPlayerId);
  	InStream.Write(StarCount);
 	InStream.Write(Name);
 	InStream.WritePosF(Pos);
@@ -120,7 +114,7 @@ void Player::Write(OutputMemoryBitStream& InStream) const
 
 void Player::Read(InputMemoryBitStream& InStream)
 {
- 	InStream.Read(TestValue);
+	InStream.Read(mPlayerId);
  	InStream.Read(StarCount);
 	InStream.Read(Name);
 	InStream.ReadPosF(Pos);
