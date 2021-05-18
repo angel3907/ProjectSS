@@ -29,6 +29,9 @@ public:
 	//패킷 처리
 	virtual void ProcessPacket(InputMemoryBitStream& InInputStream, const SocketAddress& InFromAddress) override;
 
+	//플레이어 아이디 얻어오기
+	int32_t GetPlayerId() const { return mPlayerId; }
+
 private:
 	NetworkManagerClient();
 	void Init (const SocketAddress& InServerAddress, const std::string& InName); //실제 초기화 함수

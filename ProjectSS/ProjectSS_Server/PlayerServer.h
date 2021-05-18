@@ -10,9 +10,9 @@ public:
 	~PlayerServer(){}
 
 	virtual void Update() override;
+	void ReplicatePlayer();
 
 private:
-	void ReplicatePlayer();
 
 	//공격 처리
 	void HandleAttacking();

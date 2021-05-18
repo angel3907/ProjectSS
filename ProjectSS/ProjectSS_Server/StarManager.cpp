@@ -1,6 +1,7 @@
 #include "StarManager.h"
 #include "stdafx.h"
 #include "NetworkManagerServer.h"
+#include "PlayerServer.h"
 
 StarManager::~StarManager()
 {
@@ -51,6 +52,36 @@ void StarManager::CheckStarGeneratingTime()
 
 void StarManager::CheckStarCollidedToPlayer()
 {
+	for (auto StarValue : Stars)
+	{
+		//보이는 별 중
+		if (StarValue->GetStarStatus().bHidden == false)
+		{
+			for (auto PlayerPtr_ :  LinkingContext::Get().GetPlayerPtrSet())
+			{
+				//모든 플레이어를 돌면서 충돌한 게 있으면
+				if (IsCircleCollided(StarValue->GetPos(), PlayerPtr_->GetPos(), StarValue->GetStarStatus().StarRadius, PlayerPtr_->GetPlayerRadius()))
+				{
+					//안보이게 하고
+					StarValue->GetStarStatus().bHidden = true;
+					
+					PlayerServer* PlayerServer_ = static_cast<PlayerServer*>(PlayerPtr_);
+					if (PlayerServer_ != nullptr)
+					{
+						//그만큼 별 개수 늘리기
+						PlayerServer_->AddStarCount(StarValue->GetStarStatus().Value);
+						PlayerServer_->ReplicatePlayer(); //플레이어 리플리케이트
+
+						//리플리케이션 시키기 (별 업데이트)
+						ReplicationCommand RC;
+						RC.NetworkId = StarValue->GetNetworkId();
+						RC.RA = ReplicationAction::RA_Update;
+						NetworkManagerServer::sInstance->AddUnprocessedRAToAllClients(RC);
+					}
+				}
+			}
+		}
+	}
 }
 
 StarManager::StarManager()
