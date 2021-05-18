@@ -10,6 +10,7 @@ void StarStatus::Read(InputMemoryBitStream& InStream)
 {
 	InStream.Read(Value);
 	InStream.Read(bHidden);
+	SetValue(Value);
 }
 
 void StarStatus::WriteChanged(OutputMemoryBitStream& InStream) const
