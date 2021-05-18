@@ -104,11 +104,15 @@ void SDLRenderer::LoadTextures()
 	Star_S_Texture = LoadTexture("../Resources/Images/Star_S.png");
 	Star_L_Texture = LoadTexture("../Resources/Images/Star_L.png");
 
+	ScoreboardTexture = LoadTexture("../Resources/Images/Scoreboard.png");
+
 	Textures['PLYR'] = PlayerTexture;
 	Textures['PLAE'] = PlayerAttackEffectTexture;
 
 	Textures['STAS'] = Star_S_Texture;
 	Textures['STAL'] = Star_L_Texture;
+
+	Textures['SCOR'] = ScoreboardTexture;
 }
 
 void SDLRenderer::SetTextureColorMod(SDL_Texture* InTexture, SDL_Color InColor)
@@ -348,4 +352,8 @@ void SDLRenderer::CloseTextures()
 {
 	SDL_DestroyTexture(PlayerTexture);
 	SDL_DestroyTexture(BackgroundTexture);
+	SDL_DestroyTexture(PlayerAttackEffectTexture);
+	SDL_DestroyTexture(Star_S_Texture);
+	SDL_DestroyTexture(Star_L_Texture);
+	SDL_DestroyTexture(ScoreboardTexture);
 }

@@ -31,9 +31,9 @@ bool Player::ApplyPosLimit(Vector2& InOutPos)
 
 	//이동 최대값 조정
 	//X
-	if (InOutPos.PosX > WINDOW_WIDTH - PlayerRadius)
+	if (InOutPos.PosX > WORLD_WIDTH - PlayerRadius)
 	{
-		InOutPos.PosX = WINDOW_WIDTH - PlayerRadius;
+		InOutPos.PosX = WORLD_WIDTH - PlayerRadius;
 		IsPosLimited = true;
 	}
 	else if (InOutPos.PosX < PlayerRadius)
@@ -43,9 +43,9 @@ bool Player::ApplyPosLimit(Vector2& InOutPos)
 	}
 
 	//Y
-	if (InOutPos.PosY > WINDOW_HEIGHT - PlayerRadius)
+	if (InOutPos.PosY > WORLD_HEIGHT - PlayerRadius)
 	{
-		InOutPos.PosY = WINDOW_WIDTH - PlayerRadius;
+		InOutPos.PosY = WORLD_HEIGHT - PlayerRadius;
 		IsPosLimited = true;
 	}
 	else if (InOutPos.PosY < PlayerRadius)

@@ -6,10 +6,8 @@ struct SDL_Window;
 #include <unordered_map>
 #include "MathUtils.h"
 
-#define WINDOW_WIDTH 1000
+#define WINDOW_WIDTH 1400
 #define WINDOW_HEIGHT 1000
-#define  WINDOW_HALF_WIDTH 500
-#define  WINDOW_HALF_HEIGHT 500
 
 class SDLRenderer
 {
@@ -68,6 +66,8 @@ private:
 
 	SDL_Texture* Star_S_Texture;
 	SDL_Texture* Star_L_Texture;
+
+	SDL_Texture* ScoreboardTexture;
 
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 	std::unordered_map<uint32_t, TTF_Font*> Fonts;
