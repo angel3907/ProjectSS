@@ -66,6 +66,9 @@ private:
 	SDL_Texture* PlayerAttackEffectTexture;
 	SDL_Texture* BackgroundTexture;
 
+	SDL_Texture* Star_S_Texture;
+	SDL_Texture* Star_L_Texture;
+
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 	std::unordered_map<uint32_t, TTF_Font*> Fonts;
 
