@@ -1,6 +1,7 @@
 #pragma once
 #include "MathUtils.h"
 #include "Serializable.h"
+#include <memory>
 
 class LinkingContext;
 class RPCManager;
