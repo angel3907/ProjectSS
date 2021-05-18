@@ -36,6 +36,7 @@ public:
 	void DrawStretchedTextureEx(SDL_Texture* InTexture, Vector2 InPos, Vector2 InWidthHeight, float InAngle, SDL_RendererFlip InFlip = SDL_FLIP_NONE);
 
 	void DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, const char* InText);
+	void DrawFont(uint32_t InKey, SDL_Color InColor, Vector2 InPos, const char* InText);
 
 	//테스트용 함수
 	void DrawBackground();
@@ -66,6 +67,7 @@ private:
 	SDL_Texture* BackgroundTexture;
 
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
+	std::unordered_map<uint32_t, TTF_Font*> Fonts;
 
 	TTF_Font* MainFont;
 };

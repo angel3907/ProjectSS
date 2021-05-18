@@ -91,7 +91,8 @@ TTF_Font* SDLRenderer::LoadFont(const char* File, int FontSize)
 
 void SDLRenderer::LoadFonts()
 {
-	MainFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 25);
+	MainFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 50);
+	Fonts['CARL'] = MainFont; 
 }
 
 void SDLRenderer::LoadTextures()
@@ -264,6 +265,34 @@ void SDLRenderer::DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, c
 	//폰트 그리기
 	DrawTexture(Texture, InPos);
 	
+	//서페이스에 할당한 메모리 해제
+	SDL_FreeSurface(Surface);
+
+	//텍스쳐에 할당한 메모리 해제
+	SDL_DestroyTexture(Texture);
+}
+
+void SDLRenderer::DrawFont(uint32_t InKey, SDL_Color InColor, Vector2 InPos, const char* InText)
+{
+	if (Fonts.find(InKey) == Fonts.end())
+	{
+		printf("잘못된 폰트 이름일니다\n");
+		return;
+	}
+
+	SDL_Surface* Surface = TTF_RenderText_Solid(Fonts[InKey], InText, InColor);
+	SDL_Texture* Texture = SDL_CreateTextureFromSurface(Renderer, Surface);
+
+	if (Surface == nullptr || Texture == nullptr)
+	{
+		printf("폰트 로드에 실패했습니다\n");
+		printf("에러 : %s\n", SDL_GetError());
+		return;
+	}
+
+	//폰트 그리기
+	DrawTexture(Texture, InPos);
+
 	//서페이스에 할당한 메모리 해제
 	SDL_FreeSurface(Surface);
 
