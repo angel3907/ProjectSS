@@ -18,7 +18,7 @@ void PlayerClient::Render()
 		Color.r = Color.g = Color.b = 0;
 
 		std::string S = "Star : " + std::to_string(GetStarCount());
-		SDLRenderer::Get().DrawFont('CARL', Color, Vector2(WORLD_WIDTH * 0.825,0), S.c_str());
+		SDLRenderer::Get().DrawFont('CARL', Color, Vector2(WORLD_WIDTH * 0.82, 20), S.c_str());
 	}
 }
 

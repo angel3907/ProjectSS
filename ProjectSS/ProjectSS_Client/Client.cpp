@@ -4,6 +4,7 @@
 #include "NetworkManagerClient.h"
 #include "SDLRenderer.h"
 #include "StarClient.h"
+#include "ScoreboardManager.h"
 
 void RegisterObjectCreation()
 {
@@ -81,6 +82,9 @@ void Client::Render()
 	{
 		GO->Render();
 	}
+
+	//스코어 보드 렌더링
+	ScoreboardManager::Get().RenderScoreborad();
 
 	//표시
 	SDLRenderer::Get().Present();

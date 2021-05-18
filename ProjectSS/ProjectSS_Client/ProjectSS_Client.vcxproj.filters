@@ -23,6 +23,9 @@
     <ClInclude Include="StarClient.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreboardManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -41,6 +44,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="StarClient.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreboardManager.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
