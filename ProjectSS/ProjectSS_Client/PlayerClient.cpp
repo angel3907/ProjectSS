@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerClient.h"
 #include "SDLRenderer.h"
+#include "NetworkManagerClient.h"
 
 void PlayerClient::Render()
 {
@@ -11,9 +12,17 @@ void PlayerClient::Render()
 
 	SDLRenderer::Get().DrawTexture('PLYR', Pos);
 
-	SDL_Color Color;
-	Color.r = Color.g = Color.b = 0;
+	if (IsLocallyControlled())
+	{ 
+		SDL_Color Color;
+		Color.r = Color.g = Color.b = 0;
 
-	std::string S = "Star : " + std::to_string(GetStarCount());
-	SDLRenderer::Get().DrawFont('CARL', Color, Vector2(WINDOW_WIDTH * 0.825,0), S.c_str());
+		std::string S = "Star : " + std::to_string(GetStarCount());
+		SDLRenderer::Get().DrawFont('CARL', Color, Vector2(WINDOW_WIDTH * 0.825,0), S.c_str());
+	}
+}
+
+bool PlayerClient::IsLocallyControlled()
+{
+	return NetworkManagerClient::sInstance->GetPlayerId() == GetPlayerId();
 }

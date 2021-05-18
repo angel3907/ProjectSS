@@ -10,4 +10,6 @@ public:
 	~PlayerClient() {}
 
 	virtual void Render() override;
+
+	bool IsLocallyControlled();
 };
