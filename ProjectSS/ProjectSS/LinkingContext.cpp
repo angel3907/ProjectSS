@@ -28,7 +28,7 @@ void LinkingContext::AddGameObject(GameObject* InGameObject, uint32_t InNetworkI
 	InGameObject->SetNetworkId(InNetworkId); //네트워크 아이디 설정
 
 	//플레이어였다면
-	if (Player* PlayerValue = static_cast<Player*>(InGameObject))
+	if (Player* PlayerValue = dynamic_cast<Player*>(InGameObject))
 	{
 		Players.insert(PlayerValue);
 	}
@@ -42,7 +42,7 @@ void LinkingContext::RemoveGameObject(GameObject* InGameObject)
 	GameObjects.erase(InGameObject);
 
 	//플레이어였다면
-	if (Player* PlayerValue = static_cast<Player*>(InGameObject))
+	if (Player* PlayerValue = dynamic_cast<Player*>(InGameObject))
 	{
 		Players.erase(PlayerValue);
 	}
