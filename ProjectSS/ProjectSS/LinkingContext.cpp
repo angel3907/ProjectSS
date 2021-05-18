@@ -25,6 +25,8 @@ void LinkingContext::AddGameObject(GameObject* InGameObject, uint32_t InNetworkI
 	mGameObjectToNetworkMap[InGameObject] = InNetworkId;
 	GameObjects.insert(InGameObject);
 
+	InGameObject->SetNetworkId(InNetworkId); //네트워크 아이디 설정
+
 	//플레이어였다면
 	if (Player* PlayerValue = static_cast<Player*>(InGameObject))
 	{
