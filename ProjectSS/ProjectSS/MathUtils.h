@@ -1,4 +1,6 @@
 #pragma once
+#include <stdint.h>
+#include <cstdlib>
 
 struct Vector2
 {
@@ -61,10 +63,10 @@ struct Vector2
 
 struct Quaternion
 {
-	FLOAT X;
-	FLOAT Y;
-	FLOAT Z;
-	FLOAT W;
+	float X;
+	float Y;
+	float Z;
+	float W;
 };
 
 //열거자 직렬화시 최적의 비트 수를 컴파일 타임에 결정함
@@ -77,4 +79,10 @@ inline bool IsCircleCollided(Vector2 PlayerPosA, Vector2 PlayerPosB, float Colli
 {
 	float Length = Vector2::GetLength(PlayerPosA - PlayerPosB);
 	return (Length < (CollisionRadiusA + CollisionRadiusB));
+}
+
+inline int GetRandomInt(int StarValue, int EndValue)
+{
+	int Res = StarValue + (rand() % (EndValue - StarValue));
+	return Res;
 }
