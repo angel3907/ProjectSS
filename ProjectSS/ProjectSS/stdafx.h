@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <stdint.h>
 
 #include "SocketAddress.h"
 #include "SocketAddressFactory.h"
