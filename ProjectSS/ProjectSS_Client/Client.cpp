@@ -3,12 +3,14 @@
 #include "PlayerClient.h"
 #include "NetworkManagerClient.h"
 #include "SDLRenderer.h"
+#include "StarClient.h"
 
 void RegisterObjectCreation()
 {
 	//실제로는 PlayerClient, StarClient가 필요할 것
 	//ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
 	ObjectCreationRegistry::Get().RegisterCreationFunction<PlayerClient>();
+	ObjectCreationRegistry::Get().RegisterCreationFunction<StarClient>();
 	//ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
 }
 

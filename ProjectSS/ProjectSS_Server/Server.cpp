@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "StarManager.h"
 #include "Server.h"
 #include "NetworkManagerServer.h"
 #include "PlayerServer.h"
@@ -8,6 +9,7 @@ void RegisterObjectCreation()
 	//실제로는 PlayerServer, StarServer가 필요할 것
 	//ObjectCreationRegistry::Get().RegisterCreationFunction<GameObject>();
 	ObjectCreationRegistry::Get().RegisterCreationFunction<PlayerServer>();
+	ObjectCreationRegistry::Get().RegisterCreationFunction<StarServer>();
 	//ObjectCreationRegistry::Get().RegisterCreationFunction<Star>();
 }
 
@@ -54,6 +56,9 @@ void Server::DoFrame()
 
 	//클라이언트 상태 패킷 보내기
 	NetworkManagerServer::sInstance->UpdateAllClients();
+
+	//별 생성 시작
+	StarManager::Get().Update();
 }
 
 int Server::Run()
@@ -113,9 +118,8 @@ void Server::SpawnPlayer(int InPlayerId)
 		//링킹 컨텍스트에 추가
 		int NetworkId = LinkingContext::Get().GetNetworkId(Player_, true);
 
-		//플레이어 속성 설정 - 아이디 설정, 네트워크 아이디 설정, 위치 설정
+		//플레이어 속성 설정 - 아이디 설정, 위치 설정
 		Player_->SetPlayerId(InPlayerId);
-		Player_->SetNetworkId(NetworkId);
 		Player_->SetPos(Vector2(0,0));
 	}
 	else
