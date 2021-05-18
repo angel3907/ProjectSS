@@ -47,7 +47,7 @@ Client::Client()
 	std::string destination = "127.0.0.1:7000";
 	SocketAddressPtr ServerAddress = SocketAddressFactory::CreateIPv4FromIPString(destination);
 
-	std::string PlayerName = "MyName";
+	std::string PlayerName = "Player" + std::to_string(GetRandomInt(1, 1000));
 
 	//주소와 이름으로 네트워크 매니저 초기화
 	NetworkManagerClient::StaticInit(*ServerAddress, PlayerName);
@@ -61,6 +61,9 @@ void Client::DoFrame()
 
 	//들어오는 패킷 처리
 	NetworkManagerClient::sInstance->ProcessInComingPacket();
+
+	//스코어 보드 업데이트
+	ScoreboardManager::Get().UpdateScoreboard();
 
 	//렌더링
 	Render();

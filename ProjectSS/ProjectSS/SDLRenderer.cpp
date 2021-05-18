@@ -91,8 +91,12 @@ TTF_Font* SDLRenderer::LoadFont(const char* File, int FontSize)
 
 void SDLRenderer::LoadFonts()
 {
-	MainFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 50);
-	Fonts['CARL'] = MainFont; 
+	LargeFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 50);
+	MidFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 40);
+	SmallFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 30);
+	Fonts['LARG'] = LargeFont; 
+	Fonts['MIDD'] = MidFont;
+	Fonts['SMAL'] = SmallFont;
 }
 
 void SDLRenderer::LoadTextures()
@@ -345,7 +349,9 @@ void SDLRenderer::QuitSDL()
 
 void SDLRenderer::CloseFonts()
 {
-	TTF_CloseFont(MainFont);
+	TTF_CloseFont(LargeFont);
+	TTF_CloseFont(MidFont);
+	TTF_CloseFont(SmallFont);
 }
 
 void SDLRenderer::CloseTextures()

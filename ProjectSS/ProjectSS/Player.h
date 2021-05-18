@@ -51,6 +51,8 @@ public:
 
 	void AddStarCount(int InStarValue) { StarCount += InStarValue; }
 
+	void SetName(const std::string& InName){Name = InName;}
+
 private:
 	int32_t StarCount;
 	std::string Name = "";

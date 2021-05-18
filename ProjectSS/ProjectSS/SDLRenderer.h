@@ -72,5 +72,7 @@ private:
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 	std::unordered_map<uint32_t, TTF_Font*> Fonts;
 
-	TTF_Font* MainFont;
+	TTF_Font* LargeFont;
+	TTF_Font* MidFont;
+	TTF_Font* SmallFont;
 };

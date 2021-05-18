@@ -103,8 +103,8 @@ StarManager::StarManager()
 
 void StarManager::SetRandomStatus(StarServer* InStar)
 {
-	SetRandomPos(InStar);
 	SetRandomSize(InStar);
+	SetRandomPos(InStar);
 }
 
 void StarManager::SetRandomPos(StarServer* InStar)

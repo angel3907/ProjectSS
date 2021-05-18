@@ -18,7 +18,7 @@ public:
 
 	//특정 아이디 플레이어 가져오기 / 플레이어 새로 스폰
 	Player* GetPlayerWithPlayerId(int InPlayerId);
-	void SpawnPlayer(int InPlayerId);
+	void SpawnPlayer(ClientProxyPtr InClientProxy);
 
 private:
 	Server();

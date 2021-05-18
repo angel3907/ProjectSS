@@ -15,6 +15,8 @@ public:
 	void RenderScoreborad();
 
 private:
+	std::map<std::string, int32_t> NameToStarCountMap;
+
 	ScoreboardManager(){}
 	~ScoreboardManager(){}
 };

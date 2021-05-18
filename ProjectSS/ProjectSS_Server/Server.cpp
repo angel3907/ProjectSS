@@ -70,9 +70,8 @@ int Server::Run()
 
 void Server::HandleNewClient(ClientProxyPtr InClientProxy)
 {
-	//해당 플레이어 아이디로 플레이어 생성 
-	int PlayerId = InClientProxy->GetPlayerId();
-	SpawnPlayer(PlayerId);
+	//해당 클라 프록시 정보(이름, 아이디)로 플레이어 생성 
+	SpawnPlayer(InClientProxy);
 }
 
 void Server::HandleLostClient(ClientProxyPtr InClientProxy)
@@ -108,7 +107,7 @@ Player* Server::GetPlayerWithPlayerId(int InPlayerId)
 	return nullptr;
 }
 
-void Server::SpawnPlayer(int InPlayerId)
+void Server::SpawnPlayer(ClientProxyPtr InClientProxy)
 {
 	//static_pointer_cast 함수로 std::shared_ptr이 가리키는 객체 형을 변환할 수 있음.
 	PlayerServer* Player_ = static_cast<PlayerServer*>(ObjectCreationRegistry::Get().CreateGameObject('PLYR'));
@@ -119,12 +118,13 @@ void Server::SpawnPlayer(int InPlayerId)
 		int NetworkId = LinkingContext::Get().GetNetworkId(Player_, true);
 
 		//플레이어 속성 설정 - 아이디 설정, 위치 설정
-		Player_->SetPlayerId(InPlayerId);
+		Player_->SetPlayerId(InClientProxy->GetPlayerId());
 		Player_->SetPos(Vector2(0,0));
+		Player_->SetName(InClientProxy->GetName());
 	}
 	else
 	{
-		LOG("Failed To Spawn Player ID : %d", InPlayerId);
+		LOG("Failed To Spawn Player ID : %d", InClientProxy->GetPlayerId());
 	}
 }
 
