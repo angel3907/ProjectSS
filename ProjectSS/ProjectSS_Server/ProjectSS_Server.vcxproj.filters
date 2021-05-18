@@ -23,6 +23,12 @@
     <ClInclude Include="Server.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="StarServer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="StarManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -38,6 +44,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="ServerMain.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="StarServer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="StarManager.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

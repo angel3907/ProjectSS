@@ -156,6 +156,8 @@
     <ClInclude Include="NetworkManagerServer.h" />
     <ClInclude Include="PlayerServer.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="StarManager.h" />
+    <ClInclude Include="StarServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -163,6 +165,8 @@
     <ClCompile Include="PlayerServer.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerMain.cpp" />
+    <ClCompile Include="StarManager.cpp" />
+    <ClCompile Include="StarServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
