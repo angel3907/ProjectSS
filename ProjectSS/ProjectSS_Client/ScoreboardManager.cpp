@@ -4,12 +4,14 @@
 
 void ScoreboardManager::UpdateScoreboard()
 {
-	NameToStarCountMap.clear();
+	StarCountToName.clear();
 
 	for (auto Player_ : LinkingContext::Get().GetPlayerPtrSet())
 	{
-		NameToStarCountMap[Player_->GetName()] = Player_->GetStarCount();
+		StarCountToName.push_back({Player_->GetStarCount(), Player_->GetName()});
 	}
+
+	sort(StarCountToName.begin(), StarCountToName.end(), std::greater<>());
 }
 
 void ScoreboardManager::RenderScoreborad()
@@ -24,10 +26,10 @@ void ScoreboardManager::RenderScoreborad()
 	int XOffset = 200;
 	int YOffset = 75;
 
-	for (auto NameToStarCount : NameToStarCountMap)
+	for (auto StarCountToNameValue : StarCountToName)
 	{
-		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX, BasePosY + Index * YOffset), NameToStarCount.first.c_str());
-		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX + XOffset, BasePosY + Index * YOffset), std::to_string(NameToStarCount.second).c_str());
+		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX, BasePosY + Index * YOffset), StarCountToNameValue.second.c_str());
+		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX + XOffset, BasePosY + Index * YOffset), std::to_string(StarCountToNameValue.first).c_str());
 		Index++;
 	}
 }

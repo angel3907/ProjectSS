@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 #include "Player.h"
 
 class ScoreboardManager
@@ -15,7 +14,7 @@ public:
 	void RenderScoreborad();
 
 private:
-	std::map<std::string, int32_t> NameToStarCountMap;
+	std::vector<std::pair<uint32_t, std::string>> StarCountToName;
 
 	ScoreboardManager(){}
 	~ScoreboardManager(){}
