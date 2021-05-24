@@ -69,6 +69,13 @@ private:
 
 	SDL_Texture* ScoreboardTexture;
 
+	SDL_Texture* EntrySceneTexture;
+	SDL_Texture* PlayerColorTextures[6];
+	const uint32_t PlayerColorNum = 6;
+	
+	SDL_Texture* CheckMarkTexture;
+
+
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 	std::unordered_map<uint32_t, TTF_Font*> Fonts;
 

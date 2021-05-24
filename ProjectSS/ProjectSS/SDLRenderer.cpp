@@ -58,7 +58,7 @@ SDL_Texture* SDLRenderer::LoadTexture(const char* File)
 	Surface = IMG_Load(File); //bmp 이외의 다른 이미지 로드
 	if (Surface == nullptr)
 	{
-		printf("%s 파일을 읽을 수 없습니다\n", File);
+		printf("%s 경로의 파일을 읽을 수 없습니다.\n", File);
 		printf("에러 : %s\n", SDL_GetError());
 	}
 
@@ -110,6 +110,17 @@ void SDLRenderer::LoadTextures()
 
 	ScoreboardTexture = LoadTexture("../Resources/Images/Scoreboard.png");
 
+	EntrySceneTexture = LoadTexture("../Resources/Images/EntryScene.png");
+	CheckMarkTexture = LoadTexture("../Resources/Images/check.png");
+
+	for (int i = 0; i < PlayerColorNum; i++)
+	{
+		std::string TexturePath = "../Resources/Images/PlayerColor" + std::to_string(i) + ".png";
+		PlayerColorTextures[i] = LoadTexture(TexturePath.c_str());
+		Textures[i] = PlayerColorTextures[i]; //맵 키 예외 0~PlayerColorNum
+	}
+
+	//텍스쳐 맵에 등록
 	Textures['PLYR'] = PlayerTexture;
 	Textures['PLAE'] = PlayerAttackEffectTexture;
 
@@ -117,6 +128,9 @@ void SDLRenderer::LoadTextures()
 	Textures['STAL'] = Star_L_Texture;
 
 	Textures['SCOR'] = ScoreboardTexture;
+
+	Textures['ENTR'] = EntrySceneTexture;
+	Textures['CHEK'] = CheckMarkTexture;
 }
 
 void SDLRenderer::SetTextureColorMod(SDL_Texture* InTexture, SDL_Color InColor)
@@ -362,4 +376,13 @@ void SDLRenderer::CloseTextures()
 	SDL_DestroyTexture(Star_S_Texture);
 	SDL_DestroyTexture(Star_L_Texture);
 	SDL_DestroyTexture(ScoreboardTexture);
+
+	SDL_DestroyTexture(EntrySceneTexture);
+
+	for (int i = 0; i < PlayerColorNum; i++)
+	{
+		SDL_DestroyTexture(PlayerColorTextures[i]);
+	}
+
+	SDL_DestroyTexture(CheckMarkTexture);
 }
