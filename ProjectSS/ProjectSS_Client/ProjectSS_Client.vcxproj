@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="CircleButton.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="EntryScene.h" />
     <ClInclude Include="InGameScene.h" />
@@ -160,9 +162,11 @@
     <ClInclude Include="PlayerClient.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScoreboardManager.h" />
+    <ClInclude Include="SquareButton.h" />
     <ClInclude Include="StarClient.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CircleButton.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientMain.cpp" />
     <ClCompile Include="EntryScene.cpp" />
@@ -171,6 +175,7 @@
     <ClCompile Include="NetworkManagerClient.cpp" />
     <ClCompile Include="PlayerClient.cpp" />
     <ClCompile Include="ScoreboardManager.cpp" />
+    <ClCompile Include="SquareButton.cpp" />
     <ClCompile Include="StarClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

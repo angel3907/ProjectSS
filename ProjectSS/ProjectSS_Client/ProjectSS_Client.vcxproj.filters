@@ -35,6 +35,15 @@
     <ClInclude Include="InGameScene.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareButton.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleButton.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -62,6 +71,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="InGameScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SquareButton.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleButton.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
