@@ -5,6 +5,7 @@
 #include "SDLRenderer.h"
 #include "StarClient.h"
 #include "ScoreboardManager.h"
+#include "EntryScene.h"
 
 void RegisterObjectCreation()
 {
@@ -33,10 +34,18 @@ bool Client::StaticInit()
 	SDLRenderer::Get().LoadFonts();
 
 	//입력 매니저 초기화해주는거 있는데 그냥 나는 싱글턴 선언함
-
+	
 	sInstance.reset(Client_);
 
+	//씬 초기화
+	Client_->InitScene();
+
 	return true;
+}
+
+void Client::InitScene()
+{
+	CurrentScene = &EntryScene::Get();
 }
 
 Client::Client()
@@ -62,8 +71,8 @@ void Client::DoFrame()
 	//들어오는 패킷 처리
 	NetworkManagerClient::sInstance->ProcessInComingPacket();
 
-	//스코어 보드 업데이트
-	ScoreboardManager::Get().UpdateScoreboard();
+	//씬 업데이트
+	CurrentScene->Update();
 
 	//렌더링
 	Render();
@@ -77,17 +86,14 @@ void Client::Render()
 	//렌더 클리어
 	SDLRenderer::Get().Clear();
 
-	//드로우
-	SDLRenderer::Get().DrawBackground();
-
 	//모든 오브젝트 드로우
 	for (auto GO : LinkingContext::Get().GetGameObjectSet())
 	{
 		GO->Render();
 	}
 
-	//스코어 보드 렌더링
-	ScoreboardManager::Get().RenderScoreborad();
+	//씬 렌더링
+	CurrentScene->Render();
 
 	//표시
 	SDLRenderer::Get().Present();
