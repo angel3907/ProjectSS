@@ -39,7 +39,7 @@ public:
 	virtual void WriteChanged(OutputMemoryBitStream& InStream) const override;
 	virtual void ReadChanged(InputMemoryBitStream& InStream) override;
 
-	int32_t GetStarCount() const {return StarCount;}
+	uint32_t GetStarCount() const {return StarCount;}
 	std::string GetName() const {return Name;}
 
 	uint32_t GetPlayerId() const {return mPlayerId;}
@@ -49,12 +49,12 @@ public:
 
 	bool IsAttacked(){return bAttacked;}
 
-	void AddStarCount(int InStarValue) { StarCount += InStarValue; }
+	void AddStarCount(int32_t InStarValue) { StarCount += InStarValue; }
 
 	void SetName(const std::string& InName){Name = InName;}
 
 private:
-	int32_t StarCount;
+	uint32_t StarCount;
 	std::string Name = "";
 	uint32_t mPlayerId = 0;
 
