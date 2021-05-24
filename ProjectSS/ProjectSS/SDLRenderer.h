@@ -36,6 +36,10 @@ public:
 	void DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, const char* InText);
 	void DrawFont(uint32_t InKey, SDL_Color InColor, Vector2 InPos, const char* InText);
 
+	void DrawSqure(Vector2 InPos, int InWidth, int inHeight);
+	void DrawCircle(Vector2 InPos, float InRadius);
+
+
 	//테스트용 함수
 	void DrawBackground();
 

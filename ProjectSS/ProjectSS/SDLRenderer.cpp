@@ -328,13 +328,29 @@ void SDLRenderer::DrawFont(uint32_t InKey, SDL_Color InColor, Vector2 InPos, con
 	SDL_DestroyTexture(Texture);
 }
 
+void SDLRenderer::DrawSqure(Vector2 InPos, int InWidth, int InHeight)
+{
+	SDL_SetRenderDrawColor(Renderer, 230, 0, 0, 50);
+
+
+	SDL_Rect Rect = {InPos.PosX - InWidth * 0.5f, InPos.PosY - InHeight * 0.5f,
+					 InWidth, InHeight};
+					 
+
+	SDL_RenderFillRect(Renderer, &Rect);
+	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+}
+
+void SDLRenderer::DrawCircle(Vector2 InPos, float InRadius)
+{
+	//TODO ±¸Çö
+}
+
 void SDLRenderer::DrawBackground()
 {
 	DrawStretchedTexture(BackgroundTexture, Vector2(0,0), Vector2(WINDOW_WIDTH, WINDOW_HEIGHT));
 //	DrawStretchedTexture(PlayerTexture, Vector2(0, 0), Vector2(100, 100));
-
-	SDL_Color Color = {255, 255, 255};
-	//DrawFont(MainFont,  Color, Vector2(0,0), "Hi~My Name is..");
+//DrawFont(MainFont,  Color, Vector2(0,0), "Hi~My Name is..");
 }
 
 void SDLRenderer::Present()
