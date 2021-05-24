@@ -90,7 +90,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>C:\angel3907\ProjectSS\ProjectSS\SDL2\include;C:\angel3907\ProjectSS\ProjectSS\SDL2_image\include;C:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\angel3907\ProjectSS\ProjectSS\SDL2\include;D:\angel3907\ProjectSS\ProjectSS\SDL2_image\include;D:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4826;4828</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -98,7 +98,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\angel3907\ProjectSS\ProjectSS\SDL2\lib\x86;C:\angel3907\ProjectSS\ProjectSS\SDL2_image\lib\x86;C:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\angel3907\ProjectSS\ProjectSS\SDL2\lib\x86;D:\angel3907\ProjectSS\ProjectSS\SDL2_image\lib\x86;D:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\angel3907\ProjectSS\ProjectSS\SDL2\include;C:\angel3907\ProjectSS\ProjectSS\SDL2_image\include;C:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\angel3907\ProjectSS\ProjectSS\SDL2\include;D:\angel3907\ProjectSS\ProjectSS\SDL2_image\include;D:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4826;4828</DisableSpecificWarnings>
       <LanguageStandard>Default</LanguageStandard>
@@ -145,7 +145,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\angel3907\ProjectSS\ProjectSS\SDL2\lib\x64;C:\angel3907\ProjectSS\ProjectSS\SDL2_image\lib\x64;C:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\angel3907\ProjectSS\ProjectSS\SDL2\lib\x64;D:\angel3907\ProjectSS\ProjectSS\SDL2_image\lib\x64;D:\angel3907\ProjectSS\ProjectSS\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
