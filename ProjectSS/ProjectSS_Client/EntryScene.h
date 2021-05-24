@@ -1,5 +1,7 @@
 #pragma once
 #include "Scene.h"
+class SquareButton;
+class CircleButton;
 
 enum PlayerColor
 {
@@ -23,6 +25,9 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
+	virtual void HandleInput(SDL_Event* InEvent) override;
+
+	void CheckButtonsPressed(Vector2 InPos);
 
 private:
 	EntryScene();
@@ -33,4 +38,9 @@ private:
 	Vector2 CheckMarkPos;
 	Vector2 CheckMarkOffsetX;
 	Vector2 PlayerColorPos;
+
+	Vector2 ColorButtonPos;
+
+	SquareButton* EntryButton;
+	CircleButton* ColorButton[6];
 };

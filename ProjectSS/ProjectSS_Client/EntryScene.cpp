@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EntryScene.h"
 #include "SDLRenderer.h"
+#include "SquareButton.h"
+#include "CircleButton.h"
 
 EntryScene::EntryScene()
 {
@@ -8,11 +10,25 @@ EntryScene::EntryScene()
 	CheckMarkPos = Vector2(WINDOW_WIDTH * 0.455f, WINDOW_HEIGHT * 0.34f);
 	CheckMarkOffsetX = Vector2(98, 0);
 	PlayerColorPos = Vector2(WINDOW_WIDTH * 0.175f, WINDOW_HEIGHT * 0.31f);
+
+	ColorButtonPos = Vector2(WINDOW_WIDTH * 0.443f, WINDOW_HEIGHT * 0.366f);
+
+	EntryButton = new SquareButton(Vector2(WINDOW_WIDTH * 0.834f, WINDOW_HEIGHT * 0.832f), 303, 122);
+	
+	for (int i = 0; i < 6; i++)
+	{
+		ColorButton[i] = new CircleButton(ColorButtonPos + CheckMarkOffsetX * i, 40);
+	}
 }
 
 EntryScene::~EntryScene()
 {
+	delete EntryButton;
 
+	for (int i = 0; i < 6; i++)
+	{
+		delete ColorButton[i];
+	}
 }
 
 void EntryScene::Update()
@@ -22,7 +38,43 @@ void EntryScene::Update()
 
 void EntryScene::Render()
 {
-	SDLRenderer::Get().DrawTexture('ENTR', Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.5f));
-	SDLRenderer::Get().DrawTexture('CHEK', CheckMarkPos + CheckMarkOffsetX * SelectedPlayerColor);
-	SDLRenderer::Get().DrawTexture(SelectedPlayerColor, PlayerColorPos);
+ 	SDLRenderer::Get().DrawTexture('ENTR', Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.5f));
+ 	SDLRenderer::Get().DrawTexture('CHEK', CheckMarkPos + CheckMarkOffsetX * SelectedPlayerColor);
+ 	SDLRenderer::Get().DrawTexture(SelectedPlayerColor, PlayerColorPos);
+
+
+//버튼 테스트 렌더링
+// 	EntryButton->Render();
+// 
+// 	for (int i = 0; i < 6; i++)
+// 	{
+// 		ColorButton[i]->Render();
+// 	}
+}
+
+void EntryScene::HandleInput(SDL_Event* InEvent)
+{
+	switch (InEvent->type)
+	{
+	case SDL_MOUSEBUTTONDOWN:
+		if (InEvent->button.button == SDL_BUTTON_LEFT)
+			CheckButtonsPressed(Vector2(InEvent->button.x, InEvent->button.y));
+		break;
+	}
+}
+
+void EntryScene::CheckButtonsPressed(Vector2 InPos)
+{
+	if (EntryButton->IsPressed(InPos))
+	{
+		printf("Pressed\n");
+	}
+
+	for (int i = 0; i < 6; i++)
+	{
+		if (ColorButton[i]->IsPressed(InPos))
+		{
+			SelectedPlayerColor = (PlayerColor)i;
+		}
+	}
 }

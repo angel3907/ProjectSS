@@ -101,15 +101,5 @@ void Client::Render()
 
 void Client::HandleEvent(SDL_Event* InEvent)
 {
-	switch(InEvent->type)
-	{
-	case SDL_KEYDOWN : 
-		InputManager::Get().HandleInput(EIA_Pressed, InEvent->key.keysym.sym);
-		break;
-	case SDL_KEYUP:
-		InputManager::Get().HandleInput(EIA_Released, InEvent->key.keysym.sym);
-		break;
-	default:
-		break;
-	}
+	CurrentScene->HandleInput(InEvent);
 }

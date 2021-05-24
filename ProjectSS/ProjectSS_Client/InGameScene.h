@@ -12,6 +12,7 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
+	virtual void HandleInput(SDL_Event* InEvent) override;
 
 private:
 	InGameScene();
