@@ -32,6 +32,9 @@ public:
 
 	void InitServerStateToStringMap();
 
+	bool IsAllTextBoxFilled();
+	void NotifyEmptyTextBox();
+
 	void TryEnterServer();
 	void SetServerAddress();
 	void SetPlayerState();

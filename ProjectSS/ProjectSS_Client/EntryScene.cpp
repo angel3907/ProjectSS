@@ -102,13 +102,20 @@ void EntryScene::CheckButtonsPressed(Vector2 InPos)
 
 	if (EntryButton->IsPressed(InPos))
 	{
-		SetTryEnterServer(true);
-		SetServerAddress();
-		SetPlayerState();
-		EntryStatusTextBox->SetText("Connecting...");
-		TryEnterServerTime = TimeUtil::Get().GetTimef();
+		if (!IsAllTextBoxFilled())
+		{
+			NotifyEmptyTextBox();
+		}
+		else
+		{ 
+			SetTryEnterServer(true);
+			SetServerAddress();
+			SetPlayerState();
+			EntryStatusTextBox->SetText("Connecting...");
+			TryEnterServerTime = TimeUtil::Get().GetTimef();
 
-		Sleep(1000);
+			Sleep(1000);
+		}
 	}
 
 	for (int i = 0; i < 6; i++)
@@ -147,6 +154,52 @@ void EntryScene::InitServerStateToStringMap()
 	ServerStateToStringMap[ServerState::NO_SERVER] = "There's no server with the IP";
 	ServerStateToStringMap[ServerState::FULL_PLAYER] = "The Room is full.";
 	ServerStateToStringMap[ServerState::GAME_STARTED] = "Game Is Already Started.";
+}
+
+bool EntryScene::IsAllTextBoxFilled()
+{
+	return !(NameInputBox->IsEmpty() || IPInputBox->IsEmpty() || PortInputBox->IsEmpty());
+}
+
+void EntryScene::NotifyEmptyTextBox()
+{
+	std::string Notification;
+	int EmptyTextBoxNum = 0;
+
+	if (NameInputBox->IsEmpty())
+	{ 
+		Notification += "Name";
+		EmptyTextBoxNum++;
+	}
+
+	if (IPInputBox->IsEmpty())
+	{
+		if (EmptyTextBoxNum++ >= 1)
+			Notification += ", ";
+
+		Notification += "IP";
+	}
+
+	if (PortInputBox->IsEmpty())
+	{
+		if (EmptyTextBoxNum++ >= 1)
+			Notification += ", ";
+
+		Notification += "Port";
+	}
+
+	if (EmptyTextBoxNum > 1)
+	{
+		Notification += " are";
+	}
+	else
+	{ 
+		Notification += " is";
+	}
+
+	Notification += " empty.";
+
+	EntryStatusTextBox->SetText(Notification);
 }
 
 void EntryScene::TryEnterServer()

@@ -15,6 +15,7 @@ public:
 
 	void Render();
 	void SetText(std::string InText) { Text = InText; }
+	bool IsEmpty() { return Text.size() == 0; }
 
 private:
 	Vector2 Pos;

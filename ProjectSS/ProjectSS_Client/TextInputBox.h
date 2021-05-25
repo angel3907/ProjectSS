@@ -19,6 +19,8 @@ public:
 		InputPosLineDisplayTime = 0.f;
 	}
 
+	bool IsEmpty(){return Text.size() == 0;}
+
 	virtual ~TextInputBox() {}
 
 	bool IsStartInput() const { return bStartInput; }
