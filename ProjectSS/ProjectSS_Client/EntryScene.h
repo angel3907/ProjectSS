@@ -3,6 +3,7 @@
 class SquareButton;
 class CircleButton;
 class TextInputBox;
+class TextBox;
 
 enum PlayerColor
 {
@@ -14,6 +15,12 @@ enum PlayerColor
 	PURPLE = 5
 };
 
+enum ServerState
+{
+	NO_SERVER,
+	FULL_PLAYER,
+	GAME_STARTED
+};
 
 class EntryScene : public Scene
 {
@@ -36,6 +43,8 @@ private:
 	virtual ~EntryScene();
 
 	const int NameLimit = 8;
+	const int IPLimit = 15;
+	const int PortLimit = 5;
 
 	PlayerColor SelectedPlayerColor = RED;
 
@@ -49,4 +58,11 @@ private:
 	CircleButton* ColorButton[6];
 
 	TextInputBox* NameInputBox;
+
+	TextInputBox* IPInputBox;
+	TextInputBox* PortInputBox;
+
+	TextBox* EntryStatusTextBox;
+
+	
 };

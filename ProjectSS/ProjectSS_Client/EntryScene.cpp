@@ -4,6 +4,7 @@
 #include "SquareButton.h"
 #include "CircleButton.h"
 #include "TextInputBox.h"
+#include "TextBox.h"
 
 EntryScene::EntryScene()
 {
@@ -22,6 +23,12 @@ EntryScene::EntryScene()
 	}
 
 	NameInputBox = new TextInputBox(Vector2(WINDOW_WIDTH * 0.605f, WINDOW_HEIGHT * 0.248f), 530, 60, ETextSize::EXTREME, NameLimit);
+
+	IPInputBox = new TextInputBox(Vector2(WINDOW_WIDTH * 0.328f, WINDOW_HEIGHT * 0.675f), 550, 60, ETextSize::EXTREME, IPLimit);
+	PortInputBox = new TextInputBox(Vector2(WINDOW_WIDTH * 0.843f, WINDOW_HEIGHT * 0.675f), 250, 60, ETextSize::EXTREME, PortLimit);
+	EntryStatusTextBox = new TextBox(Vector2(WINDOW_WIDTH * 0.383f, WINDOW_HEIGHT * 0.795f), 730, 60, ETextSize::LARGE);
+
+	EntryStatusTextBox->SetText("This is For Test.");
 }
 
 EntryScene::~EntryScene()
@@ -34,6 +41,10 @@ EntryScene::~EntryScene()
 	}
 
 	delete NameInputBox;
+
+	delete IPInputBox;
+	delete PortInputBox;
+	delete EntryStatusTextBox;
 }
 
 void EntryScene::Update()
@@ -48,6 +59,10 @@ void EntryScene::Render()
  	SDLRenderer::Get().DrawTexture(SelectedPlayerColor, PlayerColorPos);
 
 	NameInputBox->Render();
+
+	IPInputBox->Render();
+	PortInputBox->Render();
+	EntryStatusTextBox->Render();
 
 //버튼 테스트 렌더링
 // 	EntryButton->Render();
@@ -91,6 +106,8 @@ void EntryScene::CheckButtonsPressed(Vector2 InPos)
 	}
 
 	NameInputBox->CheckInput(InPos);
+	IPInputBox->CheckInput(InPos);
+	PortInputBox->CheckInput(InPos);
 }
 
 void EntryScene::ProcessInput(SDL_Event* InEvent)
@@ -98,5 +115,15 @@ void EntryScene::ProcessInput(SDL_Event* InEvent)
 	if (NameInputBox->IsStartInput())
 	{
 		NameInputBox->ProcessInput(InEvent);
+	}
+
+	if (IPInputBox->IsStartInput())
+	{
+		IPInputBox->ProcessInput(InEvent);
+	}
+
+	if (PortInputBox->IsStartInput())
+	{
+		PortInputBox->ProcessInput(InEvent);
 	}
 }
