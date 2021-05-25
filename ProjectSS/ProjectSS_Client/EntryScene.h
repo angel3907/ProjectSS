@@ -1,21 +1,11 @@
 #pragma once
 #include "Scene.h"
 #include <unordered_map>
+#include "Player.h"
 class SquareButton;
 class CircleButton;
 class TextInputBox;
 class TextBox;
-
-
-enum PlayerColor
-{
-	RED = 0,
-	YELLOW = 1,
-	GREEN = 2,
-	SKYBLUE = 3,
-	DARKBLUE = 4,
-	PURPLE = 5
-};
 
 enum ServerState
 {
@@ -42,9 +32,17 @@ public:
 
 	void InitServerStateToStringMap();
 
+	void TryEnterServer();
+	void SetServerAddress();
+	void SetPlayerState();
+	void SetTryEnterServer(bool bInTryEnterServer) { bTryEnterServer = bInTryEnterServer; }
+
+
 private:
 	EntryScene();
 	virtual ~EntryScene();
+
+	bool bTryEnterServer;
 
 	const int NameLimit = 8;
 	const int IPLimit = 15;

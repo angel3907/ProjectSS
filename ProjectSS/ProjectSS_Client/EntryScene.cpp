@@ -5,6 +5,7 @@
 #include "CircleButton.h"
 #include "TextInputBox.h"
 #include "TextBox.h"
+#include "NetworkManagerClient.h"
 
 EntryScene::EntryScene()
 {
@@ -31,6 +32,8 @@ EntryScene::EntryScene()
 	EntryStatusTextBox->SetText("Click the enter button");
 
 	InitServerStateToStringMap();
+
+	bTryEnterServer = false;
 }
 
 EntryScene::~EntryScene()
@@ -51,7 +54,8 @@ EntryScene::~EntryScene()
 
 void EntryScene::Update()
 {
-
+	if (bTryEnterServer)
+		TryEnterServer();
 }
 
 void EntryScene::Render()
@@ -69,6 +73,9 @@ void EntryScene::Render()
 
 void EntryScene::HandleInput(SDL_Event* InEvent)
 {
+	if (bTryEnterServer)
+		return;
+
 	switch (InEvent->type)
 	{
 	case SDL_MOUSEBUTTONDOWN:
@@ -86,9 +93,15 @@ void EntryScene::HandleInput(SDL_Event* InEvent)
 
 void EntryScene::CheckButtonsPressed(Vector2 InPos)
 {
+	if (bTryEnterServer)
+		return;
+
 	if (EntryButton->IsPressed(InPos))
 	{
-		printf("Pressed\n");
+		SetTryEnterServer(true);
+		SetServerAddress();
+		SetPlayerState();
+		EntryStatusTextBox->SetText("Connecting...");
 	}
 
 	for (int i = 0; i < 6; i++)
@@ -127,4 +140,27 @@ void EntryScene::InitServerStateToStringMap()
 	ServerStateToStringMap[ServerState::NO_SERVER] = "There's no server with this IP and port number.";
 	ServerStateToStringMap[ServerState::FULL_PLAYER] = "The Room is full.";
 	ServerStateToStringMap[ServerState::GAME_STARTED] = "Game Is Already Started.";
+}
+
+void EntryScene::TryEnterServer()
+{
+	//들어오는 패킷 처리
+	NetworkManagerClient::sInstance->ProcessInComingPacket();
+
+	//나가는 패킷 처리
+	NetworkManagerClient::sInstance->SendOutgoingPackets();
+}
+
+void EntryScene::SetServerAddress()
+{
+	std::string Destination = IPInputBox->GetText() + ':' + PortInputBox->GetText();
+	SocketAddressPtr ServerAddress = SocketAddressFactory::CreateIPv4FromIPString(Destination);
+
+	NetworkManagerClient::sInstance->SetServerSocketAddress(*ServerAddress);
+}
+
+void EntryScene::SetPlayerState()
+{
+	NetworkManagerClient::sInstance->SetPlayerName(NameInputBox->GetText());
+	NetworkManagerClient::sInstance->SetPlayerColor(SelectedPlayerColor);
 }
