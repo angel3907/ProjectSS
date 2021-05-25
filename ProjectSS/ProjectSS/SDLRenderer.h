@@ -9,6 +9,14 @@ struct SDL_Window;
 #define WINDOW_WIDTH 1400
 #define WINDOW_HEIGHT 1000
 
+enum ETextSize
+{
+	SMALL = 'SMAL',
+	MID = 'MIDD',
+	LARGE = 'LARG',
+	EXTREME = 'EXTR'
+};
+
 class SDLRenderer
 {
 public:
@@ -42,6 +50,7 @@ public:
 	void DrawSqure(Vector2 InPos, int InWidth, int inHeight);
 	void DrawCircle(Vector2 InPos, float InRadius);
 
+	void DrawLine(Vector2 InFirstPos, Vector2 InSecondPos);
 
 	//테스트용 함수
 	void DrawBackground();
@@ -56,6 +65,8 @@ public:
 
 	void CloseFonts();
 	void CloseTextures();
+
+	int GetTextSize(ETextSize InTextSize) { return TextSizeEnumToSizeValue[InTextSize]; } 
 
 private:
 	//SDL은 여러 창을 띄울 수 있고, 각 창에 대한 렌더링을 지원.
@@ -90,4 +101,6 @@ private:
 	TTF_Font* LargeFont;
 	TTF_Font* MidFont;
 	TTF_Font* SmallFont;
+
+	std::unordered_map<uint32_t, int> TextSizeEnumToSizeValue;
 };

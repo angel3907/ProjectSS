@@ -101,14 +101,20 @@ TTF_Font* SDLRenderer::LoadFont(const char* File, int FontSize)
 
 void SDLRenderer::LoadFonts()
 {
-	ExtremeFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 60);
-	LargeFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 50);
-	MidFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 40);
-	SmallFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 30);
-	Fonts['EXTR'] = ExtremeFont;
-	Fonts['LARG'] = LargeFont; 
-	Fonts['MIDD'] = MidFont;
-	Fonts['SMAL'] = SmallFont;
+	TextSizeEnumToSizeValue[ETextSize::SMALL] = 30;
+	TextSizeEnumToSizeValue[ETextSize::MID] = 40;
+	TextSizeEnumToSizeValue[ETextSize::LARGE] = 50;
+	TextSizeEnumToSizeValue[ETextSize::EXTREME] = 60;
+
+	SmallFont = LoadFont("../Resources/Fonts/D2Coding.ttf", TextSizeEnumToSizeValue[SMALL]);
+	MidFont = LoadFont("../Resources/Fonts/D2Coding.ttf", TextSizeEnumToSizeValue[MID]);
+	LargeFont = LoadFont("../Resources/Fonts/D2Coding.ttf", TextSizeEnumToSizeValue[LARGE]);
+	ExtremeFont = LoadFont("../Resources/Fonts/D2Coding.ttf", TextSizeEnumToSizeValue[EXTREME]);
+	
+	Fonts[SMALL] = SmallFont;
+	Fonts[MID] = MidFont;
+	Fonts[LARGE] = LargeFont;
+	Fonts[EXTREME] = ExtremeFont;
 }
 
 void SDLRenderer::LoadTextures()
@@ -356,6 +362,13 @@ void SDLRenderer::DrawSqure(Vector2 InPos, int InWidth, int InHeight)
 void SDLRenderer::DrawCircle(Vector2 InPos, float InRadius)
 {
 	//TODO ±¸Çö
+}
+
+void SDLRenderer::DrawLine(Vector2 InFirstPos, Vector2 InSecondPos)
+{
+	SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 50);
+	SDL_RenderDrawLine(Renderer, InFirstPos.PosX, InFirstPos.PosY, InSecondPos.PosX, InSecondPos.PosY);
+	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 }
 
 void SDLRenderer::DrawBackground()
