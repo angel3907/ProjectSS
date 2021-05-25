@@ -39,6 +39,8 @@ public:
 	
 	void ResetDisplayInputPosLine();
 
+	std::string GetText() {return Text;}
+
 private:
 	std::string Text;
 	bool bStartInput;
