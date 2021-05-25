@@ -14,6 +14,9 @@ void SDLRenderer::InitSDL()
 
 	//텍스트 초기화
 	TTF_Init();
+
+	//텍스트 이벤트 받도록 함
+	SDL_StartTextInput();
 	
 	//윈도우 생성
 	//인자
@@ -46,16 +49,6 @@ void SDLRenderer::InitSDL()
 		-1,
 		0
 	);
-}
-
-void SDLRenderer::StartTextInput()
-{
-	SDL_StartTextInput();
-}
-
-void SDLRenderer::EndTextInput()
-{
-	SDL_StopTextInput();
 }
 
 SDL_Texture* SDLRenderer::LoadTexture(const char* File)
@@ -368,7 +361,7 @@ void SDLRenderer::DrawLine(Vector2 InFirstPos, Vector2 InSecondPos)
 {
 	SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 50);
 	SDL_RenderDrawLine(Renderer, InFirstPos.PosX, InFirstPos.PosY, InSecondPos.PosX, InSecondPos.PosY);
-	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
 }
 
 void SDLRenderer::DrawBackground()

@@ -27,8 +27,6 @@ public:
 	}
 
 	void InitSDL();
-	void StartTextInput();
-	void EndTextInput();
 
 	SDL_Texture* LoadTexture(const char* File);
 	TTF_Font* LoadFont(const char* File, int FontSize);
