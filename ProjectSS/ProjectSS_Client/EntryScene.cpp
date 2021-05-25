@@ -34,6 +34,7 @@ EntryScene::EntryScene()
 	InitServerStateToStringMap();
 
 	bTryEnterServer = false;
+	TryEnterServerTime = 0.f;
 }
 
 EntryScene::~EntryScene()
@@ -55,7 +56,10 @@ EntryScene::~EntryScene()
 void EntryScene::Update()
 {
 	if (bTryEnterServer)
+	{ 
 		TryEnterServer();
+		CheckTryEnterServerTimeLimit();
+	}
 }
 
 void EntryScene::Render()
@@ -102,6 +106,9 @@ void EntryScene::CheckButtonsPressed(Vector2 InPos)
 		SetServerAddress();
 		SetPlayerState();
 		EntryStatusTextBox->SetText("Connecting...");
+		TryEnterServerTime = TimeUtil::Get().GetTimef();
+
+		Sleep(1000);
 	}
 
 	for (int i = 0; i < 6; i++)
@@ -137,7 +144,7 @@ void EntryScene::ProcessInput(SDL_Event* InEvent)
 
 void EntryScene::InitServerStateToStringMap()
 {
-	ServerStateToStringMap[ServerState::NO_SERVER] = "There's no server with this IP and port number.";
+	ServerStateToStringMap[ServerState::NO_SERVER] = "There's no server with the IP";
 	ServerStateToStringMap[ServerState::FULL_PLAYER] = "The Room is full.";
 	ServerStateToStringMap[ServerState::GAME_STARTED] = "Game Is Already Started.";
 }
@@ -163,4 +170,16 @@ void EntryScene::SetPlayerState()
 {
 	NetworkManagerClient::sInstance->SetPlayerName(NameInputBox->GetText());
 	NetworkManagerClient::sInstance->SetPlayerColor(SelectedPlayerColor);
+}
+
+void EntryScene::CheckTryEnterServerTimeLimit()
+{
+	float CurrentTime = TimeUtil::Get().GetTimef();
+
+	if (CurrentTime > TryEnterServerTime + TryEnterServerTimeLimit)
+	{
+		SetTryEnterServer(false);
+		EntryStatusTextBox->SetText(ServerStateToStringMap[ServerState::NO_SERVER]);
+		bTryEnterServer = false;
+	}
 }

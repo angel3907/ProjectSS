@@ -37,12 +37,15 @@ public:
 	void SetPlayerState();
 	void SetTryEnterServer(bool bInTryEnterServer) { bTryEnterServer = bInTryEnterServer; }
 
+	void CheckTryEnterServerTimeLimit();
 
 private:
 	EntryScene();
 	virtual ~EntryScene();
 
 	bool bTryEnterServer;
+	float TryEnterServerTime;
+	const float TryEnterServerTimeLimit = 10.0f;
 
 	const int NameLimit = 8;
 	const int IPLimit = 15;
