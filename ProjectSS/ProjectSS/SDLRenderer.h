@@ -40,6 +40,7 @@ public:
 	void DrawTexture(uint32_t InKey, Vector2 InPos);
 	void DrawTexture(SDL_Texture* InTexture, Vector2 InPos);
 	void DrawStretchedTexture(SDL_Texture* InTexture, Vector2 InPos, Vector2 InWidthHeight);
+	void DrawStretchedTexture(uint32_t InKey, Vector2 InPos, Vector2 InWidthHeight);
 	void DrawStretchedTextureEx(SDL_Texture* InTexture, Vector2 InPos, Vector2 InWidthHeight, float InAngle, SDL_RendererFlip InFlip = SDL_FLIP_NONE);
 
 	void DrawFont(TTF_Font* InFont, SDL_Color InColor, Vector2 InPos, const char* InText);

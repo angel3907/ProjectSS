@@ -10,7 +10,7 @@ void PlayerClient::Render()
 		SDLRenderer::Get().DrawTexture('PLAE', Pos);
 	}
 
-	SDLRenderer::Get().DrawTexture('PLYR', Pos);
+	SDLRenderer::Get().DrawStretchedTexture(GetPlayerColor(), Pos, Vector2(PlayerRadius * 2, PlayerRadius * 2));
 
 	if (IsLocallyControlled())
 	{ 

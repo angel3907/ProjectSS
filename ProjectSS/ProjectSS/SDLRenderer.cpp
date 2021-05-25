@@ -248,8 +248,33 @@ void SDLRenderer::DrawStretchedTexture(SDL_Texture* InTexture, Vector2 InPos, Ve
 
 	SDL_QueryTexture(Texture, nullptr, nullptr, &Src.w, &Src.h);
 
-	Dst.x = InPos.PosX;
-	Dst.y = InPos.PosY;
+	//인자로 받아온 위치가 그림의 중심이 되도록..
+	Dst.x = InPos.PosX - InWidthHeight.PosX * 0.5f;
+	Dst.y = InPos.PosY - InWidthHeight.PosY * 0.5f;
+	Dst.w = InWidthHeight.PosX;
+	Dst.h = InWidthHeight.PosY;
+
+	SDL_RenderCopy(Renderer, Texture, &Src, &Dst);
+}
+
+void SDLRenderer::DrawStretchedTexture(uint32_t InKey, Vector2 InPos, Vector2 InWidthHeight)
+{
+	SDL_Texture* Texture = Textures[InKey];
+
+	if (Texture == nullptr)
+	{
+		printf("Cannot Find Texture With Key %d\n", InKey);
+		return;
+	}
+
+	SDL_Rect Src, Dst;
+	Src.x = Src.y = 0;
+
+	SDL_QueryTexture(Texture, nullptr, nullptr, &Src.w, &Src.h);
+
+	//인자로 받아온 위치가 그림의 중심이 되도록..
+	Dst.x = InPos.PosX - InWidthHeight.PosX * 0.5f;
+	Dst.y = InPos.PosY - InWidthHeight.PosY * 0.5f;
 	Dst.w = InWidthHeight.PosX;
 	Dst.h = InWidthHeight.PosY;
 
