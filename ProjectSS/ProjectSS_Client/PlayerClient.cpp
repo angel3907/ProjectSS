@@ -11,14 +11,18 @@ void PlayerClient::Render()
 	}
 
 	SDLRenderer::Get().DrawStretchedTexture(GetPlayerColor(), Pos, Vector2(PlayerRadius * 2, PlayerRadius * 2));
+	
+	SDL_Color BlackColor;
+	BlackColor.r = BlackColor.g = BlackColor.b = 0;
+
+	int NameLength = static_cast<int>(GetName().size());
+	Vector2 NamePlateOffsetVector(-NameLength * 7.7f, -80);
+	SDLRenderer::Get().DrawFont('SMAL', BlackColor, GetPos() + NamePlateOffsetVector, GetName().c_str());
 
 	if (IsLocallyControlled())
 	{ 
-		SDL_Color Color;
-		Color.r = Color.g = Color.b = 0;
-
 		std::string S = "Star:" + std::to_string(GetStarCount());
-		SDLRenderer::Get().DrawFont('LARG', Color, Vector2(WORLD_WIDTH * 0.82, 20), S.c_str());
+		SDLRenderer::Get().DrawFont('LARG', BlackColor, Vector2(WORLD_WIDTH * 0.82, 20), S.c_str());
 	}
 }
 
