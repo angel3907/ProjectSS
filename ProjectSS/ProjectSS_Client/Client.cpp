@@ -64,12 +64,12 @@ Client::Client()
 
 void Client::DoFrame()
 {
-	InputManager::Get().Update();
+//	InputManager::Get().Update();
 
 	Engine::DoFrame();
 
 	//들어오는 패킷 처리
-	NetworkManagerClient::sInstance->ProcessInComingPacket();
+	//NetworkManagerClient::sInstance->ProcessInComingPacket();
 
 	//씬 업데이트
 	CurrentScene->Update();
@@ -78,7 +78,7 @@ void Client::DoFrame()
 	Render();
 
 	//나가는 패킷 처리
-	NetworkManagerClient::sInstance->SendOutgoingPackets();
+	//NetworkManagerClient::sInstance->SendOutgoingPackets();
 }
 
 void Client::Render()
@@ -86,11 +86,11 @@ void Client::Render()
 	//렌더 클리어
 	SDLRenderer::Get().Clear();
 
-	//모든 오브젝트 드로우
-	for (auto GO : LinkingContext::Get().GetGameObjectSet())
-	{
-		GO->Render();
-	}
+// 	//모든 오브젝트 드로우
+// 	for (auto GO : LinkingContext::Get().GetGameObjectSet())
+// 	{
+// 		GO->Render();
+// 	}
 
 	//씬 렌더링
 	CurrentScene->Render();
