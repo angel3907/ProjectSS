@@ -6,13 +6,17 @@
 class TextInputBox : public SquareButton
 {
 public:
-	TextInputBox(Vector2 InPos, int InWidth, int InHeight, int InTextLimit = 0)
+	TextInputBox(Vector2 InPos, int InWidth, int InHeight, ETextSize InTextSize, int InTextLimit = 0)
 	: SquareButton(InPos, InWidth, InHeight)
 	{
 		Text = "";
 		bStartInput = false;
 		TextPos = Vector2(InPos.PosX - InWidth * 0.5f, InPos.PosY - InHeight * 0.5f);
+		TextSize = InTextSize;
 		TextLimit = InTextLimit;
+
+		bDisplayInputPosLine = true;
+		InputPosLineDisplayTime = 0.f;
 	}
 
 	virtual ~TextInputBox() {}
@@ -29,6 +33,12 @@ public:
 
 	virtual void Render() override;
 
+	void RenderText();
+	void RenderInputPosLine();
+	void SetDisplayInputPosLine(bool bInDisplayInputPosLine) { bDisplayInputPosLine = bInDisplayInputPosLine; }
+	
+	void ResetDisplayInputPosLine();
+
 private:
 	std::string Text;
 	bool bStartInput;
@@ -36,5 +46,11 @@ private:
 	Vector2 TextPos;
 	int TextLimit; //0이면 한계 없음
 
+	ETextSize TextSize;
 	SDL_Color BlackColor = { 0,0,0,255 };
+
+	float InputPosLineDisplayDelay = 0.5f;
+	bool bDisplayInputPosLine;
+
+	float InputPosLineDisplayTime;
 };
