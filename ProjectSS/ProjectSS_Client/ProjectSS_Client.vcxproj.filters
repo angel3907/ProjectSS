@@ -47,6 +47,9 @@
     <ClInclude Include="TextInputBox.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -83,6 +86,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="TextInputBox.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBox.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

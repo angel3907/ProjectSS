@@ -164,6 +164,7 @@
     <ClInclude Include="ScoreboardManager.h" />
     <ClInclude Include="SquareButton.h" />
     <ClInclude Include="StarClient.h" />
+    <ClInclude Include="TextBox.h" />
     <ClInclude Include="TextInputBox.h" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +179,7 @@
     <ClCompile Include="ScoreboardManager.cpp" />
     <ClCompile Include="SquareButton.cpp" />
     <ClCompile Include="StarClient.cpp" />
+    <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="TextInputBox.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
