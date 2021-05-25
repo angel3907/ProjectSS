@@ -53,7 +53,6 @@ void TextInputBox::CheckEndInput(Vector2 InPos)
 
 void TextInputBox::StartInput()
 {
-	SDLRenderer::Get().StartTextInput();
 	bStartInput = true;
 
 	bDisplayInputPosLine = true;
@@ -62,7 +61,6 @@ void TextInputBox::StartInput()
 
 void TextInputBox::EndInput()
 {
-	SDLRenderer::Get().EndTextInput();
 	bStartInput = false;
 
 	bDisplayInputPosLine = false;
