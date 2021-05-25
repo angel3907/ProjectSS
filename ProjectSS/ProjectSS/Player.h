@@ -7,6 +7,16 @@
 #include <memory>
 #include "InputState.h"
 
+enum PlayerColor : uint8_t
+{
+	RED = 0,
+	YELLOW = 1,
+	GREEN = 2,
+	SKYBLUE = 3,
+	DARKBLUE = 4,
+	PURPLE = 5
+};
+
 enum PlayerProperties : uint32_t
 {
 	//GameObject 다음 값으로 설정해줌
@@ -45,6 +55,9 @@ public:
 	uint32_t GetPlayerId() const {return mPlayerId;}
 	void SetPlayerId(uint32_t InPlayerId) { mPlayerId = InPlayerId;}
 
+	PlayerColor GetPlayerColor() const {return mPlayerColor;}
+	void SetPlayerColor(PlayerColor InPlayerColor) {mPlayerColor = InPlayerColor;}
+
 	float GetPlayerRadius() const {return PlayerRadius;}
 
 	bool IsAttacked(){return bAttacked;}
@@ -57,6 +70,7 @@ private:
 	uint32_t StarCount;
 	std::string Name = "";
 	uint32_t mPlayerId = 0;
+	PlayerColor mPlayerColor;
 
 protected:
 	bool mIsAttacking = false;

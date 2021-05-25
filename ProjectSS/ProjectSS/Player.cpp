@@ -102,6 +102,7 @@ void Player::Write(OutputMemoryBitStream& InStream) const
 	InStream.Write(mPlayerId);
  	InStream.Write(StarCount);
 	InStream.Write(Name);
+	InStream.Write(mPlayerColor);
 	InStream.WritePosF(Pos);
 	InStream.Write(bAttackEffectOn);
 
@@ -117,6 +118,7 @@ void Player::Read(InputMemoryBitStream& InStream)
 	InStream.Read(mPlayerId);
  	InStream.Read(StarCount);
 	InStream.Read(Name);
+	InStream.Read(mPlayerColor);
 	InStream.ReadPosF(Pos);
 	InStream.Read(bAttackEffectOn);
 

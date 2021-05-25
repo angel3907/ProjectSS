@@ -121,6 +121,7 @@ void Server::SpawnPlayer(ClientProxyPtr InClientProxy)
 		Player_->SetPlayerId(InClientProxy->GetPlayerId());
 		Player_->SetPos(Vector2(0,0));
 		Player_->SetName(InClientProxy->GetName());
+		Player_->SetPlayerColor(InClientProxy->GetPlayerColor());
 	}
 	else
 	{
