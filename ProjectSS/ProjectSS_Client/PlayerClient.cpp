@@ -17,7 +17,7 @@ void PlayerClient::Render()
 		SDL_Color Color;
 		Color.r = Color.g = Color.b = 0;
 
-		std::string S = "Star : " + std::to_string(GetStarCount());
+		std::string S = "Star:" + std::to_string(GetStarCount());
 		SDLRenderer::Get().DrawFont('LARG', Color, Vector2(WORLD_WIDTH * 0.82, 20), S.c_str());
 	}
 }
