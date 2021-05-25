@@ -44,6 +44,9 @@
     <ClInclude Include="CircleButton.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="TextInputBox.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -77,6 +80,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="CircleButton.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="TextInputBox.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
