@@ -21,7 +21,7 @@ EntryScene::EntryScene()
 		ColorButton[i] = new CircleButton(ColorButtonPos + CheckMarkOffsetX * i, 40);
 	}
 
-	NameInputBox = new TextInputBox(Vector2(WINDOW_WIDTH * 0.605f, WINDOW_HEIGHT * 0.248f), 530, 60, NameLimit);
+	NameInputBox = new TextInputBox(Vector2(WINDOW_WIDTH * 0.605f, WINDOW_HEIGHT * 0.248f), 530, 60, ETextSize::EXTREME, NameLimit);
 }
 
 EntryScene::~EntryScene()
