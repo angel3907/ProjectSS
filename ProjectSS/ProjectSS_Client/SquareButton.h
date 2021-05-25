@@ -13,7 +13,7 @@ public:
 		MaxY = GetPos().PosY + Height * 0.5f;
 	}
 
-	~SquareButton(){}
+	virtual ~SquareButton(){}
 
 	bool IsPressed(Vector2 InPos) override;
 	void Render() override;

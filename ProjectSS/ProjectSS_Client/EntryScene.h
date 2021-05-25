@@ -2,6 +2,7 @@
 #include "Scene.h"
 class SquareButton;
 class CircleButton;
+class TextInputBox;
 
 enum PlayerColor
 {
@@ -28,10 +29,13 @@ public:
 	virtual void HandleInput(SDL_Event* InEvent) override;
 
 	void CheckButtonsPressed(Vector2 InPos);
+	void ProcessInput(SDL_Event* InEvent);
 
 private:
 	EntryScene();
 	virtual ~EntryScene();
+
+	const int NameLimit = 8;
 
 	PlayerColor SelectedPlayerColor = RED;
 
@@ -43,4 +47,6 @@ private:
 
 	SquareButton* EntryButton;
 	CircleButton* ColorButton[6];
+
+	TextInputBox* NameInputBox;
 };
