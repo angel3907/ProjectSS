@@ -28,7 +28,9 @@ EntryScene::EntryScene()
 	PortInputBox = new TextInputBox(Vector2(WINDOW_WIDTH * 0.843f, WINDOW_HEIGHT * 0.675f), 250, 60, ETextSize::EXTREME, PortLimit);
 	EntryStatusTextBox = new TextBox(Vector2(WINDOW_WIDTH * 0.383f, WINDOW_HEIGHT * 0.795f), 730, 60, ETextSize::LARGE);
 
-	EntryStatusTextBox->SetText("This is For Test.");
+	EntryStatusTextBox->SetText("Click the enter button");
+
+	InitServerStateToStringMap();
 }
 
 EntryScene::~EntryScene()
@@ -63,14 +65,6 @@ void EntryScene::Render()
 	IPInputBox->Render();
 	PortInputBox->Render();
 	EntryStatusTextBox->Render();
-
-//버튼 테스트 렌더링
-// 	EntryButton->Render();
-// 
-// 	for (int i = 0; i < 6; i++)
-// 	{
-// 		ColorButton[i]->Render();
-// 	}
 }
 
 void EntryScene::HandleInput(SDL_Event* InEvent)
@@ -126,4 +120,11 @@ void EntryScene::ProcessInput(SDL_Event* InEvent)
 	{
 		PortInputBox->ProcessInput(InEvent);
 	}
+}
+
+void EntryScene::InitServerStateToStringMap()
+{
+	ServerStateToStringMap[ServerState::NO_SERVER] = "There's no server with this IP and port number.";
+	ServerStateToStringMap[ServerState::FULL_PLAYER] = "The Room is full.";
+	ServerStateToStringMap[ServerState::GAME_STARTED] = "Game Is Already Started.";
 }

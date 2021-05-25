@@ -1,9 +1,11 @@
 #pragma once
 #include "Scene.h"
+#include <unordered_map>
 class SquareButton;
 class CircleButton;
 class TextInputBox;
 class TextBox;
+
 
 enum PlayerColor
 {
@@ -38,6 +40,8 @@ public:
 	void CheckButtonsPressed(Vector2 InPos);
 	void ProcessInput(SDL_Event* InEvent);
 
+	void InitServerStateToStringMap();
+
 private:
 	EntryScene();
 	virtual ~EntryScene();
@@ -64,5 +68,5 @@ private:
 
 	TextBox* EntryStatusTextBox;
 
-	
+	std::unordered_map<ServerState, std::string> ServerStateToStringMap; 
 };
