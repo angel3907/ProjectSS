@@ -3,13 +3,15 @@
 #include "SocketAddress.h"
 #include "MoveList.h"
 #include "ReplicationManager.h"
+#include "Player.h"
 
 class ClientProxy
 {
 public:
-	ClientProxy(const SocketAddress& InSocketAddress, const std::string& InName, int InPlayerId)
+	ClientProxy(const SocketAddress& InSocketAddress, const std::string& InName, PlayerColor InPlayerColor, int InPlayerId)
 	:mSocketAddress(InSocketAddress),
 	mName(InName),
+	mPlayerColor(InPlayerColor),
 	mPlayerId(InPlayerId)
 	{
 		UpdateLastPacketTime();
@@ -20,6 +22,7 @@ public:
 	SocketAddress& GetSocketAddress() {return mSocketAddress;}
 	int GetPlayerId() {return mPlayerId;}
 	std::string GetName() {return mName;}
+	PlayerColor GetPlayerColor() {return mPlayerColor;}
 	
 	ReplicationManager& GetReplicationManagerServer() {return mReplicationManagerServer;}
 	MoveList& GetUnprocessedMoveList() { return mUnprocessedMoveList; }
@@ -45,6 +48,7 @@ private:
 	SocketAddress mSocketAddress;
 	std::string mName;
 	int mPlayerId;
+	PlayerColor mPlayerColor;
 
 	MoveList mUnprocessedMoveList; //처리 안된 이동 리스트
 

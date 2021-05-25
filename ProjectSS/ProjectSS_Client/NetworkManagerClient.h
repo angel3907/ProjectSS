@@ -3,6 +3,7 @@
 #include "NetworkManager.h"
 #include "SocketAddress.h"
 #include "ReplicationManager.h"
+#include "Player.h"
 
 class InputMemoryBitStream;
 
@@ -31,6 +32,11 @@ public:
 
 	//플레이어 아이디 얻어오기
 	int32_t GetPlayerId() const { return mPlayerId; }
+
+	//서버 소켓 주소 세팅, 플레이어 이름 세팅, 색깔 세팅
+	void SetServerSocketAddress(const SocketAddress& InServerAddress) {mServerAddress = InServerAddress;}
+	void SetPlayerName(std::string InName){ mName = InName; }
+	void SetPlayerColor(PlayerColor InPlayerColor) { mPlayerColor  = InPlayerColor;}
 
 private:
 	NetworkManagerClient();
@@ -63,7 +69,8 @@ private:
 	//서버 주소
 	SocketAddress mServerAddress;
 
-	//플레이어 이름과 아이디
+	//플레이어 이름과 아이디 색깔
 	std::string mName;
 	int32_t mPlayerId;
+	PlayerColor mPlayerColor;
 };

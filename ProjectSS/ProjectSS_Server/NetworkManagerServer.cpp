@@ -47,8 +47,11 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 		std::string Name = "";
 		InInputStream.Read(Name);
 
+		PlayerColor Color;
+		InInputStream.Read(Color);
+
 		//클라이언트 프록시 생성
-		ClientProxyPtr NewClientProxy = std::make_shared<ClientProxy>(InFromAddress, Name, mNewPlayerId++);
+		ClientProxyPtr NewClientProxy = std::make_shared<ClientProxy>(InFromAddress, Name, Color, mNewPlayerId++);
 
 		//각 맵에 추가
 		mAddressToClientMap[InFromAddress] = NewClientProxy;

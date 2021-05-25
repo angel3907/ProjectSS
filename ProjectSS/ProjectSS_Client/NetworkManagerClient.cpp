@@ -1,5 +1,6 @@
 #include "NetworkManagerClient.h"
 #include "stdafx.h"
+#include "Client.h"
 
 NetworkManagerClient* NetworkManagerClient::sInstance;
 
@@ -87,6 +88,7 @@ void NetworkManagerClient::SendHelloPacket()
 	OutputMemoryBitStream HelloPacket;
 	HelloPacket.Write(kHelloCC);
 	HelloPacket.Write(mName);
+	HelloPacket.Write(mPlayerColor);
 	
 	SendPacket(HelloPacket, mServerAddress);
 }
@@ -127,6 +129,9 @@ void NetworkManagerClient::HandleWelcomePacket(InputMemoryBitStream& InInputStre
 		mPlayerId = PlayerId;
 		mState = NCS_Welcomed;
 		LOG("'%s' was welcomed on client as player %d", mName.c_str(), mPlayerId);
+		
+		//인게임 씬으로 이동
+		static_cast<Client*> (Engine::sInstance.get())->EnterInGameScene();
 	}
 }
 
