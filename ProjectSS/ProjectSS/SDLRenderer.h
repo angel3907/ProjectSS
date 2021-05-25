@@ -19,6 +19,9 @@ public:
 	}
 
 	void InitSDL();
+	void StartTextInput();
+	void EndTextInput();
+
 	SDL_Texture* LoadTexture(const char* File);
 	TTF_Font* LoadFont(const char* File, int FontSize);
 
@@ -83,6 +86,7 @@ private:
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 	std::unordered_map<uint32_t, TTF_Font*> Fonts;
 
+	TTF_Font* ExtremeFont;
 	TTF_Font* LargeFont;
 	TTF_Font* MidFont;
 	TTF_Font* SmallFont;

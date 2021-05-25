@@ -48,6 +48,16 @@ void SDLRenderer::InitSDL()
 	);
 }
 
+void SDLRenderer::StartTextInput()
+{
+	SDL_StartTextInput();
+}
+
+void SDLRenderer::EndTextInput()
+{
+	SDL_StopTextInput();
+}
+
 SDL_Texture* SDLRenderer::LoadTexture(const char* File)
 {
 	SDL_Surface *Surface;
@@ -91,9 +101,11 @@ TTF_Font* SDLRenderer::LoadFont(const char* File, int FontSize)
 
 void SDLRenderer::LoadFonts()
 {
+	ExtremeFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 60);
 	LargeFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 50);
 	MidFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 40);
 	SmallFont = LoadFont("../Resources/Fonts/Carlito-Regular.ttf", 30);
+	Fonts['EXTR'] = ExtremeFont;
 	Fonts['LARG'] = LargeFont; 
 	Fonts['MIDD'] = MidFont;
 	Fonts['SMAL'] = SmallFont;
@@ -330,7 +342,7 @@ void SDLRenderer::DrawFont(uint32_t InKey, SDL_Color InColor, Vector2 InPos, con
 
 void SDLRenderer::DrawSqure(Vector2 InPos, int InWidth, int InHeight)
 {
-	SDL_SetRenderDrawColor(Renderer, 230, 0, 0, 50);
+	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 50);
 
 
 	SDL_Rect Rect = {InPos.PosX - InWidth * 0.5f, InPos.PosY - InHeight * 0.5f,
@@ -367,6 +379,7 @@ void SDLRenderer::QuitSDL()
 {
 	CloseTextures();
 	CloseFonts();
+	SDL_StopTextInput();
 
 	SDL_DestroyRenderer(Renderer);
 	SDL_DestroyWindow(Window);
@@ -382,6 +395,7 @@ void SDLRenderer::CloseFonts()
 	TTF_CloseFont(LargeFont);
 	TTF_CloseFont(MidFont);
 	TTF_CloseFont(SmallFont);
+	TTF_CloseFont(ExtremeFont);
 }
 
 void SDLRenderer::CloseTextures()
