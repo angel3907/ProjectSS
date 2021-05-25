@@ -27,7 +27,7 @@ bool NetworkManager::Init(uint16_t InPort)
 	return true;
 }
 
-void NetworkManager::SendPacket(OutputMemoryBitStream& InOutputStream, SocketAddress& InToAddress)
+void NetworkManager::SendPacket(OutputMemoryBitStream& InOutputStream, const SocketAddress& InToAddress)
 {
 	int32_t SentByteCount = mSocket->SendTo(InOutputStream.GetBufferPtr(), InOutputStream.GetByteLength(), InToAddress);
 	//TODO : 보낸 바이트 수에 대한 처리는 나중에

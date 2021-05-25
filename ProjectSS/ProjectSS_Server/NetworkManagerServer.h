@@ -53,6 +53,9 @@ private:
 	//웰컴 패킷 송신
 	void SendWelcomePacket(ClientProxyPtr InClientProxy);
 
+	//입장 불가 패킷 송신
+	void SendNoAdmittancePacket(const SocketAddress& InFromAddress, NoAdmittanceReason InReason);
+
 	//상태 패킷 송신
 	void SendStatePacketToClient(ClientProxyPtr InClientProxy);
 

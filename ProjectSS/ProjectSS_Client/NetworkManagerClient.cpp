@@ -46,11 +46,14 @@ void NetworkManagerClient::ProcessPacket(InputMemoryBitStream& InInputStream, co
 	uint32_t PacketType;
 	InInputStream.Read(PacketType);
 
-	//웰컴 패킷 처리, 상태 패킷 처리
+	//웰컴 패킷 , 입장 불가 패킷, 상태 패킷 처리
 	switch (PacketType)
 	{
 	case kWelcomeCC:
 		HandleWelcomePacket(InInputStream);
+		break;
+	case kNoAdmittanceCC:
+		HandleNoAdmittancePacket(InInputStream);
 		break;
 	case kStateCC:
 		HandleStatePacket(InInputStream);
@@ -132,6 +135,17 @@ void NetworkManagerClient::HandleWelcomePacket(InputMemoryBitStream& InInputStre
 		
 		//인게임 씬으로 이동
 		static_cast<Client*> (Engine::sInstance.get())->EnterInGameScene();
+	}
+}
+
+void NetworkManagerClient::HandleNoAdmittancePacket(InputMemoryBitStream& InInputStream)
+{
+	if (mState == NCS_SayingHello)
+	{
+		uint8_t NoAdmittanceReason_ = 0;
+		InInputStream.Read(NoAdmittanceReason_);
+
+		static_cast<Client*> (Engine::sInstance.get())->NotifyNoAdmittanceToEntryScene(static_cast<NoAdmittanceReason>(NoAdmittanceReason_));
 	}
 }
 

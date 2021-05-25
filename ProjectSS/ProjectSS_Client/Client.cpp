@@ -43,6 +43,15 @@ bool Client::StaticInit()
 	return true;
 }
 
+void Client::NotifyNoAdmittanceToEntryScene(NoAdmittanceReason InReason)
+{
+	EntryScene* EntryScene_ = static_cast<EntryScene*>(CurrentScene);
+	if (EntryScene_)
+	{
+		EntryScene_->NotifyNoAdmittance(InReason);
+	}
+}
+
 void Client::InitScene()
 {
 	CurrentScene = &EntryScene::Get();

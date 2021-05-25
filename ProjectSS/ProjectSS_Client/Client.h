@@ -2,13 +2,16 @@
 #include "Engine.h"
 #include "Scene.h"
 #include "InGameScene.h"
+#include "EntryScene.h"
+#include "NetworkManager.h"
 
 class Client : public Engine
 {
 public:
 	static bool StaticInit();
 	void EnterInGameScene() { CurrentScene = &InGameScene::Get(); }
-
+	void NotifyNoAdmittanceToEntryScene(NoAdmittanceReason InReason);
+	
 protected:
 	Client();
 

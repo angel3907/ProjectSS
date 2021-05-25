@@ -6,6 +6,13 @@
 #include "OutputMemoryBitStream.h"
 #include "ReplicationManager.h"
 
+enum class NoAdmittanceReason : uint8_t
+{
+	NONE,
+	FULL_PLAYER,
+	GAME_STARTED
+};
+
 class NetworkManager
 {
 public:
@@ -13,6 +20,7 @@ public:
 	static const uint32_t kWelcomeCC = 'WLCM';
 	static const uint32_t kStateCC = 'STAT';
 	static const uint32_t kInputCC = 'INPT';
+	static const uint32_t kNoAdmittanceCC = 'NOAD';
 
 	NetworkManager(){}
 	virtual ~NetworkManager(){}
@@ -24,7 +32,7 @@ public:
 	virtual void ProcessPacket (InputMemoryBitStream& InInputStream, const SocketAddress& InFromAddress ) = 0;
 	
 	//패킷 전송
-	void SendPacket(OutputMemoryBitStream& InOutputStream, SocketAddress& InToAddress);
+	void SendPacket(OutputMemoryBitStream& InOutputStream, const SocketAddress& InToAddress);
 
 	//패킷 받기
 	void ReceiveReplicated(ReplicationManager& InReplicationManager);

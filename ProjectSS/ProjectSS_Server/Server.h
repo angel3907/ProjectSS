@@ -1,6 +1,7 @@
 #pragma once
 #include "ClientProxy.h"
 #include "Engine.h"
+#include "NetworkManager.h"
 
 class Server : public Engine
 {
@@ -20,6 +21,25 @@ public:
 	Player* GetPlayerWithPlayerId(int InPlayerId);
 	void SpawnPlayer(ClientProxyPtr InClientProxy);
 
+	//입장불가 여부 가져오기
+	bool IsNoAdmittance() {return IsPlayerFull() || IsGameStarted();}
+
+	NoAdmittanceReason GetNoAdmittanceReason()
+	{
+		if (IsGameStarted())
+		{
+			return NoAdmittanceReason::GAME_STARTED;
+		}
+		else if (IsPlayerFull())
+		{
+			return NoAdmittanceReason::FULL_PLAYER;
+		}
+		else
+		{
+			return NoAdmittanceReason::NONE;
+		}
+	}
+
 private:
 	Server();
 
@@ -31,4 +51,20 @@ private:
 
 	//게임오브젝트 업데이트
 	void UpdateGameObjects();
+
+	//게임 상태 초기화
+	void InitGameState();
+
+	bool IsPlayerFull() { return PlayerNum == MaxPlayerNum; }
+
+	//게임 시작 여부 알아오기
+	int IsGameStarted() { return bGameStarted; }
+
+	//게임 시작 여부
+	bool bGameStarted;
+
+	//게임 참여자 수
+	int PlayerNum;
+
+	const int MaxPlayerNum = 8;
 };

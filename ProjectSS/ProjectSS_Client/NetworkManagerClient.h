@@ -51,6 +51,7 @@ private:
 
 	//웰컴 패킷 / 상태 (리플리케이션) 패킷 처리
 	void HandleWelcomePacket(InputMemoryBitStream& InInputStream);
+	void HandleNoAdmittancePacket(InputMemoryBitStream& InInputStream);
 	void HandleStatePacket(InputMemoryBitStream& InInputStream);
 
 private:

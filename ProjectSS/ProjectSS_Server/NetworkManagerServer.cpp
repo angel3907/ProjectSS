@@ -44,50 +44,59 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 	//새 클라이언트라면 Hello를 먼저 받아야 함
 	if (PacketType == kHelloCC)
 	{
-		std::string Name = "";
-		InInputStream.Read(Name);
-
-		PlayerColor Color;
-		InInputStream.Read(Color);
-
-		//클라이언트 프록시 생성
-		ClientProxyPtr NewClientProxy = std::make_shared<ClientProxy>(InFromAddress, Name, Color, mNewPlayerId++);
-
-		//각 맵에 추가
-		mAddressToClientMap[InFromAddress] = NewClientProxy;
-		mPlayerIdToClientMap[NewClientProxy->GetPlayerId()] = NewClientProxy;
-
-		//클라이언트 마중...
-		SendWelcomePacket(NewClientProxy);
-
-		//클라이언트를 위한 플레이어 생성
-		static_cast<Server*> (Engine::sInstance.get())->HandleNewClient(NewClientProxy);
-
-		Player* NewPlayer = static_cast<Server*> (Engine::sInstance.get())->GetPlayerWithPlayerId(NewClientProxy->GetPlayerId());
-
-		if (NewPlayer == nullptr)
+		//방이 가득 차거나, 게임이 시작된 경우에는 새 클라이언트 처리를 해선 안되고 입장 불가 패킷을 준다.	
+		Server* Server_ = static_cast<Server*> (Engine::sInstance.get());
+		if (Server_->IsNoAdmittance())
 		{
-			LOG("새 플레이어가 생성되지 않았습니다. Player Id는 %d\n", NewClientProxy->GetPlayerId());
-			return;
+			SendNoAdmittancePacket(InFromAddress, Server_->GetNoAdmittanceReason());
 		}
+		else
+		{ 
+			std::string Name = "";
+			InInputStream.Read(Name);
 
-		//타 클라에도 해당 플레이어를 리플리케이션
-		for (auto ClientProxyValue : mPlayerIdToClientMap)
-		{
-			if (ClientProxyValue.first != NewClientProxy->GetPlayerId())
+			PlayerColor Color;
+			InInputStream.Read(Color);
+
+			//클라이언트 프록시 생성
+			ClientProxyPtr NewClientProxy = std::make_shared<ClientProxy>(InFromAddress, Name, Color, mNewPlayerId++);
+
+			//각 맵에 추가
+			mAddressToClientMap[InFromAddress] = NewClientProxy;
+			mPlayerIdToClientMap[NewClientProxy->GetPlayerId()] = NewClientProxy;
+
+			//클라이언트 마중...
+			SendWelcomePacket(NewClientProxy);
+
+			//클라이언트를 위한 플레이어 생성
+			static_cast<Server*> (Engine::sInstance.get())->HandleNewClient(NewClientProxy);
+
+			Player* NewPlayer = static_cast<Server*> (Engine::sInstance.get())->GetPlayerWithPlayerId(NewClientProxy->GetPlayerId());
+
+			if (NewPlayer == nullptr)
 			{
-				ReplicationCommand RA;
-				RA.NetworkId = NewPlayer->GetNetworkId();
-				RA.RA = ReplicationAction::RA_Create;
-				ClientProxyValue.second->AddUnprocessedRA(RA);
+				LOG("새 플레이어가 생성되지 않았습니다. Player Id는 %d\n", NewClientProxy->GetPlayerId());
+				return;
 			}
-		}
 
-		//이 클라에 대한 리플리케이션 관리자를 가져와서
-		//그리고 지금까지 월드에 있는 걸 모두 생성으로 리플리케이션해줌.
-		for (auto GO : LinkingContext::Get().GetGameObjectSet())
-		{
-			SendReplicated(InFromAddress, NewClientProxy->GetReplicationManagerServer(), ReplicationAction::RA_Create, GO, nullptr);	
+			//타 클라에도 해당 플레이어를 리플리케이션
+			for (auto ClientProxyValue : mPlayerIdToClientMap)
+			{
+				if (ClientProxyValue.first != NewClientProxy->GetPlayerId())
+				{
+					ReplicationCommand RA;
+					RA.NetworkId = NewPlayer->GetNetworkId();
+					RA.RA = ReplicationAction::RA_Create;
+					ClientProxyValue.second->AddUnprocessedRA(RA);
+				}
+			}
+
+			//이 클라에 대한 리플리케이션 관리자를 가져와서
+			//그리고 지금까지 월드에 있는 걸 모두 생성으로 리플리케이션해줌.
+			for (auto GO : LinkingContext::Get().GetGameObjectSet())
+			{
+				SendReplicated(InFromAddress, NewClientProxy->GetReplicationManagerServer(), ReplicationAction::RA_Create, GO, nullptr);	
+			}
 		}
 	}
 	else
@@ -158,6 +167,31 @@ void NetworkManagerServer::SendWelcomePacket(ClientProxyPtr InClientProxy)
 	LOG("Server Welcoming, new Client '%s' as player %d", InClientProxy->GetName().c_str(), InClientProxy->GetPlayerId());
 
 	SendPacket(WelcomePacket, InClientProxy->GetSocketAddress());
+}
+
+void NetworkManagerServer::SendNoAdmittancePacket(const SocketAddress& InFromAddress, NoAdmittanceReason InReason)
+{
+	OutputMemoryBitStream NoAdmittancePacket;
+
+	NoAdmittancePacket.Write(kNoAdmittanceCC);
+	NoAdmittancePacket.Write((uint8_t)InReason);
+
+	switch (InReason)
+	{
+	case NoAdmittanceReason::NONE:
+		printf("Error : NoAdmittanceReason should not be none.\n");
+		break;
+	case NoAdmittanceReason::FULL_PLAYER:
+		printf("No Admittance : Full Player\n");
+		break;
+	case NoAdmittanceReason::GAME_STARTED:
+		printf("No Admittance : Game Started\n");
+		break;
+	default:
+		break;
+	}
+
+	SendPacket(NoAdmittancePacket, InFromAddress);
 }
 
 void NetworkManagerServer::UpdateAllClients()

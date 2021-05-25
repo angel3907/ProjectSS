@@ -202,6 +202,26 @@ void EntryScene::NotifyEmptyTextBox()
 	EntryStatusTextBox->SetText(Notification);
 }
 
+void EntryScene::NotifyNoAdmittance(NoAdmittanceReason InReason)
+{
+	switch ((NoAdmittanceReason)(InReason))
+	{
+	case NoAdmittanceReason::NONE:
+		printf("Error : NoAdmittanceReason should not be none.\n");
+		break;
+	case NoAdmittanceReason::FULL_PLAYER:
+		EntryStatusTextBox->SetText(ServerStateToStringMap[FULL_PLAYER]);
+		break;
+	case NoAdmittanceReason::GAME_STARTED:
+		EntryStatusTextBox->SetText(ServerStateToStringMap[GAME_STARTED]);
+		break;
+	default:
+		break;
+	}
+
+	SetTryEnterServer(false);
+}
+
 void EntryScene::TryEnterServer()
 {
 	//들어오는 패킷 처리
@@ -233,6 +253,5 @@ void EntryScene::CheckTryEnterServerTimeLimit()
 	{
 		SetTryEnterServer(false);
 		EntryStatusTextBox->SetText(ServerStateToStringMap[ServerState::NO_SERVER]);
-		bTryEnterServer = false;
 	}
 }

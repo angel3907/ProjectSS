@@ -33,7 +33,7 @@ Server::Server()
 {
 	RegisterObjectCreation();
 	RegisterRPCs();
-	
+	InitGameState();
 	InitNetworkManager();
 }
 
@@ -72,6 +72,7 @@ void Server::HandleNewClient(ClientProxyPtr InClientProxy)
 {
 	//해당 클라 프록시 정보(이름, 아이디)로 플레이어 생성 
 	SpawnPlayer(InClientProxy);
+	PlayerNum++;
 }
 
 void Server::HandleLostClient(ClientProxyPtr InClientProxy)
@@ -90,6 +91,13 @@ void Server::HandleLostClient(ClientProxyPtr InClientProxy)
 		NetworkManagerServer::sInstance->SendReplicatedToAllClients(RC.RA, Player_, nullptr);
 
 		delete Player_; //여기서 LinkingContext에서도 빠짐.
+	}
+
+	PlayerNum--;
+
+	if (PlayerNum < 0)
+	{
+		printf("Error : PlayerNum is negative number at Server::HandleLostClient. \n");
 	}
 }
 
@@ -148,4 +156,10 @@ void Server::UpdateGameObjects()
 	{
 		GO->Update();
 	}
+}
+
+void Server::InitGameState()
+{
+	bGameStarted = false; //TODO 수정
+	PlayerNum = 0;
 }

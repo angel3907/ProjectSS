@@ -35,6 +35,8 @@ public:
 	bool IsAllTextBoxFilled();
 	void NotifyEmptyTextBox();
 
+	void NotifyNoAdmittance(NoAdmittanceReason InReason);
+
 	void TryEnterServer();
 	void SetServerAddress();
 	void SetPlayerState();
