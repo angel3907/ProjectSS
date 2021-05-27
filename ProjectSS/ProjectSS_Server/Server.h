@@ -12,6 +12,7 @@ public:
 	//게임 루프 수행
 	virtual void DoFrame() override;
 	virtual int Run();
+	void DoGameStartLoop();
 
 	//새 클라이언트가 왔을 때 처리 / 새 클라이언트가 사라졌을 때 처리
 	void HandleNewClient(ClientProxyPtr InClientProxy);

@@ -39,11 +39,14 @@ Server::Server()
 
 void Server::DoFrame()
 {
-	//패킷 받아오는 함수 호출
-	NetworkManagerServer::sInstance->ProcessInComingPacket();
-
 	//게임 루프 수행
 	Engine::DoFrame();
+
+	//리플리케이션 패킷 전송
+	NetworkManagerServer::sInstance->SendOutgoingPackets();
+
+	//패킷 받아오는 함수 호출
+	NetworkManagerServer::sInstance->ProcessInComingPacket();
 
 	//게임 오브젝트 업데이트
 	UpdateGameObjects();
@@ -51,14 +54,11 @@ void Server::DoFrame()
 	//클라이언트 연결 상태 체크
 	NetworkManagerServer::sInstance->CheckForDisconnects();
 
-	//리플리케이션 패킷 전송
-	NetworkManagerServer::sInstance->SendOutgoingPackets();
-
 	//클라이언트 상태 패킷 보내기
 	NetworkManagerServer::sInstance->UpdateAllClients();
 
-	//별 생성 시작
-	StarManager::Get().Update();
+	//게임 시작 이후 해야하는 일
+	DoGameStartLoop();
 }
 
 int Server::Run()
@@ -66,6 +66,14 @@ int Server::Run()
 	SetupWorld();
 
 	return Engine::Run();
+}
+
+void Server::DoGameStartLoop()
+{
+	if (bGameStarted)
+	{
+		StarManager::Get().Update();
+	}
 }
 
 void Server::HandleNewClient(ClientProxyPtr InClientProxy)
