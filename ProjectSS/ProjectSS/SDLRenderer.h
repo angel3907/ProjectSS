@@ -67,6 +67,7 @@ public:
 
 	int GetTextSize(ETextSize InTextSize) { return TextSizeEnumToSizeValue[InTextSize]; } 
 
+
 private:
 	//SDL은 여러 창을 띄울 수 있고, 각 창에 대한 렌더링을 지원.
 	//창을 만들었으면 해당 창의 핸들을 변수에 저장해두고, 핸들을 갖고 작업을 해야 함
@@ -92,6 +93,11 @@ private:
 	
 	SDL_Texture* CheckMarkTexture;
 
+	//준비 버튼
+	SDL_Texture* ReadyNonActiveButtonTexture;
+	SDL_Texture* ReadyActiveButtonTexture;
+	SDL_Texture* WaitButtonTexture;
+	SDL_Texture* StartedButtonTexture;
 
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 	std::unordered_map<uint32_t, TTF_Font*> Fonts;
