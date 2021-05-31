@@ -23,6 +23,7 @@ public:
 	void SpawnPlayer(ClientProxyPtr InClientProxy);
 
 	void CheckReady();
+	void CheckGamePlayTime();
 
 	//입장불가 여부 가져오기
 	bool IsNoAdmittance() {return IsPlayerFull() || IsGameStarted();}
@@ -65,6 +66,12 @@ private:
 
 	//게임 시작 여부
 	bool bGameStarted;
+
+	//게임 시작 시간
+	float GameStartTime = 0.f;
+
+	//게임 한판에 걸리는 시간
+	float GamePlayDuration = 60.f;
 
 	//게임 참여자 수
 	int PlayerNum;

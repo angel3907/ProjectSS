@@ -59,6 +59,9 @@ void Server::DoFrame()
 
 	//게임 시작 이후 해야하는 일
 	DoGameStartLoop();
+
+	//게임 시간 다 됐나 체크
+	CheckGamePlayTime();
 }
 
 int Server::Run()
@@ -175,6 +178,25 @@ void Server::CheckReady()
 	if (NetworkManagerServer::sInstance->IsAllPlayersReady())
 	{
 		bGameStarted = true;
+		GameStartTime = TimeUtil::Get().GetTimef();
+	}
+}
+
+void Server::CheckGamePlayTime()
+{
+	if (!bGameStarted)
+	{
+		return;
+	}
+
+	float CurrentTime = TimeUtil::Get().GetTimef();
+	if (CurrentTime >= GameStartTime + GamePlayDuration)
+	{
+		//게임 끝내기
+		bGameStarted = false;
+
+		//게임 끝 패킷 보내기
+		NetworkManagerServer::sInstance->SendReadyPacketToAllClient(END);
 	}
 }
 

@@ -19,7 +19,8 @@ enum ReadyPacketType : uint8_t
 	READY_NONACTIVE,
 	READY_SEND,
 	READY_ACK,
-	START
+	START,
+	END
 };
 
 class NetworkManager

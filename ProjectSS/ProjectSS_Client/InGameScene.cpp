@@ -84,10 +84,18 @@ void InGameScene::NotifyReadyPacket(ReadyPacketType InReadyPacketType)
 	case START:
 		mReadyButton->ChangeState(STARTED);
 		break;
+	case END:
+		ShowResultUI();
+		break;
 	case READY_SEND:
 		printf("Server Send Ready Packet Type : READY, Please Check the Server Send right Packet\n");
 		break;
 	default:
 		break;
 	}
+}
+
+void InGameScene::ShowResultUI()
+{
+	printf("Game is finished!\n");
 }
