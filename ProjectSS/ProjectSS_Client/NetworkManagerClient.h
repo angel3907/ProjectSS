@@ -38,6 +38,8 @@ public:
 	void SetPlayerName(std::string InName){ mName = InName; }
 	void SetPlayerColor(PlayerColor InPlayerColor) { mPlayerColor  = InPlayerColor;}
 
+	void SendReadyPacket(ReadyPacketType InReadyPacketType);
+
 private:
 	NetworkManagerClient();
 	void Init (const SocketAddress& InServerAddress, const std::string& InName); //실제 초기화 함수
@@ -53,6 +55,7 @@ private:
 	void HandleWelcomePacket(InputMemoryBitStream& InInputStream);
 	void HandleNoAdmittancePacket(InputMemoryBitStream& InInputStream);
 	void HandleStatePacket(InputMemoryBitStream& InInputStream);
+	void HandleReadyPacket(InputMemoryBitStream& InInputStream);
 
 private:
 	//전용 리플리케이션 매니저

@@ -30,6 +30,12 @@ public:
 		return mIsAttacking;
 	}
 
+	void PrintState() const
+	{
+		LOG("mDesiredRightAmount : %f, mDesiredLeftAmount : %f, mDesiredForwardAmount : %f, mDesiredBackAmount : %f, mIsAttacking : %d \n", 
+			mDesiredRightAmount, mDesiredLeftAmount, mDesiredForwardAmount, mDesiredBackAmount, mIsAttacking);
+	}
+
 	//멤버변수에 값 읽고 쓰기.
 	void Write(OutputMemoryBitStream& InStream) const override;
 	void Read(InputMemoryBitStream& InStream) override;

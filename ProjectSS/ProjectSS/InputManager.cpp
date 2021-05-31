@@ -69,7 +69,6 @@ void InputManager::Update()
 	{
 		mPendingMove = &SampleInputAsMove();
 	}
-	
 }
 
 bool InputManager::IsTimeToSampleInput()

@@ -11,7 +11,8 @@ public:
 	static bool StaticInit();
 	void EnterInGameScene() { CurrentScene = &InGameScene::Get(); }
 	void NotifyNoAdmittanceToEntryScene(NoAdmittanceReason InReason);
-	
+	void NotifyReadyPacketToInGameScene(ReadyPacketType InReadyPacket);
+
 protected:
 	Client();
 

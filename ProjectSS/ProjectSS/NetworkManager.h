@@ -13,6 +13,15 @@ enum class NoAdmittanceReason : uint8_t
 	GAME_STARTED
 };
 
+enum ReadyPacketType : uint8_t
+{
+	READY_ACTIVE,
+	READY_NONACTIVE,
+	READY_SEND,
+	READY_ACK,
+	START
+};
+
 class NetworkManager
 {
 public:
@@ -21,6 +30,7 @@ public:
 	static const uint32_t kStateCC = 'STAT';
 	static const uint32_t kInputCC = 'INPT';
 	static const uint32_t kNoAdmittanceCC = 'NOAD';
+	static const uint32_t kReadyCC = 'REDY';
 
 	NetworkManager(){}
 	virtual ~NetworkManager(){}

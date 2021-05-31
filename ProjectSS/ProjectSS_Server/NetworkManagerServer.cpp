@@ -9,7 +9,7 @@ NetworkManagerServer::NetworkManagerServer() :
 	mNewPlayerId(1),
 	mTimeBetweenStatePackets(0.033f),
 	mTimeOfLastStatePackets(0.f),
-	mClientDisconnectTimeout(3.0f)
+	mClientDisconnectTimeout(300.0f) //TODO 서밋전수정
 {
 
 }
@@ -122,6 +122,10 @@ void NetworkManagerServer::ProcessPacket(ClientProxyPtr InClientProxy, InputMemo
 		//다시 웰컴 패킷을 보냄.
 		SendWelcomePacket(InClientProxy);
 		break;
+	case kReadyCC:
+		//클라에게 게임 준비하겠다고 신호가 온 상황
+		HandleReadyPacket(InClientProxy, InInputStream);
+		break;
 	case kInputCC:	
 		//입력 패킷 처리
 		HandleInputPacket(InClientProxy, InInputStream);
@@ -167,6 +171,50 @@ void NetworkManagerServer::SendWelcomePacket(ClientProxyPtr InClientProxy)
 	LOG("Server Welcoming, new Client '%s' as player %d", InClientProxy->GetName().c_str(), InClientProxy->GetPlayerId());
 
 	SendPacket(WelcomePacket, InClientProxy->GetSocketAddress());
+}
+
+void NetworkManagerServer::HandleReadyPacket(ClientProxyPtr InClientProxy, InputMemoryBitStream& InInputStream)
+{
+	uint8_t ReadyPacketType_;
+	InInputStream.Read(ReadyPacketType_);
+
+	//일단 READY_SEND 타입 패킷이 아닌 경우 처리하지 않는다
+	if (ReadyPacketType_ != READY_SEND)
+	{
+		return;
+	}
+
+	InClientProxy->SetReady(true);
+	SendReadyPacket(InClientProxy, READY_ACK);
+
+	Server* Server_ = static_cast<Server*> (Engine::sInstance.get());
+	Server_->CheckReady();
+
+	if (Server_->IsGameStarted())
+	{
+		SendReadyPacketToAllClient(START);
+	}
+}
+
+void NetworkManagerServer::SendReadyPacket(ClientProxyPtr InClientProxy, ReadyPacketType InReadyPacketType)
+{
+	OutputMemoryBitStream ReadyAckPacket;
+
+	ReadyAckPacket.Write(kReadyCC);
+	ReadyAckPacket.Write(InReadyPacketType);
+
+	LOG("Server Ready packet, Client '%s' as player %d, Ready Packet Type is %d", 
+		InClientProxy->GetName().c_str(), InClientProxy->GetPlayerId(), InReadyPacketType);
+
+	SendPacket(ReadyAckPacket, InClientProxy->GetSocketAddress());
+}
+
+void NetworkManagerServer::SendReadyPacketToAllClient(ReadyPacketType InReadyPacketType)
+{
+	for (auto AddressToClient : mAddressToClientMap)
+	{
+		SendReadyPacket(AddressToClient.second, InReadyPacketType);
+	}
 }
 
 void NetworkManagerServer::SendNoAdmittancePacket(const SocketAddress& InFromAddress, NoAdmittanceReason InReason)
@@ -268,6 +316,22 @@ void NetworkManagerServer::CheckForDisconnects()
 	{
 		HandleLostClient(ClientProxyValue);
 	}
+}
+
+bool NetworkManagerServer::IsAllPlayersReady()
+{
+	bool bAllPlayerReady = true;
+
+	for (auto AddressToClient : mAddressToClientMap)
+	{
+		if (!AddressToClient.second->IsReady())
+		{
+			bAllPlayerReady = false;
+			break;
+		}
+	}
+
+	return bAllPlayerReady;
 }
 
 void NetworkManagerServer::SendStatePacketToClient(ClientProxyPtr InClientProxy)

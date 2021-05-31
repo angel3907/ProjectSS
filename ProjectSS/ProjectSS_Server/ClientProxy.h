@@ -23,6 +23,8 @@ public:
 	int GetPlayerId() {return mPlayerId;}
 	std::string GetName() {return mName;}
 	PlayerColor GetPlayerColor() {return mPlayerColor;}
+	bool IsReady(){return bReady;}
+	void SetReady(bool bInReady){bReady = bInReady;}
 	
 	ReplicationManager& GetReplicationManagerServer() {return mReplicationManagerServer;}
 	MoveList& GetUnprocessedMoveList() { return mUnprocessedMoveList; }
@@ -54,6 +56,8 @@ private:
 
 	std::vector<ReplicationCommand> UnprocessedRAs; //+추가 : RA해야할 일이 있으면 여기 추가해줌
 	//bool mIsLastMoveTimestampDirty;
+
+	bool bReady = false;
 
 	float mLastPacketFromClientTime; //마지막으로 클라한테 패킷을 받은 시간
 };

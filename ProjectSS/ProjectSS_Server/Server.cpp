@@ -81,6 +81,17 @@ void Server::HandleNewClient(ClientProxyPtr InClientProxy)
 	//해당 클라 프록시 정보(이름, 아이디)로 플레이어 생성 
 	SpawnPlayer(InClientProxy);
 	PlayerNum++;
+
+	//2명이 되었다면, Ready 가능을 모두에게 보내기
+	if (PlayerNum == 2)
+	{
+		NetworkManagerServer::sInstance->SendReadyPacketToAllClient(READY_ACTIVE);
+	}
+	//2명을 넘는다면 새로 온 클라에게만 보내기
+	else if (PlayerNum > 2)
+	{
+		NetworkManagerServer::sInstance->SendReadyPacket(InClientProxy, READY_ACTIVE);
+	}
 }
 
 void Server::HandleLostClient(ClientProxyPtr InClientProxy)
@@ -106,6 +117,20 @@ void Server::HandleLostClient(ClientProxyPtr InClientProxy)
 	if (PlayerNum < 0)
 	{
 		printf("Error : PlayerNum is negative number at Server::HandleLostClient. \n");
+	}
+
+	//플레이어가 2명 미만이 됐으면 알려주기
+	if (PlayerNum < 2)
+	{
+		NetworkManagerServer::sInstance->SendReadyPacketToAllClient(READY_NONACTIVE);
+	}
+
+	//해당 플레이어가 나가면서 준비가 다 되었다면 모두에게 게임 시작을 알려주기
+	//TODO : 나가면 전부 Ready를 푸는 것도 방법인 것 같다.
+	CheckReady();
+	if (IsGameStarted())
+	{
+		NetworkManagerServer::sInstance->SendReadyPacketToAllClient(START);
 	}
 }
 
@@ -142,6 +167,14 @@ void Server::SpawnPlayer(ClientProxyPtr InClientProxy)
 	else
 	{
 		LOG("Failed To Spawn Player ID : %d", InClientProxy->GetPlayerId());
+	}
+}
+
+void Server::CheckReady()
+{
+	if (NetworkManagerServer::sInstance->IsAllPlayersReady())
+	{
+		bGameStarted = true;
 	}
 }
 

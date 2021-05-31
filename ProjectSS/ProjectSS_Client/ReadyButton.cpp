@@ -1,4 +1,5 @@
 #include "ReadyButton.h"
+#include "NetworkManagerClient.h"
 
 void ReadyButton::Render()
 {
@@ -30,10 +31,14 @@ void ReadyButton::ProcessClick()
 {
 	if (mReadyButtonState == ACTIVE)
 	{
-		//서버로 메시지를 보냄
-		
+		float CurrentTime = TimeUtil::Get().GetTimef();
 
-
+		if (CurrentTime > ReadyPacketSendTime + ReadyPacketSendDuration)
+		{ 
+			//서버로 메시지를 보냄
+			NetworkManagerClient::sInstance->SendReadyPacket(READY_SEND);
+			ReadyPacketSendTime = CurrentTime;
+		}
 	}
 
 	/*

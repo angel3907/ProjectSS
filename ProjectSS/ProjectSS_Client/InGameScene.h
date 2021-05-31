@@ -15,6 +15,7 @@ public:
 	virtual void Render() override;
 	virtual void HandleInput(SDL_Event* InEvent) override;
 	void CheckButtonsPressed(Vector2 InPos);
+	void NotifyReadyPacket(ReadyPacketType InReadyPacketType);
 
 private:
 	InGameScene();

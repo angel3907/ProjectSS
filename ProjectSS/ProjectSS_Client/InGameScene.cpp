@@ -25,9 +25,6 @@ void InGameScene::Update()
 
 	//나가는 패킷 처리
 	NetworkManagerClient::sInstance->SendOutgoingPackets();
-
-
-
 }
 
 void InGameScene::Render()
@@ -68,5 +65,29 @@ void InGameScene::CheckButtonsPressed(Vector2 InPos)
 	if (mReadyButton->IsPressed(InPos))
 	{
 		mReadyButton->ProcessClick();
+	}
+}
+
+void InGameScene::NotifyReadyPacket(ReadyPacketType InReadyPacketType)
+{
+	switch (InReadyPacketType)
+	{
+	case READY_ACTIVE:
+		mReadyButton->ChangeState(ACTIVE);
+		break;
+	case READY_NONACTIVE:
+		mReadyButton->ChangeState(NONACTIVE);
+		break;
+	case READY_ACK:
+		mReadyButton->ChangeState(READY);
+		break;
+	case START:
+		mReadyButton->ChangeState(STARTED);
+		break;
+	case READY_SEND:
+		printf("Server Send Ready Packet Type : READY, Please Check the Server Send right Packet\n");
+		break;
+	default:
+		break;
 	}
 }

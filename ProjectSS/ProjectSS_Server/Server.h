@@ -22,6 +22,8 @@ public:
 	Player* GetPlayerWithPlayerId(int InPlayerId);
 	void SpawnPlayer(ClientProxyPtr InClientProxy);
 
+	void CheckReady();
+
 	//입장불가 여부 가져오기
 	bool IsNoAdmittance() {return IsPlayerFull() || IsGameStarted();}
 
@@ -41,6 +43,9 @@ public:
 		}
 	}
 
+	//게임 시작 여부 알아오기
+	int IsGameStarted() { return bGameStarted; }
+
 private:
 	Server();
 
@@ -57,9 +62,6 @@ private:
 	void InitGameState();
 
 	bool IsPlayerFull() { return PlayerNum == MaxPlayerNum; }
-
-	//게임 시작 여부 알아오기
-	int IsGameStarted() { return bGameStarted; }
 
 	//게임 시작 여부
 	bool bGameStarted;

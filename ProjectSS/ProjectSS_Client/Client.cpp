@@ -52,6 +52,15 @@ void Client::NotifyNoAdmittanceToEntryScene(NoAdmittanceReason InReason)
 	}
 }
 
+void Client::NotifyReadyPacketToInGameScene(ReadyPacketType InReadyPacket)
+{
+	InGameScene* InGameScene_ = static_cast<InGameScene*>(CurrentScene);
+	if (InGameScene_)
+	{
+		InGameScene_->NotifyReadyPacket(InReadyPacket);
+	}
+}
+
 void Client::InitScene()
 {
 	CurrentScene = &EntryScene::Get();

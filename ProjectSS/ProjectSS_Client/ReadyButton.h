@@ -24,4 +24,7 @@ public:
 
 private:
 	ReadyButtonState mReadyButtonState;
+
+	float ReadyPacketSendDuration = 1.0f;
+	float ReadyPacketSendTime = 0.f;
 };

@@ -55,6 +55,9 @@ void NetworkManagerClient::ProcessPacket(InputMemoryBitStream& InInputStream, co
 	case kNoAdmittanceCC:
 		HandleNoAdmittancePacket(InInputStream);
 		break;
+	case kReadyCC:
+		HandleReadyPacket(InInputStream);
+		break;
 	case kStateCC:
 		HandleStatePacket(InInputStream);
 		break;
@@ -94,6 +97,15 @@ void NetworkManagerClient::SendHelloPacket()
 	HelloPacket.Write(mPlayerColor);
 	
 	SendPacket(HelloPacket, mServerAddress);
+}
+
+void NetworkManagerClient::SendReadyPacket(ReadyPacketType InReadyPacketType)
+{
+	OutputMemoryBitStream ReadyPacket;
+	ReadyPacket.Write(kReadyCC);
+	ReadyPacket.Write(InReadyPacketType);
+
+	SendPacket(ReadyPacket, mServerAddress);
 }
 
 void NetworkManagerClient::SendInputPacket()
@@ -172,5 +184,16 @@ void NetworkManagerClient::HandleStatePacket(InputMemoryBitStream& InInputStream
 		default:
 			break;
 		}
+	}
+}
+
+void NetworkManagerClient::HandleReadyPacket(InputMemoryBitStream& InInputStream)
+{
+	if (mState == NCS_Welcomed)
+	{
+		ReadyPacketType ReadyPacketType_;
+		InInputStream.Read(ReadyPacketType_);
+
+		static_cast<Client*> (Engine::sInstance.get())->NotifyReadyPacketToInGameScene(ReadyPacketType_);
 	}
 }

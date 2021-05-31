@@ -81,7 +81,7 @@ void NetworkManager::ProcessInComingPacket()
 
 	if (RecvByteCount > 0)
 	{
-		printf("Process Incoming Packet\n");
+		//printf("Process Incoming Packet\n");
 		//버퍼 소유권을 입력 메모리 스트림에 넘김
 		//이제 데이터원소를 하나씩 쓰여진 순서대로 읽을 수 있음.
 		InputMemoryBitStream Stream(TempBuffer, static_cast<uint32_t>(RecvByteCount) << 3);

@@ -41,6 +41,14 @@ public:
 	//연결 해제 체크
 	void CheckForDisconnects();
 
+	bool IsAllPlayersReady();
+
+	//준비 패킷 전송
+	void SendReadyPacket(ClientProxyPtr InClientProxy, ReadyPacketType InReadyPacketType);
+
+	//준비 패킷을 모두에게 전송
+	void SendReadyPacketToAllClient(ReadyPacketType InReadyPacketType);
+
 private:
 	NetworkManagerServer();
 
@@ -52,6 +60,9 @@ private:
 
 	//웰컴 패킷 송신
 	void SendWelcomePacket(ClientProxyPtr InClientProxy);
+
+	//준비 패킷 처리
+	void HandleReadyPacket(ClientProxyPtr InClientProxy, InputMemoryBitStream& InInputStream);
 
 	//입장 불가 패킷 송신
 	void SendNoAdmittancePacket(const SocketAddress& InFromAddress, NoAdmittanceReason InReason);
