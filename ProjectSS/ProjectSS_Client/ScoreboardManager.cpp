@@ -8,7 +8,7 @@ void ScoreboardManager::UpdateScoreboard()
 
 	for (auto Player_ : LinkingContext::Get().GetPlayerPtrSet())
 	{
-		StarCountToName.push_back({Player_->GetStarCount(), Player_->GetName()});
+		StarCountToName.push_back({ Player_->GetStarCount(), Player_->GetName() });
 	}
 
 	sort(StarCountToName.begin(), StarCountToName.end(), std::greater<>());
@@ -21,7 +21,7 @@ void ScoreboardManager::RenderScoreborad()
 	float BasePosX = (WINDOW_WIDTH - (WINDOW_WIDTH - WORLD_WIDTH)) * 1.075f;
 	float BasePosY = (WINDOW_HEIGHT * 0.195f);
 
-	SDL_Color BlackColor = {0, 0, 0};
+	SDL_Color BlackColor = { 0, 0, 0 };
 	int Index = 0;
 	int XOffset = 200;
 	int YOffset = 75;

@@ -71,7 +71,7 @@ private:
 	float GameStartTime = 0.f;
 
 	//게임 한판에 걸리는 시간
-	float GamePlayDuration = 60.f;
+	float GamePlayDuration = 5.f; //TODO 서밋전 수정
 
 	//게임 참여자 수
 	int PlayerNum;

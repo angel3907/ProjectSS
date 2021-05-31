@@ -99,6 +99,8 @@ private:
 	SDL_Texture* WaitButtonTexture;
 	SDL_Texture* StartedButtonTexture;
 
+	SDL_Texture* ResultBoardTexture;
+
 	std::unordered_map<uint32_t, SDL_Texture*> Textures;
 	std::unordered_map<uint32_t, TTF_Font*> Fonts;
 

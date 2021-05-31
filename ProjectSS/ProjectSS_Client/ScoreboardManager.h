@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+typedef std::vector<std::pair<uint32_t, std::string>> Uint32ToString;
 
 class ScoreboardManager
 {
@@ -14,7 +15,7 @@ public:
 	void RenderScoreborad();
 
 private:
-	std::vector<std::pair<uint32_t, std::string>> StarCountToName;
+	Uint32ToString StarCountToName;
 
 	ScoreboardManager(){}
 	~ScoreboardManager(){}

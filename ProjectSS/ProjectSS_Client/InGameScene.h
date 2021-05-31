@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+class Resultboard;
 class ReadyButton;
 
 class InGameScene : public Scene
@@ -22,4 +23,7 @@ private:
 	InGameScene();
 	virtual ~InGameScene();
 	ReadyButton* mReadyButton;
+	Resultboard* mResultboard;
+
+	bool bShowResult = false;
 };

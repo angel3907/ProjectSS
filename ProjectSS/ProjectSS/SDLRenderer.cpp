@@ -131,10 +131,12 @@ void SDLRenderer::LoadTextures()
 		Textures[i] = PlayerColorTextures[i]; //맵 키 예외 0~PlayerColorNum
 	}
 
-	ReadyNonActiveButtonTexture = LoadTexture("../Resources/Images/ReadyButton_NonActive.png");;
-	ReadyActiveButtonTexture = LoadTexture("../Resources/Images/ReadyButton_Active.png");;
-	WaitButtonTexture = LoadTexture("../Resources/Images/WaitButton.png");;
-	StartedButtonTexture = LoadTexture("../Resources/Images/StartedButton.png");;
+	ReadyNonActiveButtonTexture = LoadTexture("../Resources/Images/ReadyButton_NonActive.png");
+	ReadyActiveButtonTexture = LoadTexture("../Resources/Images/ReadyButton_Active.png");
+	WaitButtonTexture = LoadTexture("../Resources/Images/WaitButton.png");
+	StartedButtonTexture = LoadTexture("../Resources/Images/StartedButton.png");
+
+	ResultBoardTexture = LoadTexture("../Resources/Images/Resultboard.png");
 
 	//텍스쳐 맵에 등록
 	Textures['PLYR'] = PlayerTexture;
@@ -152,6 +154,8 @@ void SDLRenderer::LoadTextures()
 	Textures['RDAC'] = ReadyActiveButtonTexture;
 	Textures['WAIT'] = WaitButtonTexture;
 	Textures['STRT'] = StartedButtonTexture;
+
+	Textures['RESU'] = ResultBoardTexture;
 }
 
 void SDLRenderer::SetTextureColorMod(SDL_Texture* InTexture, SDL_Color InColor)
@@ -461,4 +465,5 @@ void SDLRenderer::CloseTextures()
 	SDL_DestroyTexture(ReadyActiveButtonTexture);
 	SDL_DestroyTexture(WaitButtonTexture);
 	SDL_DestroyTexture(StartedButtonTexture);
+	SDL_DestroyTexture(ResultBoardTexture);
 }

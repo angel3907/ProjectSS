@@ -9,7 +9,7 @@ NetworkManagerServer::NetworkManagerServer() :
 	mNewPlayerId(1),
 	mTimeBetweenStatePackets(0.033f),
 	mTimeOfLastStatePackets(0.f),
-	mClientDisconnectTimeout(300.0f) //TODO 서밋전수정
+	mClientDisconnectTimeout(3.0f)
 {
 
 }
