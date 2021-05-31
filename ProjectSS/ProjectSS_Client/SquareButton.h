@@ -17,6 +17,7 @@ public:
 
 	bool IsPressed(Vector2 InPos) override;
 	void Render() override;
+	Vector2 GetWidthHeight(){return Vector2(Width, Height);}
 
 private:
 	int Width;
