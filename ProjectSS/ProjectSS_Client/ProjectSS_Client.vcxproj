@@ -157,9 +157,11 @@
     <ClInclude Include="CircleButton.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="EntryScene.h" />
+    <ClInclude Include="ImageSquareButton.h" />
     <ClInclude Include="InGameScene.h" />
     <ClInclude Include="NetworkManagerClient.h" />
     <ClInclude Include="PlayerClient.h" />
+    <ClInclude Include="ReadyButton.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScoreboardManager.h" />
     <ClInclude Include="SquareButton.h" />
@@ -172,10 +174,12 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientMain.cpp" />
     <ClCompile Include="EntryScene.cpp" />
+    <ClCompile Include="ImageSquareButton.cpp" />
     <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NetworkManagerClient.cpp" />
     <ClCompile Include="PlayerClient.cpp" />
+    <ClCompile Include="ReadyButton.cpp" />
     <ClCompile Include="ScoreboardManager.cpp" />
     <ClCompile Include="SquareButton.cpp" />
     <ClCompile Include="StarClient.cpp" />
