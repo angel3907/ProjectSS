@@ -56,6 +56,9 @@
     <ClInclude Include="ReadyButton.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Resultboard.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -101,6 +104,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="ReadyButton.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Resultboard.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
