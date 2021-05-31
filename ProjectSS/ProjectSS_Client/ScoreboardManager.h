@@ -18,4 +18,6 @@ private:
 
 	ScoreboardManager(){}
 	~ScoreboardManager(){}
+
+	const uint32_t ScoreboardTextureKey = 'SCOR';
 };
