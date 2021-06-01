@@ -110,14 +110,21 @@ void PlayerServer::HandleAttacking()
 
 void PlayerServer::UpdateAttacked()
 {
-	//공격당하는 방향으로 계속 더한다
-	//이때 최대값에 도달하면 멈춘다
-	Pos = Pos + (AttackedDir * AttackSpeed * TimeUtil::Get().GetDeltaTimef());
+	float CurrentTime = TimeUtil::Get().GetTimef();
 
-	if (ApplyPosLimit(Pos))
+	if (CurrentTime > AttackedTime + UpdateAttackedDuration)
 	{
-		bAttacked = false;
-		AttackedDir = Vector2(0, 0);
+		AttackedTime = CurrentTime;
+	
+		//공격당하는 방향으로 계속 더한다
+		//이때 최대값에 도달하면 멈춘다
+		Pos = Pos + (AttackedDir * AttackSpeed);
+		
+		if (ApplyPosLimit(Pos))
+		{
+			bAttacked = false;
+			AttackedDir = Vector2(0, 0);
+		}
 	}
 }
 
@@ -125,6 +132,7 @@ void PlayerServer::SetAttacked(Vector2 InAttackingPlayerPos)
 {
 	//튕겨나갈 방향
 	bAttacked = true;
+	AttackedTime = TimeUtil::Get().GetTimef();
 	AttackedDir = Vector2::GetNormalized(Pos - InAttackingPlayerPos);
 
 	//혹시 같은 위치에 있으면 그냥 오른쪽으로 튕기게

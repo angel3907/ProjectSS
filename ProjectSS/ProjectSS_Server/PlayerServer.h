@@ -28,5 +28,8 @@ private:
 	float mTimeBetweenAttack; //공격 쿨타임
 
 	Vector2 AttackedDir = Vector2(0,0);
-	const float AttackSpeed = 200.0f;
+	const float AttackSpeed = 100.0f;
+
+	const float UpdateAttackedDuration = 0.03f;
+	float AttackedTime = 0.f;
 };
