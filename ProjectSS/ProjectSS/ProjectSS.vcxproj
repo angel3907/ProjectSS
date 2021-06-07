@@ -165,8 +165,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AckRange.cpp" />
+    <ClCompile Include="DeliveryNotificationManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InFlightPacket.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputMemoryBitStream.cpp" />
     <ClCompile Include="InputMemoryStream.cpp" />
@@ -178,6 +181,7 @@
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="OutputMemoryBitStream.cpp" />
     <ClCompile Include="OutputMemoryStream.cpp" />
+    <ClCompile Include="PacketSequenceNumber.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ReplicationHeader.cpp" />
     <ClCompile Include="ReplicationManager.cpp" />
@@ -195,11 +199,14 @@
     <ClCompile Include="UDPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AckRange.h" />
     <ClInclude Include="ByteSwapper.h" />
+    <ClInclude Include="DeliveryNotificationManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="GameObjectSubClasses.h" />
     <ClInclude Include="GamePlayUtils.h" />
+    <ClInclude Include="InFlightPacket.h" />
     <ClInclude Include="InputAction.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputState.h" />
@@ -216,6 +223,7 @@
     <ClInclude Include="ObjectCreationRegistry.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
+    <ClInclude Include="PacketSequenceNumber.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ReplicationHeader.h" />
     <ClInclude Include="ReplicationManager.h" />

@@ -89,6 +89,18 @@
     <ClCompile Include="SDLRenderer.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="InFlightPacket.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="DeliveryNotificationManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketSequenceNumber.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="AckRange.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -197,6 +209,18 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="SDLRenderer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="DeliveryNotificationManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="InFlightPacket.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketSequenceNumber.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="AckRange.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
