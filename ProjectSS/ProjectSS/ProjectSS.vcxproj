@@ -181,7 +181,6 @@
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="OutputMemoryBitStream.cpp" />
     <ClCompile Include="OutputMemoryStream.cpp" />
-    <ClCompile Include="PacketSequenceNumber.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ReplicationHeader.cpp" />
     <ClCompile Include="ReplicationManager.cpp" />
@@ -223,7 +222,6 @@
     <ClInclude Include="ObjectCreationRegistry.h" />
     <ClInclude Include="OutputMemoryBitStream.h" />
     <ClInclude Include="OutputMemoryStream.h" />
-    <ClInclude Include="PacketSequenceNumber.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ReplicationHeader.h" />
     <ClInclude Include="ReplicationManager.h" />
@@ -238,6 +236,7 @@
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="TCPSocket.h" />
     <ClInclude Include="TimeUtil.h" />
+    <ClInclude Include="TransmissionData.h" />
     <ClInclude Include="UDPSocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -95,9 +95,6 @@
     <ClCompile Include="DeliveryNotificationManager.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="PacketSequenceNumber.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="AckRange.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -217,10 +214,10 @@
     <ClInclude Include="InFlightPacket.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="PacketSequenceNumber.h">
+    <ClInclude Include="AckRange.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="AckRange.h">
+    <ClInclude Include="TransmissionData.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
