@@ -12,7 +12,7 @@ public:
 
 	~AckRange(){}
 
-	inline bool ExtendIfShould(PacketSequenceNumber InSequenceNumber);
+	bool ExtendIfShould(PacketSequenceNumber InSequenceNumber);
 	
 	PacketSequenceNumber GetStart() const {return mStart;}
 	uint32_t GetCount() const {return mCount;}

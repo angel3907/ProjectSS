@@ -6,15 +6,15 @@
 #include "OutputMemoryBitStream.h"
 #include "InputMemoryBitStream.h"
 
-class DeliveryNoficationManager
+class DeliveryNotificationManager
 {
 public:
-	DeliveryNoficationManager(bool InShouldSendAcks, bool InShouldProceeAcks);
-	~DeliveryNoficationManager();
+	DeliveryNotificationManager(bool InShouldSendAcks, bool InShouldProceeAcks);
+	~DeliveryNotificationManager();
 
 	//Ack의 시퀀스 번호와 Ack Data를 읽고 쓰는 함수
-	inline InFlightPacket* WriteState(OutputMemoryBitStream& InOutputStream);
-	inline bool ReadAndProcessState(InputMemoryBitStream& InInputStream);
+	InFlightPacket* WriteState(OutputMemoryBitStream& InOutputStream);
+	bool ReadAndProcessState(InputMemoryBitStream& InInputStream);
 
 	void ProcessTimedOutPackets();
 

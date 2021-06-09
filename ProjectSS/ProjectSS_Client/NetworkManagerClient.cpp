@@ -5,7 +5,8 @@
 NetworkManagerClient* NetworkManagerClient::sInstance;
 
 NetworkManagerClient::NetworkManagerClient()
-	: mState(NCS_Uninitialized)
+	: mState(NCS_Uninitialized),
+	  mDeliveryNotificationManager(true, false)
 {
 
 }
@@ -59,7 +60,10 @@ void NetworkManagerClient::ProcessPacket(InputMemoryBitStream& InInputStream, co
 		HandleReadyPacket(InInputStream);
 		break;
 	case kStateCC:
-		HandleStatePacket(InInputStream);
+		if (mDeliveryNotificationManager.ReadAndProcessState(InInputStream))
+		{
+			HandleStatePacket(InInputStream);
+		}
 		break;
 	}
 }
@@ -117,6 +121,8 @@ void NetworkManagerClient::SendInputPacket()
 
 	OutputMemoryBitStream InputPacket;
 	InputPacket.Write(kInputCC);
+
+	mDeliveryNotificationManager.WriteState(InputPacket);
 
 	//최근 3개의 입력조작만 전송
 	int MoveCount = MoveListValue.GetMoveCount();

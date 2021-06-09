@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DeliveryNotificationManager.h"
 
-DeliveryNoficationManager::DeliveryNoficationManager(bool InShouldSendAcks, bool InShouldProceeAcks) :
+DeliveryNotificationManager::DeliveryNotificationManager(bool InShouldSendAcks, bool InShouldProceeAcks) :
 mNextExpectedSequenceNumber(0),
 mNextOutgoingSequenceNumber(0),
 mShouldProcessAcks(InShouldProceeAcks),
@@ -13,14 +13,14 @@ mDispatchedPacketCount(0)
 
 }
 
-DeliveryNoficationManager::~DeliveryNoficationManager()
+DeliveryNotificationManager::~DeliveryNotificationManager()
 {
 	LOG("DNM destructor. Delivery rate %d%%, Drop rate %d%%",
 		(100 * mDeliveredPacketCount) / mDispatchedPacketCount,
 		(100 * mDroppedPacketCount) / mDispatchedPacketCount);
 }
 
-InFlightPacket* DeliveryNoficationManager::WriteState(OutputMemoryBitStream& InOutputStream)
+InFlightPacket* DeliveryNotificationManager::WriteState(OutputMemoryBitStream& InOutputStream)
 {
 	InFlightPacket* ToRet = WriteSequenceNumber(InOutputStream);
 	if (mShouldSendAcks)
@@ -31,7 +31,7 @@ InFlightPacket* DeliveryNoficationManager::WriteState(OutputMemoryBitStream& InO
 	return ToRet;
 }
 
-bool DeliveryNoficationManager::ReadAndProcessState(InputMemoryBitStream& InInputStream)
+bool DeliveryNotificationManager::ReadAndProcessState(InputMemoryBitStream& InInputStream)
 {
 	bool ToRet = ProcessSequenceNumber(InInputStream);
 	if (mShouldProcessAcks)
@@ -42,7 +42,7 @@ bool DeliveryNoficationManager::ReadAndProcessState(InputMemoryBitStream& InInpu
 	return ToRet;
 }
 
-void DeliveryNoficationManager::ProcessTimedOutPackets()
+void DeliveryNotificationManager::ProcessTimedOutPackets()
 {
 	float TimeOutTime = TimeUtil::Get().GetTimef() - kAckTimeOut;
 
@@ -64,11 +64,13 @@ void DeliveryNoficationManager::ProcessTimedOutPackets()
 	}
 }
 
-InFlightPacket* DeliveryNoficationManager::WriteSequenceNumber(OutputMemoryBitStream& InPacket)
+InFlightPacket* DeliveryNotificationManager::WriteSequenceNumber(OutputMemoryBitStream& InPacket)
 {
 	//다음번 시퀀스 번호를 기록, 증가시킴
 	PacketSequenceNumber SequenceNumber = mNextOutgoingSequenceNumber++;
 	InPacket.Write(SequenceNumber);
+
+	LOG("I Write Sequence Number : %d", SequenceNumber);
 
 	//보낸 패킷수 +1
 	++mDispatchedPacketCount;
@@ -85,7 +87,7 @@ InFlightPacket* DeliveryNoficationManager::WriteSequenceNumber(OutputMemoryBitSt
 	}
 }
 
-void DeliveryNoficationManager::WritePendingAcks(OutputMemoryBitStream& InPacket)
+void DeliveryNotificationManager::WritePendingAcks(OutputMemoryBitStream& InPacket)
 {
 	//모아둔 확인응답이 없을 수도 있으므로 비트 하나를 둔다.
 	bool HasAcks = (mPendingAcks.size() > 0);
@@ -99,10 +101,12 @@ void DeliveryNoficationManager::WritePendingAcks(OutputMemoryBitStream& InPacket
 	}
 }
 
-bool DeliveryNoficationManager::ProcessSequenceNumber(InputMemoryBitStream& InPacket)
+bool DeliveryNotificationManager::ProcessSequenceNumber(InputMemoryBitStream& InPacket)
 {
 	PacketSequenceNumber SequenceNumber;
 	InPacket.Read(SequenceNumber);
+
+	LOG("I Process Sequence Number : %d", SequenceNumber);
 
 	if (SequenceNumber >= mNextExpectedSequenceNumber)
 	{
@@ -130,7 +134,7 @@ bool DeliveryNoficationManager::ProcessSequenceNumber(InputMemoryBitStream& InPa
 	}
 }
 
-void DeliveryNoficationManager::ProcessAcks(InputMemoryBitStream& InPacket)
+void DeliveryNotificationManager::ProcessAcks(InputMemoryBitStream& InPacket)
 {
 	bool HasAcks;
 	InPacket.Read(HasAcks);
@@ -183,7 +187,7 @@ void DeliveryNoficationManager::ProcessAcks(InputMemoryBitStream& InPacket)
 	}
 }
 
-void DeliveryNoficationManager::AddPendingAck(PacketSequenceNumber InSequenceNumber)
+void DeliveryNotificationManager::AddPendingAck(PacketSequenceNumber InSequenceNumber)
 {
 	//연속된 범위의 시퀀스 번호가 아니라면 하나만 추가.
 	//연속된 범위라면 기존 것에 붙여줌
@@ -194,13 +198,13 @@ void DeliveryNoficationManager::AddPendingAck(PacketSequenceNumber InSequenceNum
 	}
 }
 
-void DeliveryNoficationManager::HandlePacketDeliveryFailure(const InFlightPacket& InInFlightPacket)
+void DeliveryNotificationManager::HandlePacketDeliveryFailure(const InFlightPacket& InInFlightPacket)
 {
 	++mDroppedPacketCount;
 	InInFlightPacket.HandleDeliveryFailure(this);
 }
 
-void DeliveryNoficationManager::HandlePacketDeliverySuccess(const InFlightPacket& InInFlightPacket)
+void DeliveryNotificationManager::HandlePacketDeliverySuccess(const InFlightPacket& InInFlightPacket)
 {
 	++mDeliveredPacketCount;
 	InInFlightPacket.HandleDeliverySuccess(this);

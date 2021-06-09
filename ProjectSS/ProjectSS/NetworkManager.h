@@ -6,6 +6,8 @@
 #include "OutputMemoryBitStream.h"
 #include "ReplicationManager.h"
 
+class DeliveryNotificationManager;
+
 enum class NoAdmittanceReason : uint8_t
 {
 	NONE,
@@ -53,6 +55,7 @@ public:
 
 	//리플리케이션 패킷 전송
 	size_t SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
+		DeliveryNotificationManager* InDeliveryNotificationManager,
 		ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams);
 
 	//연결 리셋

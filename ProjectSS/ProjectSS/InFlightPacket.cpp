@@ -8,7 +8,7 @@ mTimeDispatched(TimeUtil::Get().GetTimef())
 
 }
 
-void InFlightPacket::HandleDeliveryFailure(DeliveryNoficationManager* InDeliveryNotificationManager) const
+void InFlightPacket::HandleDeliveryFailure(DeliveryNotificationManager* InDeliveryNotificationManager) const
 {
 	for (const auto& pair : mTransmissionDataMap)
 	{
@@ -16,7 +16,7 @@ void InFlightPacket::HandleDeliveryFailure(DeliveryNoficationManager* InDelivery
 	}
 }
 
-void InFlightPacket::HandleDeliverySuccess(DeliveryNoficationManager* InDeliveryNotificationManager) const
+void InFlightPacket::HandleDeliverySuccess(DeliveryNotificationManager* InDeliveryNotificationManager) const
 {
 	for (const auto& pair : mTransmissionDataMap)
 	{

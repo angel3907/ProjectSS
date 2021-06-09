@@ -4,6 +4,7 @@
 #include "SocketAddress.h"
 #include "ReplicationManager.h"
 #include "Player.h"
+#include "DeliveryNotificationManager.h"
 
 class InputMemoryBitStream;
 
@@ -58,6 +59,8 @@ private:
 	void HandleReadyPacket(InputMemoryBitStream& InInputStream);
 
 private:
+	//배달 통지 관리자
+	DeliveryNotificationManager	mDeliveryNotificationManager;
 	//전용 리플리케이션 매니저
 	ReplicationManager mReplicationManagerClient;
 	

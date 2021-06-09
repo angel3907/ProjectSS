@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "TransmissionData.h"
-class DeliveryNoficationManager;
+class DeliveryNotificationManager;
 
 //비트를 더 적게 또는 많이 사용해야 한다면 타입을 바꿔야 할 것.
 typedef uint16_t PacketSequenceNumber;
@@ -26,8 +26,8 @@ public:
 		return (It != mTransmissionDataMap.end()) ? It->second : nullptr;
 	}
 
-	void HandleDeliveryFailure(DeliveryNoficationManager* InDeliveryNotificationManager) const;
-	void HandleDeliverySuccess(DeliveryNoficationManager* InDeliveryNotificationManager) const;
+	void HandleDeliveryFailure(DeliveryNotificationManager* InDeliveryNotificationManager) const;
+	void HandleDeliverySuccess(DeliveryNotificationManager* InDeliveryNotificationManager) const;
 
 private:
 	PacketSequenceNumber mSequenceNumber; //패킷의 시퀀스번호

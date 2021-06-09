@@ -1,11 +1,11 @@
 #pragma once
-class DeliveryNoficationManager;
+class DeliveryNotificationManager;
 #include <memory>
 
 class TransmissionData
 {
 public:
-	virtual void HandleDeliveryFailure(DeliveryNoficationManager* InDeliveryNotificationManager) const = 0;
-	virtual void HandleDeliverySuccess(DeliveryNoficationManager* InDeliveryNotificationManager) const = 0;
+	virtual void HandleDeliveryFailure(DeliveryNotificationManager* InDeliveryNotificationManager) const = 0;
+	virtual void HandleDeliverySuccess(DeliveryNotificationManager* InDeliveryNotificationManager) const = 0;
 };
 typedef std::shared_ptr<TransmissionData> TransmissionDataPtr;

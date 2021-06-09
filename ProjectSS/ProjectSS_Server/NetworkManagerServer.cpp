@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "ClientProxy.h"
 #include "Server.h"
+#include "DeliveryNotificationManager.h"
 
 NetworkManagerServer* NetworkManagerServer::sInstance;
 
@@ -9,7 +10,7 @@ NetworkManagerServer::NetworkManagerServer() :
 	mNewPlayerId(1),
 	mTimeBetweenStatePackets(0.033f),
 	mTimeOfLastStatePackets(0.f),
-	mClientDisconnectTimeout(3.0f)
+	mClientDisconnectTimeout(2.0f) //TODO 서밋전수정
 {
 
 }
@@ -95,7 +96,8 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 			//그리고 지금까지 월드에 있는 걸 모두 생성으로 리플리케이션해줌.
 			for (auto GO : LinkingContext::Get().GetGameObjectSet())
 			{
-				SendReplicated(InFromAddress, NewClientProxy->GetReplicationManagerServer(), ReplicationAction::RA_Create, GO, nullptr);	
+				SendReplicated(InFromAddress, NewClientProxy->GetReplicationManagerServer(), &NewClientProxy->GetDeliveryNotificationManager(),
+					ReplicationAction::RA_Create, GO, nullptr);
 			}
 		}
 	}
@@ -127,8 +129,11 @@ void NetworkManagerServer::ProcessPacket(ClientProxyPtr InClientProxy, InputMemo
 		HandleReadyPacket(InClientProxy, InInputStream);
 		break;
 	case kInputCC:	
-		//입력 패킷 처리
-		HandleInputPacket(InClientProxy, InInputStream);
+		if (InClientProxy->GetDeliveryNotificationManager().ReadAndProcessState(InInputStream))
+		{
+			//입력 패킷 처리
+			HandleInputPacket(InClientProxy, InInputStream);
+		}
 		break;
 	default:
 		LOG("Unknown packet type received from %s", InClientProxy->GetSocketAddress().ToString().c_str());
@@ -155,7 +160,9 @@ void NetworkManagerServer::SendOutgoingPackets()
 	for (auto AddressToClient : mAddressToClientMap)
 	{
 		ClientProxyPtr ClientProxyValue = AddressToClient.second;
-		
+		//타임아웃된 패킷 처리
+		ClientProxyValue->GetDeliveryNotificationManager().ProcessTimedOutPackets();
+
 		//TODO : 뒤에 타임스탬프가 Dirty일때만 보내는 것 추가하는데 그때 수정
 		SendStatePacketToClient(ClientProxyValue);
 	}
@@ -251,6 +258,8 @@ void NetworkManagerServer::UpdateAllClients()
 	{
 		for (auto AddressToClient : mAddressToClientMap)
 		{
+			//타임아웃된 패킷 처리
+			AddressToClient.second->GetDeliveryNotificationManager().ProcessTimedOutPackets();
 			SendStatePacketToClient(AddressToClient.second);
 		}
 		
@@ -271,7 +280,7 @@ void NetworkManagerServer::SendReplicatedToAllClients(ReplicationAction InReplic
 	for (auto AddressToClientProxy : mAddressToClientMap)
 	{
 		ClientProxyPtr Cp = AddressToClientProxy.second;
-		SendReplicated(Cp->GetSocketAddress(), Cp->GetReplicationManagerServer(), InReplicationAction, InGameObject, InRPCParams);
+		SendReplicated(Cp->GetSocketAddress(), Cp->GetReplicationManagerServer(), &Cp->GetDeliveryNotificationManager(), InReplicationAction, InGameObject, InRPCParams);
 	}
 }
 
@@ -336,14 +345,13 @@ bool NetworkManagerServer::IsAllPlayersReady()
 
 void NetworkManagerServer::SendStatePacketToClient(ClientProxyPtr InClientProxy)
 {
-	//상태패킷을 특정 클라이언트에게 송신
-	OutputMemoryBitStream StatePacket;
-
 	//일단 임시대응.. RA 큐에 등록된 걸 리플리케이션시킴
 	for (auto RA : InClientProxy->GetUnprocessedRAs())
 	{
 		GameObject* GO = LinkingContext::Get().GetGameObject(RA.NetworkId);
-		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), RA.RA, GO, nullptr);
+		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), 
+			&InClientProxy->GetDeliveryNotificationManager(), RA.RA, GO, nullptr);
+		
 		printf("Update Client : GameObject Network Id %d\n", RA.NetworkId);
 	}
 

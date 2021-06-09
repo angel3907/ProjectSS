@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "DeliveryNotificationManager.h"
 
 const uint32_t kMaxPakcetSize = 1470;
 
@@ -98,38 +99,40 @@ void NetworkManager::ProcessInComingPacket()
 	}
 }
 
-size_t NetworkManager::SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager, 
-									ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams)
+size_t NetworkManager::SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
+	DeliveryNotificationManager* InDeliveryNotificationManager, ReplicationAction InReplicationAction, GameObject* InGameObject, RPCParams* InRPCParams)
 {
-	OutputMemoryBitStream Stream;
-	
-	//상태 패킷이라고 표시
-	Stream.Write(kStateCC);
+	OutputMemoryBitStream OutputStream;
+	OutputStream.Write(kStateCC);
+
+	InDeliveryNotificationManager->WriteState(OutputStream);
+
+	//TODO : 여기서 TransmissionData를 세팅
 
 	//리플리케이션용이라고 미리 표시
-	Stream.WriteBits(static_cast<uint8_t>(PacketType::PT_ReplicationData), GetRequiredBits(static_cast<int32_t>(PacketType::PT_MAX)));
+	OutputStream.WriteBits(static_cast<uint8_t>(PacketType::PT_ReplicationData), GetRequiredBits(static_cast<int32_t>(PacketType::PT_MAX)));
 
 	switch (InReplicationAction)
 	{
 	case ReplicationAction::RA_Create:
-		InReplicationManager.ReplicateCreate(Stream, InGameObject);
+		InReplicationManager.ReplicateCreate(OutputStream, InGameObject);
 		break;
 	case ReplicationAction::RA_Update:
-		InReplicationManager.ReplicateUpdate(Stream, InGameObject);
+		InReplicationManager.ReplicateUpdate(OutputStream, InGameObject);
 		break;
 	case ReplicationAction::RA_Destroy:
-		InReplicationManager.ReplicateDestroy(Stream, InGameObject);
+		InReplicationManager.ReplicateDestroy(OutputStream, InGameObject);
 		break;
 	case ReplicationAction::RA_RPC:
-		InReplicationManager.RPC(Stream, InRPCParams);
+		InReplicationManager.RPC(OutputStream, InRPCParams);
 		break;
 	case ReplicationAction::RA_RMI:
-		InReplicationManager.RMI(Stream, InGameObject, InRPCParams);
+		InReplicationManager.RMI(OutputStream, InGameObject, InRPCParams);
 		break;
 	default:
 		break;
 	}
 
-	size_t SentByteCount = mSocket->SendTo(Stream.GetBufferPtr(), Stream.GetByteLength(), InToAddress);
+	size_t SentByteCount = mSocket->SendTo(OutputStream.GetBufferPtr(), OutputStream.GetByteLength(), InToAddress);
 	return SentByteCount;
 }

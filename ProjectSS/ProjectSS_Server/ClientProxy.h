@@ -4,6 +4,7 @@
 #include "MoveList.h"
 #include "ReplicationManager.h"
 #include "Player.h"
+#include "DeliveryNotificationManager.h"
 
 class ClientProxy
 {
@@ -12,7 +13,8 @@ public:
 	:mSocketAddress(InSocketAddress),
 	mName(InName),
 	mPlayerColor(InPlayerColor),
-	mPlayerId(InPlayerId)
+	mPlayerId(InPlayerId),
+	mDeliveryNotificationManager(false, true)
 	{
 		UpdateLastPacketTime();
 	}
@@ -38,11 +40,16 @@ public:
 
 	float GetLastPacketFromClientTime() const {return mLastPacketFromClientTime; }
 
+	DeliveryNotificationManager& GetDeliveryNotificationManager() { return mDeliveryNotificationManager; }
+
 	//이동 타임스탬프가 변경되었는지.
 	//void SetIsLastMoveTimestampDirty(bool InIsDirty) { mIsLastMoveTimestampDirty = InIsDirty;}
 	//bool IsLastMoveTimestampDirty() const {return mIsLastMoveTimestampDirty;}
 
 private:
+	//배달 통지 관리자
+	DeliveryNotificationManager mDeliveryNotificationManager;
+
 	//전용 리플리케이션 매니저
 	ReplicationManager mReplicationManagerServer;
 
