@@ -29,6 +29,9 @@
     <ClInclude Include="StarManager.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="ReplicationManagerTransmissionData.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -50,6 +53,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="StarManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplicationManagerTransmissionData.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
