@@ -15,6 +15,46 @@ NetworkManagerServer::NetworkManagerServer() :
 
 }
 
+size_t NetworkManagerServer::SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager, ReplicationManagerTransmissionDataPtr InTransmissionData, DeliveryNotificationManager* InDeliveryNotificationManager, ReplicationAction InReplicationAction, GameObject* InGameObject, int InNetworkId, RPCParams* InRPCParams)
+{
+	OutputMemoryBitStream OutputStream;
+	OutputStream.Write(kStateCC);
+
+	InFlightPacket* InFlightPacket_ = InDeliveryNotificationManager->WriteState(OutputStream);
+
+	//Transmission Data 세팅
+	//상태 비트는 처리 안하고 있으니 0으로 넘겨줌.
+	InFlightPacket_->SetTransmissionData('RPLM', InTransmissionData);
+	InTransmissionData->AddTransmission(InNetworkId, InReplicationAction, 0);
+
+	//리플리케이션용이라고 미리 표시
+	OutputStream.WriteBits(static_cast<uint8_t>(PacketType::PT_ReplicationData), GetRequiredBits(static_cast<int32_t>(PacketType::PT_MAX)));
+
+	switch (InReplicationAction)
+	{
+	case ReplicationAction::RA_Create:
+		InReplicationManager.ReplicateCreate(OutputStream, InGameObject);
+		break;
+	case ReplicationAction::RA_Update:
+		InReplicationManager.ReplicateUpdate(OutputStream, InGameObject);
+		break;
+	case ReplicationAction::RA_Destroy:
+		InReplicationManager.ReplicateDestroy(OutputStream, InNetworkId);
+		break;
+	case ReplicationAction::RA_RPC:
+		InReplicationManager.RPC(OutputStream, InRPCParams);
+		break;
+	case ReplicationAction::RA_RMI:
+		InReplicationManager.RMI(OutputStream, InGameObject, InRPCParams);
+		break;
+	default:
+		break;
+	}
+
+	size_t SentByteCount = mSocket->SendTo(OutputStream.GetBufferPtr(), OutputStream.GetByteLength(), InToAddress);
+	return SentByteCount;
+}
+
 bool NetworkManagerServer::StaticInit(uint16_t InPort)
 {
 	sInstance = new NetworkManagerServer();
@@ -88,16 +128,24 @@ void NetworkManagerServer::HandlePacketFromNewClient(InputMemoryBitStream& InInp
 					ReplicationCommand RA;
 					RA.NetworkId = NewPlayer->GetNetworkId();
 					RA.RA = ReplicationAction::RA_Create;
-					ClientProxyValue.second->AddUnprocessedRA(RA);
+					ClientProxyValue.second->GetReplicationManagerServer().AddUnprocessedRA(RA);
 				}
 			}
+
+
+			ReplicationManagerTransmissionDataPtr RepTransData = nullptr;
 
 			//이 클라에 대한 리플리케이션 관리자를 가져와서
 			//그리고 지금까지 월드에 있는 걸 모두 생성으로 리플리케이션해줌.
 			for (auto GO : LinkingContext::Get().GetGameObjectSet())
 			{
-				SendReplicated(InFromAddress, NewClientProxy->GetReplicationManagerServer(), &NewClientProxy->GetDeliveryNotificationManager(),
-					ReplicationAction::RA_Create, GO, nullptr);
+				if (!RepTransData)
+				{
+					RepTransData = std::make_shared<ReplicationManagerTransmissionData>(&NewClientProxy->GetReplicationManagerServer());
+				}
+
+				SendReplicated(InFromAddress, NewClientProxy->GetReplicationManagerServer(), RepTransData, &NewClientProxy->GetDeliveryNotificationManager(),
+					ReplicationAction::RA_Create, GO, GO->GetNetworkId(), nullptr);
 			}
 		}
 	}
@@ -224,6 +272,24 @@ void NetworkManagerServer::SendReadyPacketToAllClient(ReadyPacketType InReadyPac
 	}
 }
 
+void NetworkManagerServer::HandleGameEnd()
+{
+	std::vector<ClientProxyPtr> ClientToDisconnect;
+
+	for (const auto& Pair : mAddressToClientMap)
+	{
+		ClientToDisconnect.push_back(Pair.second);
+	}
+
+	//삭제할 클라이언트 프록시 처리
+	for (ClientProxyPtr ClientProxyValue : ClientToDisconnect)
+	{
+		//각 맵에서 제거
+		mAddressToClientMap.erase(ClientProxyValue->GetSocketAddress());
+		mPlayerIdToClientMap.erase(ClientProxyValue->GetPlayerId());
+	}
+}
+
 void NetworkManagerServer::SendNoAdmittancePacket(const SocketAddress& InFromAddress, NoAdmittanceReason InReason)
 {
 	OutputMemoryBitStream NoAdmittancePacket;
@@ -271,7 +337,7 @@ void NetworkManagerServer::AddUnprocessedRAToAllClients(ReplicationCommand& RA)
 {
 	for (auto AddressToClientProxy : mAddressToClientMap)
 	{
-		AddressToClientProxy.second->AddUnprocessedRA(RA);
+		AddressToClientProxy.second->GetReplicationManagerServer().AddUnprocessedRA(RA);
 	}
 }
 
@@ -280,7 +346,9 @@ void NetworkManagerServer::SendReplicatedToAllClients(ReplicationAction InReplic
 	for (auto AddressToClientProxy : mAddressToClientMap)
 	{
 		ClientProxyPtr Cp = AddressToClientProxy.second;
-		SendReplicated(Cp->GetSocketAddress(), Cp->GetReplicationManagerServer(), &Cp->GetDeliveryNotificationManager(), InReplicationAction, InGameObject, InRPCParams);
+		ReplicationManagerTransmissionDataPtr RepTransData = std::make_shared<ReplicationManagerTransmissionData>(&Cp->GetReplicationManagerServer());
+		SendReplicated(Cp->GetSocketAddress(), Cp->GetReplicationManagerServer(), RepTransData,
+					   &Cp->GetDeliveryNotificationManager(), InReplicationAction, InGameObject, InGameObject->GetNetworkId(), InRPCParams);
 	}
 }
 
@@ -345,17 +413,24 @@ bool NetworkManagerServer::IsAllPlayersReady()
 
 void NetworkManagerServer::SendStatePacketToClient(ClientProxyPtr InClientProxy)
 {
+	ReplicationManagerTransmissionDataPtr RepTransData = nullptr;
+
 	//일단 임시대응.. RA 큐에 등록된 걸 리플리케이션시킴
-	for (auto RA : InClientProxy->GetUnprocessedRAs())
+	for (auto RA : InClientProxy->GetReplicationManagerServer().GetUnprocessedRAs())
 	{
+		if (!RepTransData)
+		{
+			RepTransData = std::make_shared<ReplicationManagerTransmissionData>(&InClientProxy->GetReplicationManagerServer());
+		}
+
 		GameObject* GO = LinkingContext::Get().GetGameObject(RA.NetworkId);
-		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), 
-			&InClientProxy->GetDeliveryNotificationManager(), RA.RA, GO, nullptr);
+		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), RepTransData,
+			&InClientProxy->GetDeliveryNotificationManager(), RA.RA, GO, RA.NetworkId, nullptr);
 		
 		printf("Update Client : GameObject Network Id %d\n", RA.NetworkId);
 	}
 
-	InClientProxy->ClearUnprocessedRAs();
+	InClientProxy->GetReplicationManagerServer().ClearUnprocessedRAs();
 }
 
 void NetworkManagerServer::HandleInputPacket(ClientProxyPtr InClientProxy, InputMemoryBitStream& InInputStream)

@@ -320,7 +320,7 @@ size_t SocketUtil::SendReplicated(UDPSocketPtr Socket, SocketAddress& ToAddress,
 		InReplicationManager->ReplicateUpdate(Stream, InGameObject);
 		break;
 	case ReplicationAction::RA_Destroy:
-		InReplicationManager->ReplicateDestroy(Stream, InGameObject);
+		InReplicationManager->ReplicateDestroy(Stream, InGameObject->GetNetworkId()); //TODO 수정
 		break;
 	case ReplicationAction::RA_RPC:
 		InReplicationManager->RPC(Stream, InRPCParams);

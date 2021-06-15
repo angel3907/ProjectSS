@@ -2,6 +2,7 @@
 #include <WinSock2.h>
 #include <stdint.h>
 #include <vector>
+#include <string>
 #include "MathUtils.h"
 #include "MemoryBitStream.h"
 class GameObject;

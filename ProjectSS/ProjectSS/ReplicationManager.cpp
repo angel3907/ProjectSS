@@ -83,9 +83,9 @@ void ReplicationManager::ReplicateUpdate(OutputMemoryBitStream& InStream, GameOb
 	//InGameObject->WriteChanged(InStream);
 }
 
-void ReplicationManager::ReplicateDestroy(OutputMemoryBitStream& InStream, GameObject* InGameObject)
+void ReplicationManager::ReplicateDestroy(OutputMemoryBitStream& InStream, int InNetworkId)
 {
-	ReplicationHeader Rh(ReplicationAction::RA_Destroy, LinkingContext::Get().GetNetworkId(InGameObject, false));
+	ReplicationHeader Rh(ReplicationAction::RA_Destroy, InNetworkId);
 	Rh.Write(InStream);
 }
 

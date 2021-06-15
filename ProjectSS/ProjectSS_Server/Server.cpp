@@ -39,6 +39,11 @@ Server::Server()
 
 void Server::DoFrame()
 {
+	if (bGameEnded) 
+	{
+		return;
+	}
+
 	//게임 루프 수행
 	Engine::DoFrame();
 
@@ -194,9 +199,13 @@ void Server::CheckGamePlayTime()
 	{
 		//게임 끝내기
 		bGameStarted = false;
+		bGameEnded = true;
 
 		//게임 끝 패킷 보내기
 		NetworkManagerServer::sInstance->SendReadyPacketToAllClient(END);
+
+		//게임 끝 처리
+		NetworkManagerServer::sInstance->HandleGameEnd();
 	}
 }
 

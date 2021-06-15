@@ -174,7 +174,7 @@ void DeliveryNotificationManager::ProcessAcks(InputMemoryBitStream& InPacket)
 			else if (NextInFlightPacketSequenceNumber == NextAckdSequenceNumber)
 			{
 				HandlePacketDeliverySuccess(NextInFlightPacket);
-				mInFlightPackets.pop_back();
+				mInFlightPackets.pop_front();
 				++NextAckdSequenceNumber;
 			}
 			//이전 시퀀스 번호 패킷이 온 상황. 확인응답이 오지 않아(or 지연되어) 누락 처리된 것

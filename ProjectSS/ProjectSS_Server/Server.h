@@ -67,6 +67,9 @@ private:
 	//게임 시작 여부
 	bool bGameStarted;
 
+	//게임이 끝난 여부
+	bool bGameEnded = false;
+
 	//게임 시작 시간
 	float GameStartTime = 0.f;
 

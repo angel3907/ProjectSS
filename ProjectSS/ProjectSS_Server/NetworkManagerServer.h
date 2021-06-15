@@ -4,6 +4,7 @@
 #include "SocketAddress.h"
 #include <unordered_map>
 #include "ClientProxy.h"
+#include "ReplicationManagerTransmissionData.h"
 
 class NetworkManagerServer : public NetworkManager
 {
@@ -49,8 +50,17 @@ public:
 	//준비 패킷을 모두에게 전송
 	void SendReadyPacketToAllClient(ReadyPacketType InReadyPacketType);
 
+	//게임 종료시 클라이언트와의 접속 해제 처리
+	void HandleGameEnd();
+
 private:
 	NetworkManagerServer();
+
+	//리플리케이션 패킷 전송
+	size_t SendReplicated(const SocketAddress& InToAddress, ReplicationManager& InReplicationManager,
+		ReplicationManagerTransmissionDataPtr InTransmissionData,
+		DeliveryNotificationManager* InDeliveryNotificationManager,
+		ReplicationAction InReplicationAction, GameObject* InGameObject, int InNetworkId, RPCParams* InRPCParams);
 
 	//새 클라이언트로부터 온 패킷 처리 (헬로 패킷)
 	void HandlePacketFromNewClient(InputMemoryBitStream& InInputStream, const SocketAddress& InFromAddress);

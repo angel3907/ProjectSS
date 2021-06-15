@@ -32,10 +32,6 @@ public:
 	MoveList& GetUnprocessedMoveList() { return mUnprocessedMoveList; }
 	const MoveList& GetUnprocessedMoveList() const { return mUnprocessedMoveList; }
 
-	std::vector<ReplicationCommand>& GetUnprocessedRAs() { return UnprocessedRAs; }
-	void AddUnprocessedRA(ReplicationCommand& RC) { UnprocessedRAs.push_back(RC); }
-	void ClearUnprocessedRAs() { UnprocessedRAs.clear(); }
-
 	void UpdateLastPacketTime() {mLastPacketFromClientTime = TimeUtil::Get().GetTimef();}
 
 	float GetLastPacketFromClientTime() const {return mLastPacketFromClientTime; }
@@ -61,7 +57,6 @@ private:
 
 	MoveList mUnprocessedMoveList; //처리 안된 이동 리스트
 
-	std::vector<ReplicationCommand> UnprocessedRAs; //+추가 : RA해야할 일이 있으면 여기 추가해줌
 	//bool mIsLastMoveTimestampDirty;
 
 	bool bReady = false;
