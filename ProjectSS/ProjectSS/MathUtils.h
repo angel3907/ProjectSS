@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <cstdlib>
+#include <random>
 
 struct Vector2
 {
@@ -85,4 +86,12 @@ inline int GetRandomInt(int StarValue, int EndValue)
 {
 	int Res = StarValue + (rand() % (EndValue - StarValue));
 	return Res;
+}
+
+inline float GetRandomFloat()
+{
+	static std::random_device Rd;
+	static std::mt19937 Gen(Rd()); //난수엔진. 특정 범위에 치우친 데이터가 나와서 완전하지 못한 문제를 보완함.
+	static std::uniform_real_distribution<float> Dis(0.1f, 1.0f);
+	return Dis(Gen);
 }
