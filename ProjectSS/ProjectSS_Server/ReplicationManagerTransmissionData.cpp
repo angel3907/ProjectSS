@@ -1,6 +1,7 @@
 #include "ReplicationManagerTransmissionData.h"
 #include "LinkingContext.h"
 #include "StringUtils.h"
+#include "DeliveryNotificationManager.h"
 
 void ReplicationManagerTransmissionData::AddTransmission(int InNetworkId, ReplicationAction InAction, uint32_t InState)
 {
@@ -64,10 +65,33 @@ void ReplicationManagerTransmissionData::HandleCreateDeliveryFailure(int InNetwo
 
 void ReplicationManagerTransmissionData::HandleUpdateStateDeliveryFailure(int InNetworkId, uint32_t InState, DeliveryNotificationManager* inDeliveryNotificationManager) const
 {
+	GameObject* Go = LinkingContext::Get().GetGameObject(InNetworkId);
+
+	if (Go)
+	{
+		for (const auto& InFlightPacket_ : inDeliveryNotificationManager->GetInFlightPackets())
+		{
+			ReplicationManagerTransmissionDataPtr RMTDP 
+			= std::static_pointer_cast<ReplicationManagerTransmissionData>(InFlightPacket_.GetTransmissionData('RPLM'));
+
+			if (RMTDP)
+			{
+				for (const ReplicationTransmission& OtherRT : RMTDP->mTransmissions)
+				{
+					if (OtherRT.GetNetworkId() == InNetworkId && OtherRT.GetAction() == ReplicationAction::RA_Update)
+					{
+						//이미 업데이트 패킷을 보낸게 있다면 재전송하지 않는다.
+						return;
+					}
+				}
+			}
+		}
+	}
+
 	//현재 코드에서 딱히 상태 비트를 사용하고 있지 않아 이렇게 구현하였다.
 	ReplicationCommand RC;
 	RC.NetworkId = InNetworkId;
-	RC.RA = ReplicationAction::RA_Destroy;
+	RC.RA = ReplicationAction::RA_Update;
 	mReplicationManager->AddUnprocessedRA(RC);
 }
 
@@ -75,7 +99,7 @@ void ReplicationManagerTransmissionData::HandleDestroyDeliveryFailure(int InNetw
 {
 	ReplicationCommand RC;
 	RC.NetworkId = InNetworkId;
-	RC.RA = ReplicationAction::RA_Update;
+	RC.RA = ReplicationAction::RA_Destroy;
 	mReplicationManager->AddUnprocessedRA(RC);
 }
 
