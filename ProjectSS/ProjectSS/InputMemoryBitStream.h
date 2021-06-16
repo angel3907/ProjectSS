@@ -10,9 +10,19 @@ class InputMemoryBitStream : public MemoryBitStream
 {
 public:
 	InputMemoryBitStream(char* InBuffer, uint32_t InBitCount) 
-		: mBuffer(InBuffer), mBitCapacity(InBitCount), mBitHead(0) {}
+		: mBuffer(InBuffer), mBitCapacity(InBitCount), mBitHead(0), mIsBufferOwner(false) {}
 
-	~InputMemoryBitStream() { delete mBuffer; }
+	InputMemoryBitStream(const InputMemoryBitStream& InOther) : 
+	mBitCapacity(InOther.mBitCapacity),
+	mBitHead(InOther.mBitHead),
+	mIsBufferOwner(true)
+	{
+		int ByteCount = mBitCapacity / 8;
+		mBuffer = new char[ByteCount];
+		memcpy(mBuffer, InOther.mBuffer, ByteCount);
+	}
+
+	~InputMemoryBitStream() { if (mIsBufferOwner) delete mBuffer; }
 
 	const char* GetBufferPtr() const { return mBuffer; }
 	uint32_t GetRemainingBitCount() const { return mBitCapacity - mBitHead; }
@@ -71,8 +81,11 @@ public:
 
 	void Read(Quaternion& OutQuat);
 
+	void ResetToCapacity(uint32_t InByteCapacity) {mBitCapacity = InByteCapacity << 3; mBitHead = 0;}
+
 private:
 	char* mBuffer;
 	uint32_t mBitHead;
 	uint32_t mBitCapacity;
+	bool mIsBufferOwner;
 };

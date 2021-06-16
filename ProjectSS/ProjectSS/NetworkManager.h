@@ -5,6 +5,8 @@
 #include "SocketAddress.h"
 #include "OutputMemoryBitStream.h"
 #include "ReplicationManager.h"
+#include <queue>
+#include <list>
 
 class DeliveryNotificationManager;
 
@@ -35,6 +37,8 @@ public:
 	static const uint32_t kNoAdmittanceCC = 'NOAD';
 	static const uint32_t kReadyCC = 'REDY';
 
+	static const int kMaxPacketPerFrameCount = 10;
+
 	NetworkManager(){}
 	virtual ~NetworkManager(){}
 
@@ -50,6 +54,12 @@ public:
 	//패킷 받기
 	void ReceiveReplicated(ReplicationManager& InReplicationManager);
 
+	//들어오는 패킷을 큐로 읽어오기
+	void ReadIncomingPacketsIntoQueue();
+
+	//큐에 있는 패킷 처리
+	void ProcessQueuedPackets();
+
 	//들어오는 패킷 처리
 	void ProcessInComingPacket();
 
@@ -58,4 +68,26 @@ public:
 
 protected:
 	UDPSocketPtr mSocket;
+
+private:
+	class ReceivedPacket
+	{
+	public:
+		ReceivedPacket(float InReceivedTime, InputMemoryBitStream& InInputMemoryBitStream, const SocketAddress& InAddress)
+		:mReceivedTime(InReceivedTime), mFromAddress(InAddress), mPacketBuffer(InInputMemoryBitStream){}
+
+		const SocketAddress& GetFromAddress() const {return mFromAddress;}
+		float GetReceivedTime() const {return mReceivedTime;}
+		InputMemoryBitStream& GetPacketBuffer() {return mPacketBuffer;}
+
+	private:
+		float mReceivedTime;
+		InputMemoryBitStream mPacketBuffer;
+		SocketAddress mFromAddress;
+	};
+
+	std::queue <ReceivedPacket, std::list<ReceivedPacket> > mPacketQueue;
+
+	float mDropPacketChance = 0.2f;
+	float mSimulatedLatency = 0.1f;
 };
