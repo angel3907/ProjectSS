@@ -3,6 +3,7 @@
 #include "ClientProxy.h"
 #include "Server.h"
 #include "DeliveryNotificationManager.h"
+#include "ReadyPacketTransmissionData.h"
 
 NetworkManagerServer* NetworkManagerServer::sInstance;
 
@@ -183,7 +184,10 @@ void NetworkManagerServer::ProcessPacket(ClientProxyPtr InClientProxy, InputMemo
 		break;
 	case kReadyCC:
 		//클라에게 게임 준비하겠다고 신호가 온 상황
-		HandleReadyPacket(InClientProxy, InInputStream);
+// 		if (InClientProxy->GetDeliveryNotificationManager().ReadAndProcessState(InInputStream))
+// 		{
+			HandleReadyPacket(InClientProxy, InInputStream);
+// 		}
 		break;
 	case kInputCC:	
 		if (InClientProxy->GetDeliveryNotificationManager().ReadAndProcessState(InInputStream))
@@ -265,6 +269,17 @@ void NetworkManagerServer::SendReadyPacket(ClientProxyPtr InClientProxy, ReadyPa
 	OutputMemoryBitStream ReadyAckPacket;
 
 	ReadyAckPacket.Write(kReadyCC);
+	
+	//배달통지관리자 세팅
+// 	InFlightPacket* InFlightPacket_ = InClientProxy->GetDeliveryNotificationManager().WriteState(ReadyAckPacket);
+// 	
+// 	ReadyPacketTransmissionDataPtr InTransmissionData
+// 	 = std::make_shared<ReadyPacketTransmissionData>();
+// 	
+// 	InFlightPacket_->SetTransmissionData('READ', InTransmissionData);
+// 	InTransmissionData->AddTransmission(InClientProxy, InReadyPacketType);
+	//세팅끝
+
 	ReadyAckPacket.Write(InReadyPacketType);
 
 	LOG("Server Ready packet, Client '%s' as player %d, Ready Packet Type is %d", 

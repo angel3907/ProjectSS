@@ -58,7 +58,7 @@ private:
 	uint32_t mDroppedPacketCount = 0;
 
 	//패킷 타임아웃 시간
-	float kAckTimeOut = 5.0f;
+	float kAckTimeOut = 3.0f;
 
 	//Ack를 보내야 하는지 / 처리해야 하는지 여부
 	bool mShouldSendAcks;

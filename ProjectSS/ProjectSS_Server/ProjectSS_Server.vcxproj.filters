@@ -32,6 +32,9 @@
     <ClInclude Include="ReplicationManagerTransmissionData.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="ReadyPacketTransmissionData.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -56,6 +59,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="ReplicationManagerTransmissionData.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyPacketTransmissionData.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -57,7 +57,10 @@ void NetworkManagerClient::ProcessPacket(InputMemoryBitStream& InInputStream, co
 		HandleNoAdmittancePacket(InInputStream);
 		break;
 	case kReadyCC:
-		HandleReadyPacket(InInputStream);
+// 		if (mDeliveryNotificationManager.ReadAndProcessState(InInputStream))
+// 		{
+			HandleReadyPacket(InInputStream);
+/*		}*/
 		break;
 	case kStateCC:
 		if (mDeliveryNotificationManager.ReadAndProcessState(InInputStream))
@@ -107,6 +110,9 @@ void NetworkManagerClient::SendReadyPacket(ReadyPacketType InReadyPacketType)
 {
 	OutputMemoryBitStream ReadyPacket;
 	ReadyPacket.Write(kReadyCC);
+
+	/*mDeliveryNotificationManager.WriteState(ReadyPacket);*/
+
 	ReadyPacket.Write(InReadyPacketType);
 
 	SendPacket(ReadyPacket, mServerAddress);
