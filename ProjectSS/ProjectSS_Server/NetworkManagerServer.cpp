@@ -33,10 +33,16 @@ size_t NetworkManagerServer::SendReplicated(const SocketAddress& InToAddress, Re
 	switch (InReplicationAction)
 	{
 	case ReplicationAction::RA_Create:
-		InReplicationManager.ReplicateCreate(OutputStream, InGameObject);
+		if (InGameObject)
+		{
+			InReplicationManager.ReplicateCreate(OutputStream, InGameObject);
+		}
 		break;
 	case ReplicationAction::RA_Update:
-		InReplicationManager.ReplicateUpdate(OutputStream, InGameObject);
+		if (InGameObject)
+		{
+			InReplicationManager.ReplicateUpdate(OutputStream, InGameObject);
+		}
 		break;
 	case ReplicationAction::RA_Destroy:
 		InReplicationManager.ReplicateDestroy(OutputStream, InNetworkId);
@@ -45,7 +51,10 @@ size_t NetworkManagerServer::SendReplicated(const SocketAddress& InToAddress, Re
 		InReplicationManager.RPC(OutputStream, InRPCParams);
 		break;
 	case ReplicationAction::RA_RMI:
-		InReplicationManager.RMI(OutputStream, InGameObject, InRPCParams);
+		if (InGameObject)
+		{
+			InReplicationManager.RMI(OutputStream, InGameObject, InRPCParams);
+		}
 		break;
 	default:
 		break;

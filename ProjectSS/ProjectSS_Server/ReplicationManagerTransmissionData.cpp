@@ -74,7 +74,7 @@ void ReplicationManagerTransmissionData::HandleUpdateStateDeliveryFailure(int In
 			ReplicationManagerTransmissionDataPtr RMTDP 
 			= std::static_pointer_cast<ReplicationManagerTransmissionData>(InFlightPacket_.GetTransmissionData('RPLM'));
 
-			if (RMTDP)
+			if (RMTDP && &(*RMTDP) != this)
 			{
 				for (const ReplicationTransmission& OtherRT : RMTDP->mTransmissions)
 				{

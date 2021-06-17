@@ -116,13 +116,24 @@ void ReplicationManager::ProcessReplicationAction(InputMemoryBitStream& InStream
 	{
 		case ReplicationAction::RA_Create:
 		{
-			GameObject* Go = ObjectCreationRegistry::Get().CreateGameObject(Rh.mClassId);
-			LinkingContext::Get().AddGameObject(Go, Rh.mNetworkId);
-			Go->SetNetworkId(Rh.mNetworkId);
+			//중복 생성 요청이 오는 경우 무시한다.
+			GameObject* Go = nullptr;
+			Go = LinkingContext::Get().GetGameObject(Rh.mNetworkId);
+			if (Go)
+			{
+				Go->Read(InStream);
+				return;
+			}
+			else
+			{
+				Go = ObjectCreationRegistry::Get().CreateGameObject(Rh.mClassId);
+				LinkingContext::Get().AddGameObject(Go, Rh.mNetworkId);
+				Go->SetNetworkId(Rh.mNetworkId);
 			
-			Go->Read(InStream);
-			//부분 리플리케이션
-			//Go->ReadChanged(InStream);
+				Go->Read(InStream);
+				//부분 리플리케이션
+				//Go->ReadChanged(InStream);
+			}
 		}
 		break;
 		case ReplicationAction::RA_Update:
