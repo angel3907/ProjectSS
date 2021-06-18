@@ -296,6 +296,23 @@ void NetworkManagerServer::SendReadyPacketToAllClient(ReadyPacketType InReadyPac
 	}
 }
 
+bool NetworkManagerServer::IsAllPacketDeliveredToAllClient()
+{
+	if (mAddressToClientMap.size() == 0)
+	{
+		return false;
+	}
+
+	bool bAllPacketDelivered = true;
+
+	for (auto AddressToClient : mAddressToClientMap)
+	{
+		bAllPacketDelivered &= AddressToClient.second->GetDeliveryNotificationManager().IsAllPacketDelivered();
+	}
+
+	return bAllPacketDelivered;
+}
+
 void NetworkManagerServer::HandleGameEnd()
 {
 	std::vector<ClientProxyPtr> ClientToDisconnect;

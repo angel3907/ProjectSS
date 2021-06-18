@@ -50,6 +50,9 @@ public:
 	//준비 패킷을 모두에게 전송
 	void SendReadyPacketToAllClient(ReadyPacketType InReadyPacketType);
 
+	//모든 클라의 전체 패킷 전송 여부 확인
+	bool IsAllPacketDeliveredToAllClient();
+
 	//게임 종료시 클라이언트와의 접속 해제 처리
 	void HandleGameEnd();
 

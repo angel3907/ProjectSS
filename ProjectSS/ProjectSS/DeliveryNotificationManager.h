@@ -17,6 +17,7 @@ public:
 	bool ReadAndProcessState(InputMemoryBitStream& InInputStream);
 
 	void ProcessTimedOutPackets();
+	bool IsAllPacketDelivered(){ return mInFlightPackets.size() == 0; }
 
 	uint32_t GetDroppedPacketCount() const {return mDroppedPacketCount;}
 	uint32_t GetDeliveredPacketCount() const { return mDeliveredPacketCount; }

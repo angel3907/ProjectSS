@@ -39,11 +39,6 @@ Server::Server()
 
 void Server::DoFrame()
 {
-	if (bGameEnded) 
-	{
-		return;
-	}
-
 	//게임 루프 수행
 	Engine::DoFrame();
 
@@ -189,23 +184,27 @@ void Server::CheckReady()
 
 void Server::CheckGamePlayTime()
 {
-	if (!bGameStarted)
+	if (bGameStarted)
 	{
-		return;
+		float CurrentTime = TimeUtil::Get().GetTimef();
+		if (CurrentTime >= GameStartTime + GamePlayDuration)
+		{
+			//게임 끝내기
+			bGameStarted = false;
+			bGameEnded = true;
+
+			//게임 끝 패킷 보내기
+			NetworkManagerServer::sInstance->SendReadyPacketToAllClient(END);
+		}
 	}
 
-	float CurrentTime = TimeUtil::Get().GetTimef();
-	if (CurrentTime >= GameStartTime + GamePlayDuration)
+	if (bGameEnded)
 	{
-		//게임 끝내기
-		bGameStarted = false;
-		bGameEnded = true;
-
-		//게임 끝 패킷 보내기
-		NetworkManagerServer::sInstance->SendReadyPacketToAllClient(END);
-
-		//게임 끝 처리
-		NetworkManagerServer::sInstance->HandleGameEnd();
+		if (NetworkManagerServer::sInstance->IsAllPacketDeliveredToAllClient())
+		{
+			//게임 끝 처리
+			NetworkManagerServer::sInstance->HandleGameEnd();
+		}
 	}
 }
 

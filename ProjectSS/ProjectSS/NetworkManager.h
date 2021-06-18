@@ -88,6 +88,6 @@ private:
 
 	std::queue <ReceivedPacket, std::list<ReceivedPacket> > mPacketQueue;
 
-	float mDropPacketChance = 0.5f;
+	float mDropPacketChance = 0.0f;
 	float mSimulatedLatency = 0.0f;
 };
