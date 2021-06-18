@@ -39,6 +39,11 @@ Server::Server()
 
 void Server::DoFrame()
 {
+	if (bAllConnectionClosed)
+	{
+		return;
+	}
+
 	//게임 루프 수행
 	Engine::DoFrame();
 
@@ -202,8 +207,9 @@ void Server::CheckGamePlayTime()
 	{
 		if (NetworkManagerServer::sInstance->IsAllPacketDeliveredToAllClient())
 		{
-			//게임 끝 처리
+			//클라와의 연결 해제
 			NetworkManagerServer::sInstance->HandleGameEnd();
+			bAllConnectionClosed = true;
 		}
 	}
 }

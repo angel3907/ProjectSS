@@ -70,6 +70,9 @@ private:
 	//게임이 끝난 여부
 	bool bGameEnded = false;
 
+	//게임이 끝나고 모든 연결이 끊어졌는지
+	bool bAllConnectionClosed = false;
+
 	//게임 시작 시간
 	float GameStartTime = 0.f;
 
