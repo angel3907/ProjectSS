@@ -26,17 +26,10 @@ void ScoreboardManager::RenderScoreborad()
 	int XOffset = 200;
 	int YOffset = 72;
 
-	for (int i=0; i<8; i++)
+	for (auto StarCountToNameValue : StarCountToName)
 	{
-		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX, BasePosY + i * YOffset), "Test");
-		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX + XOffset, BasePosY + i * YOffset), "Test");
-
+		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX, BasePosY + Index * YOffset), StarCountToNameValue.second.c_str());
+		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX + XOffset, BasePosY + Index * YOffset), std::to_string(StarCountToNameValue.first).c_str());
+		Index++;
 	}
-
-// 	for (auto StarCountToNameValue : StarCountToName)
-// 	{
-// 		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX, BasePosY + Index * YOffset), StarCountToNameValue.second.c_str());
-// 		SDLRenderer::Get().DrawFont('SMAL', BlackColor, Vector2(BasePosX + XOffset, BasePosY + Index * YOffset), std::to_string(StarCountToNameValue.first).c_str());
-// 		Index++;
-// 	}
 }
