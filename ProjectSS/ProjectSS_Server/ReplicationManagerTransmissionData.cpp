@@ -59,6 +59,16 @@ void ReplicationManagerTransmissionData::HandleCreateDeliveryFailure(int InNetwo
 		ReplicationCommand RC;
 		RC.NetworkId = InNetworkId;
 		RC.RA =  ReplicationAction::RA_Create;
+
+		//이미 처리할 RA목록에 있다면 담지 않는다
+		for (auto UnprocessedRA : mReplicationManager->GetUnprocessedRAs())
+		{
+			if (UnprocessedRA == RC)
+			{
+				return;
+			}
+		}
+
 		mReplicationManager->AddUnprocessedRA(RC);
 	}
 }
@@ -86,13 +96,23 @@ void ReplicationManagerTransmissionData::HandleUpdateStateDeliveryFailure(int In
 				}
 			}
 		}
-	}
 
-	//현재 코드에서 딱히 상태 비트를 사용하고 있지 않아 이렇게 구현하였다.
-	ReplicationCommand RC;
-	RC.NetworkId = InNetworkId;
-	RC.RA = ReplicationAction::RA_Update;
-	mReplicationManager->AddUnprocessedRA(RC);
+		//현재 코드에서 딱히 상태 비트를 사용하고 있지 않아 이렇게 구현하였다.
+		ReplicationCommand RC;
+		RC.NetworkId = InNetworkId;
+		RC.RA = ReplicationAction::RA_Update;
+
+		//이미 처리할 RA목록에 있다면 담지 않는다
+		for (auto UnprocessedRA : mReplicationManager->GetUnprocessedRAs())
+		{
+			if (UnprocessedRA == RC)
+			{
+				return;
+			}
+		}
+
+		mReplicationManager->AddUnprocessedRA(RC);
+	}
 }
 
 void ReplicationManagerTransmissionData::HandleDestroyDeliveryFailure(int InNetworkId) const
@@ -100,6 +120,16 @@ void ReplicationManagerTransmissionData::HandleDestroyDeliveryFailure(int InNetw
 	ReplicationCommand RC;
 	RC.NetworkId = InNetworkId;
 	RC.RA = ReplicationAction::RA_Destroy;
+
+	//이미 처리할 RA목록에 있다면 담지 않는다
+	for (auto UnprocessedRA : mReplicationManager->GetUnprocessedRAs())
+	{
+		if (UnprocessedRA == RC)
+		{
+			return;
+		}
+	}
+
 	mReplicationManager->AddUnprocessedRA(RC);
 }
 

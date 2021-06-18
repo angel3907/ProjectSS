@@ -20,6 +20,7 @@ public:
 	virtual ~ReadyButton() {}
 	virtual void Render() override;
 	void ChangeState(ReadyButtonState InReadyButtonState);
+	ReadyButtonState GetReadyButtonState() const {return mReadyButtonState;}
 	void ProcessClick();
 
 private:

@@ -10,6 +10,11 @@ struct ReplicationCommand
 {
 	int32_t NetworkId;
 	ReplicationAction RA;
+
+	bool operator==(const ReplicationCommand& InRC) const
+	{
+		return NetworkId == InRC.NetworkId && RA == InRC.RA;
+	}
 };
 
 

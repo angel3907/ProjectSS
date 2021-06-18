@@ -91,13 +91,22 @@ void InGameScene::NotifyReadyPacket(ReadyPacketType InReadyPacketType)
 	switch (InReadyPacketType)
 	{
 	case READY_ACTIVE:
-		mReadyButton->ChangeState(ACTIVE);
+		if (mReadyButton->GetReadyButtonState() != STARTED)
+		{
+			mReadyButton->ChangeState(ACTIVE);
+		}
 		break;
 	case READY_NONACTIVE:
-		mReadyButton->ChangeState(NONACTIVE);
+		if (mReadyButton->GetReadyButtonState() != STARTED)
+		{
+			mReadyButton->ChangeState(NONACTIVE);
+		}
 		break;
 	case READY_ACK:
-		mReadyButton->ChangeState(READY);
+		if (mReadyButton->GetReadyButtonState() != STARTED)
+		{
+			mReadyButton->ChangeState(READY);
+		}
 		break;
 	case START:
 		mReadyButton->ChangeState(STARTED);

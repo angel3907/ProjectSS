@@ -11,7 +11,7 @@ NetworkManagerServer::NetworkManagerServer() :
 	mNewPlayerId(1),
 	mTimeBetweenStatePackets(0.033f),
 	mTimeOfLastStatePackets(0.f),
-	mClientDisconnectTimeout(2.0f) //TODO 서밋전수정
+	mClientDisconnectTimeout(5.0f) //TODO 서밋전수정
 {
 
 }
@@ -184,10 +184,10 @@ void NetworkManagerServer::ProcessPacket(ClientProxyPtr InClientProxy, InputMemo
 		break;
 	case kReadyCC:
 		//클라에게 게임 준비하겠다고 신호가 온 상황
-// 		if (InClientProxy->GetDeliveryNotificationManager().ReadAndProcessState(InInputStream))
-// 		{
+		if (InClientProxy->GetDeliveryNotificationManager().ReadAndProcessState(InInputStream))
+		{
 			HandleReadyPacket(InClientProxy, InInputStream);
-// 		}
+		}
 		break;
 	case kInputCC:	
 		if (InClientProxy->GetDeliveryNotificationManager().ReadAndProcessState(InInputStream))
@@ -271,13 +271,13 @@ void NetworkManagerServer::SendReadyPacket(ClientProxyPtr InClientProxy, ReadyPa
 	ReadyAckPacket.Write(kReadyCC);
 	
 	//배달통지관리자 세팅
-// 	InFlightPacket* InFlightPacket_ = InClientProxy->GetDeliveryNotificationManager().WriteState(ReadyAckPacket);
-// 	
-// 	ReadyPacketTransmissionDataPtr InTransmissionData
-// 	 = std::make_shared<ReadyPacketTransmissionData>();
-// 	
-// 	InFlightPacket_->SetTransmissionData('READ', InTransmissionData);
-// 	InTransmissionData->AddTransmission(InClientProxy, InReadyPacketType);
+	InFlightPacket* InFlightPacket_ = InClientProxy->GetDeliveryNotificationManager().WriteState(ReadyAckPacket);
+	
+	ReadyPacketTransmissionDataPtr InTransmissionData
+	 = std::make_shared<ReadyPacketTransmissionData>();
+	
+	InFlightPacket_->SetTransmissionData('READ', InTransmissionData);
+	InTransmissionData->AddTransmission(InClientProxy, InReadyPacketType);
 	//세팅끝
 
 	ReadyAckPacket.Write(InReadyPacketType);
@@ -421,7 +421,7 @@ void NetworkManagerServer::CheckForDisconnects()
 
 bool NetworkManagerServer::IsAllPlayersReady()
 {
-	bool bAllPlayerReady = true;
+	bool bAllPlayerReady = mAddressToClientMap.size() != 0;
 
 	for (auto AddressToClient : mAddressToClientMap)
 	{
