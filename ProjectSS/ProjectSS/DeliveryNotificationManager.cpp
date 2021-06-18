@@ -70,7 +70,7 @@ InFlightPacket* DeliveryNotificationManager::WriteSequenceNumber(OutputMemoryBit
 	PacketSequenceNumber SequenceNumber = mNextOutgoingSequenceNumber++;
 	InPacket.Write(SequenceNumber);
 
-	LOG("I Write Sequence Number : %d", SequenceNumber);
+	//LOG("I Write Sequence Number : %d", SequenceNumber);
 
 	//보낸 패킷수 +1
 	++mDispatchedPacketCount;
@@ -106,7 +106,7 @@ bool DeliveryNotificationManager::ProcessSequenceNumber(InputMemoryBitStream& In
 	PacketSequenceNumber SequenceNumber;
 	InPacket.Read(SequenceNumber);
 
-	LOG("I Process Sequence Number : %d", SequenceNumber);
+	//LOG("I Process Sequence Number : %d", SequenceNumber);
 
 	if (SequenceNumber >= mNextExpectedSequenceNumber)
 	{

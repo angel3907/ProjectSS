@@ -468,7 +468,7 @@ void NetworkManagerServer::SendStatePacketToClient(ClientProxyPtr InClientProxy)
 		SendReplicated(InClientProxy->GetSocketAddress(), InClientProxy->GetReplicationManagerServer(), RepTransData,
 			&InClientProxy->GetDeliveryNotificationManager(), RA.RA, GO, RA.NetworkId, nullptr);
 		
-		printf("Update Client : GameObject Network Id %d\n", RA.NetworkId);
+		//printf("Update Client : GameObject Network Id %d\n", RA.NetworkId);
 	}
 
 	InClientProxy->GetReplicationManagerServer().ClearUnprocessedRAs();

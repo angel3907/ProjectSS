@@ -12,9 +12,6 @@ void PlayerClient::Render()
 
 	SDLRenderer::Get().DrawStretchedTexture(GetPlayerColor(), Pos, Vector2(PlayerRadius * 2, PlayerRadius * 2));
 	
-	SDL_Color BlackColor;
-	BlackColor.r = BlackColor.g = BlackColor.b = 0;
-
 	int NameLength = static_cast<int>(GetName().size());
 	Vector2 NamePlateOffsetVector(-NameLength * 7.7f, -80);
 	SDLRenderer::Get().DrawFont('SMAL', BlackColor, GetPos() + NamePlateOffsetVector, GetName().c_str());

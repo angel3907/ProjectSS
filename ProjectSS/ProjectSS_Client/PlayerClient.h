@@ -12,4 +12,7 @@ public:
 	virtual void Render() override;
 
 	bool IsLocallyControlled();
+
+private:
+	SDL_Color BlackColor{ 0, 0, 0, 255 };
 };
