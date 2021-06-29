@@ -29,7 +29,7 @@ void SDLRenderer::InitSDL()
 	//6. 창의 속성
 		//테두리 없는 창을 만들거나, 크기를 조정할 수 있도록 하거나 등등의 속성을 줄 수 있음.
 	Window = SDL_CreateWindow(
-		"Hello SDL",
+		"Star Seeker",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, //화면 정중앙에 표시
 		WINDOW_WIDTH, WINDOW_HEIGHT, 0
 	);
